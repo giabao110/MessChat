@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,9 +19,16 @@
 		C580ABA424E91C6A00D09F09 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C580ABA224E91C6A00D09F09 /* Main.storyboard */; };
 		C580ABA624E91C6C00D09F09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C580ABA524E91C6C00D09F09 /* Assets.xcassets */; };
 		C580ABA924E91C6C00D09F09 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C580ABA724E91C6C00D09F09 /* LaunchScreen.storyboard */; };
+		C5F10CC624EA590E0031219A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F10CC524EA590E0031219A /* Extensions.swift */; };
+		C5F10CCB24EA6A5A0031219A /* Alata-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5F10CCA24EA6A5A0031219A /* Alata-Regular.ttf */; };
+		C5F10CCD24EAD2E80031219A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5F10CCC24EAD2E80031219A /* GoogleService-Info.plist */; };
+		CE03E42088413E62084EA5F2 /* Pods_MessChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 893DA01D8A53A5B78BC7918A /* Pods_MessChat.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		47C8E99B653EE6E4AEA1E118 /* Pods-MessChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessChat.debug.xcconfig"; path = "Target Support Files/Pods-MessChat/Pods-MessChat.debug.xcconfig"; sourceTree = "<group>"; };
+		4E330BD1C6A210B63E9CF42D /* Pods-MessChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessChat.release.xcconfig"; path = "Target Support Files/Pods-MessChat/Pods-MessChat.release.xcconfig"; sourceTree = "<group>"; };
+		893DA01D8A53A5B78BC7918A /* Pods_MessChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MessChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C512071024E9213D006DF487 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C512071324E92166006DF487 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		C512071624E921A4006DF487 /* PhotoViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerViewController.swift; sourceTree = "<group>"; };
@@ -36,6 +43,9 @@
 		C580ABA524E91C6C00D09F09 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C580ABA824E91C6C00D09F09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C580ABAA24E91C6C00D09F09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C5F10CC524EA590E0031219A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		C5F10CCA24EA6A5A0031219A /* Alata-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Alata-Regular.ttf"; sourceTree = "<group>"; };
+		C5F10CCC24EAD2E80031219A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,17 +53,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE03E42088413E62084EA5F2 /* Pods_MessChat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A5A0EB3CB3439111AFA6DC86 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				47C8E99B653EE6E4AEA1E118 /* Pods-MessChat.debug.xcconfig */,
+				4E330BD1C6A210B63E9CF42D /* Pods-MessChat.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		C512070824E91D99006DF487 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C5F10CC824EA6A450031219A /* Assets */,
 				C512070E24E91DD5006DF487 /* Storyboards */,
-				C580ABA524E91C6C00D09F09 /* Assets.xcassets */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -77,6 +97,7 @@
 			children = (
 				C580AB9C24E91C6A00D09F09 /* AppDelegate.swift */,
 				C580AB9E24E91C6A00D09F09 /* SceneDelegate.swift */,
+				C5F10CC524EA590E0031219A /* Extensions.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -93,9 +114,8 @@
 		C512070F24E91DE2006DF487 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				C512071F24E9249D006DF487 /* Login */,
 				C580ABA024E91C6A00D09F09 /* ConversationsViewController.swift */,
-				C512071024E9213D006DF487 /* LoginViewController.swift */,
-				C512071324E92166006DF487 /* RegisterViewController.swift */,
 				C512071624E921A4006DF487 /* PhotoViewerViewController.swift */,
 				C512071824E921BF006DF487 /* VideoPlayerViewController.swift */,
 				C512071B24E921FB006DF487 /* NewConversationViewController.swift */,
@@ -104,11 +124,22 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		C512071F24E9249D006DF487 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				C512071024E9213D006DF487 /* LoginViewController.swift */,
+				C512071324E92166006DF487 /* RegisterViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		C580AB9024E91C6A00D09F09 = {
 			isa = PBXGroup;
 			children = (
 				C580AB9B24E91C6A00D09F09 /* MessChat */,
 				C580AB9A24E91C6A00D09F09 /* Products */,
+				A5A0EB3CB3439111AFA6DC86 /* Pods */,
+				C7294E9613D95885304C8171 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -123,6 +154,7 @@
 		C580AB9B24E91C6A00D09F09 /* MessChat */ = {
 			isa = PBXGroup;
 			children = (
+				C5F10CCC24EAD2E80031219A /* GoogleService-Info.plist */,
 				C512070D24E91DCC006DF487 /* Resources */,
 				C512070C24E91DC2006DF487 /* ViewModels */,
 				C512070B24E91DB0006DF487 /* Models */,
@@ -133,6 +165,32 @@
 			path = MessChat;
 			sourceTree = "<group>";
 		};
+		C5F10CC824EA6A450031219A /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				C580ABA524E91C6C00D09F09 /* Assets.xcassets */,
+				C5F10CC924EA6A5A0031219A /* Fonts */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		C5F10CC924EA6A5A0031219A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				C5F10CCA24EA6A5A0031219A /* Alata-Regular.ttf */,
+			);
+			name = Fonts;
+			path = "../../../../../Messenger-master/Messenger/mChat/Assets/Fonts";
+			sourceTree = "<group>";
+		};
+		C7294E9613D95885304C8171 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				893DA01D8A53A5B78BC7918A /* Pods_MessChat.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -140,9 +198,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C580ABAD24E91C6C00D09F09 /* Build configuration list for PBXNativeTarget "MessChat" */;
 			buildPhases = (
+				E8AD8B9AB3E1F93A2E09DF38 /* [CP] Check Pods Manifest.lock */,
 				C580AB9524E91C6A00D09F09 /* Sources */,
 				C580AB9624E91C6A00D09F09 /* Frameworks */,
 				C580AB9724E91C6A00D09F09 /* Resources */,
+				554CD38AA59BE048190AC1E4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -193,11 +253,55 @@
 			files = (
 				C580ABA924E91C6C00D09F09 /* LaunchScreen.storyboard in Resources */,
 				C580ABA624E91C6C00D09F09 /* Assets.xcassets in Resources */,
+				C5F10CCD24EAD2E80031219A /* GoogleService-Info.plist in Resources */,
 				C580ABA424E91C6A00D09F09 /* Main.storyboard in Resources */,
+				C5F10CCB24EA6A5A0031219A /* Alata-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		554CD38AA59BE048190AC1E4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MessChat/Pods-MessChat-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MessChat/Pods-MessChat-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MessChat/Pods-MessChat-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E8AD8B9AB3E1F93A2E09DF38 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MessChat-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C580AB9524E91C6A00D09F09 /* Sources */ = {
@@ -209,6 +313,7 @@
 				C512071C24E921FB006DF487 /* NewConversationViewController.swift in Sources */,
 				C580ABA124E91C6A00D09F09 /* ConversationsViewController.swift in Sources */,
 				C512071924E921BF006DF487 /* VideoPlayerViewController.swift in Sources */,
+				C5F10CC624EA590E0031219A /* Extensions.swift in Sources */,
 				C580AB9D24E91C6A00D09F09 /* AppDelegate.swift in Sources */,
 				C512071E24E92235006DF487 /* ProfileViewController.swift in Sources */,
 				C580AB9F24E91C6A00D09F09 /* SceneDelegate.swift in Sources */,
@@ -354,6 +459,7 @@
 		};
 		C580ABAE24E91C6C00D09F09 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 47C8E99B653EE6E4AEA1E118 /* Pods-MessChat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -373,6 +479,7 @@
 		};
 		C580ABAF24E91C6C00D09F09 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4E330BD1C6A210B63E9CF42D /* Pods-MessChat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
