@@ -19,9 +19,10 @@
 		C580ABA424E91C6A00D09F09 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C580ABA224E91C6A00D09F09 /* Main.storyboard */; };
 		C580ABA624E91C6C00D09F09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C580ABA524E91C6C00D09F09 /* Assets.xcassets */; };
 		C580ABA924E91C6C00D09F09 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C580ABA724E91C6C00D09F09 /* LaunchScreen.storyboard */; };
+		C58677C724EB909E00A11E5C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C58677C624EB909E00A11E5C /* GoogleService-Info.plist */; };
+		C58677C924EB9E3F00A11E5C /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58677C824EB9E3F00A11E5C /* DatabaseManager.swift */; };
 		C5F10CC624EA590E0031219A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F10CC524EA590E0031219A /* Extensions.swift */; };
 		C5F10CCB24EA6A5A0031219A /* Alata-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5F10CCA24EA6A5A0031219A /* Alata-Regular.ttf */; };
-		C5F10CCD24EAD2E80031219A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5F10CCC24EAD2E80031219A /* GoogleService-Info.plist */; };
 		CE03E42088413E62084EA5F2 /* Pods_MessChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 893DA01D8A53A5B78BC7918A /* Pods_MessChat.framework */; };
 /* End PBXBuildFile section */
 
@@ -43,9 +44,10 @@
 		C580ABA524E91C6C00D09F09 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C580ABA824E91C6C00D09F09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C580ABAA24E91C6C00D09F09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C58677C624EB909E00A11E5C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		C58677C824EB9E3F00A11E5C /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		C5F10CC524EA590E0031219A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C5F10CCA24EA6A5A0031219A /* Alata-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Alata-Regular.ttf"; sourceTree = "<group>"; };
-		C5F10CCC24EAD2E80031219A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				C580AB9C24E91C6A00D09F09 /* AppDelegate.swift */,
 				C580AB9E24E91C6A00D09F09 /* SceneDelegate.swift */,
 				C5F10CC524EA590E0031219A /* Extensions.swift */,
+				C58677C824EB9E3F00A11E5C /* DatabaseManager.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -114,8 +117,8 @@
 		C512070F24E91DE2006DF487 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				C512071F24E9249D006DF487 /* Login */,
 				C580ABA024E91C6A00D09F09 /* ConversationsViewController.swift */,
+				C512071F24E9249D006DF487 /* Login */,
 				C512071624E921A4006DF487 /* PhotoViewerViewController.swift */,
 				C512071824E921BF006DF487 /* VideoPlayerViewController.swift */,
 				C512071B24E921FB006DF487 /* NewConversationViewController.swift */,
@@ -154,7 +157,7 @@
 		C580AB9B24E91C6A00D09F09 /* MessChat */ = {
 			isa = PBXGroup;
 			children = (
-				C5F10CCC24EAD2E80031219A /* GoogleService-Info.plist */,
+				C58677C624EB909E00A11E5C /* GoogleService-Info.plist */,
 				C512070D24E91DCC006DF487 /* Resources */,
 				C512070C24E91DC2006DF487 /* ViewModels */,
 				C512070B24E91DB0006DF487 /* Models */,
@@ -253,7 +256,7 @@
 			files = (
 				C580ABA924E91C6C00D09F09 /* LaunchScreen.storyboard in Resources */,
 				C580ABA624E91C6C00D09F09 /* Assets.xcassets in Resources */,
-				C5F10CCD24EAD2E80031219A /* GoogleService-Info.plist in Resources */,
+				C58677C724EB909E00A11E5C /* GoogleService-Info.plist in Resources */,
 				C580ABA424E91C6A00D09F09 /* Main.storyboard in Resources */,
 				C5F10CCB24EA6A5A0031219A /* Alata-Regular.ttf in Resources */,
 			);
@@ -309,6 +312,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C512071124E9213D006DF487 /* LoginViewController.swift in Sources */,
+				C58677C924EB9E3F00A11E5C /* DatabaseManager.swift in Sources */,
 				C512071424E92166006DF487 /* RegisterViewController.swift in Sources */,
 				C512071C24E921FB006DF487 /* NewConversationViewController.swift in Sources */,
 				C580ABA124E91C6A00D09F09 /* ConversationsViewController.swift in Sources */,

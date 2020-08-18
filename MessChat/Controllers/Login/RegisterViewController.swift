@@ -23,11 +23,12 @@ class RegisterViewController: UIViewController {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "DefaultUserImage")
+        imageView.image = UIImage(systemName: "person.circle")
         imageView.contentMode = .scaleAspectFit
         imageView.layer.masksToBounds = true
+        imageView.tintColor = .white
         imageView.layer.borderWidth = 2
-        imageView.layer.borderColor = UIColor.lightGray.cgColor
+        imageView.layer.borderColor = UIColor.white.cgColor
         return imageView
     }()
     
@@ -228,20 +229,33 @@ class RegisterViewController: UIViewController {
         
         // Firebase Log In
         
-        FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password, completion: { authResult, error in
-            guard case let result = authResult, error == nil else{
-                print("Error cureating user")
-                return
+        DatabaseManager.share.userExists(with: email, completion: { [weak self] exists in
+            guard let strongSelf = self else{
+                            return
+                        }
+            guard exists else{
+            // user already exists
+            strongSelf.alertUserLoginError(messenge: "Looks like a user account for that email address already exists") 
+            return
             }
             
-            let user = result!.user
-            print("Created User: \(user)")
+            FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password, completion: { authResult, error in
+                guard authResult != nil, error == nil else{
+                    print("Error cureating user")
+                    return
+                }
+            
+                DatabaseManager.share.insertUser(with: ChatAppUser(firstName: firstname,
+                                                                   lastName: lastname,
+                                                                   emailAddress: email))
+                
+                strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+            })
         })
-        
     }
-    func  alertUserLoginError() {
+    func  alertUserLoginError(messenge: String = "Please enter all information to create a new accout!") {
         let alert = UIAlertController(title: "Woops",
-                                      message: "Please enter all information to create a new accout!",
+                                      message: messenge,
                                       preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "Dismiss",
