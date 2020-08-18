@@ -1,26 +1,179 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="fzl-aG-8jC">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Conversations View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Chats-->
+        <scene sceneID="iYx-QP-xwg">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ConversationsViewController" customModule="MessChat" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V77-M6-heB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController id="1ke-D1-fnc" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Chats" id="dGr-bY-Ump"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="ecK-hJ-EqB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="xc7-l3-AKN" kind="relationship" relationship="rootViewController" id="RcR-9T-lun"/>
+                    </connections>
+                </navigationController>
             </objects>
-            <point key="canvasLocation" x="132" y="121"/>
+            <point key="canvasLocation" x="-250" y="591"/>
+        </scene>
+        <!--Profile-->
+        <scene sceneID="Dat-RF-lHr">
+            <objects>
+                <viewController id="4jQ-3N-hYV" customClass="ProfileViewController" customModule="MessChat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Cls-AD-vSG"/>
+                        <viewControllerLayoutGuide type="bottom" id="tr1-ob-12T"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BrM-n7-HY5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TM3-lD-spT">
+                                <rect key="frame" x="0.0" y="96" width="375" height="522"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="TM3-lD-spT" firstAttribute="leading" secondItem="BrM-n7-HY5" secondAttribute="leading" id="Ga3-yL-hsb"/>
+                            <constraint firstAttribute="trailing" secondItem="TM3-lD-spT" secondAttribute="trailing" id="H9K-NT-x7n"/>
+                            <constraint firstItem="TM3-lD-spT" firstAttribute="top" secondItem="Cls-AD-vSG" secondAttribute="bottom" id="fhH-e0-Ai4"/>
+                            <constraint firstItem="tr1-ob-12T" firstAttribute="top" secondItem="TM3-lD-spT" secondAttribute="bottom" id="nIL-wQ-kBj"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Profile" image="dashboard" id="WCw-tR-tDA" customClass="CBTabBarItem" customModule="BubbleTabBar">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
+                                <color key="value" red="0.33333333333333331" green="0.2196078431372549" blue="0.69019607843137254" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
+                    <navigationItem key="navigationItem" title="Profile" id="vaA-Xa-gwD"/>
+                    <connections>
+                        <outlet property="tableView" destination="TM3-lD-spT" id="tlA-eO-bYr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rBd-PW-eyr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="857" y="1462"/>
+        </scene>
+        <!--Setting-->
+        <scene sceneID="kAB-je-DtR">
+            <objects>
+                <navigationController id="nzU-Il-i5J" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Setting" id="J3g-2d-PeA"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="kcT-bp-Ocg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="eli-5Z-mNT" kind="relationship" relationship="rootViewController" id="I1z-qz-gsZ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VRh-QU-zzP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1985" y="591"/>
+        </scene>
+        <!--Events-->
+        <scene sceneID="zDm-Gz-q8u">
+            <objects>
+                <viewController title="Events" id="xc7-l3-AKN" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9ls-l9-ysR"/>
+                        <viewControllerLayoutGuide type="bottom" id="XBN-Cf-mqj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Igh-Af-Glh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Chats" image="message" catalog="system" id="iCE-iW-6kd" customClass="CBTabBarItem" customModule="BubbleTabBar">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
+                                <color key="value" red="0.95686274509803915" green="0.6705882352941176" blue="0.16078431372549018" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
+                    <navigationItem key="navigationItem" title="Chats" id="qYp-rT-KPG" colorLabel="IBBuiltInLabel-Yellow"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QFT-Sd-rgn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-250" y="1463"/>
+        </scene>
+        <!--Bubble Tab Bar Controller-->
+        <scene sceneID="cFY-ut-GlJ">
+            <objects>
+                <tabBarController id="fzl-aG-8jC" customClass="BubbleTabBarController" customModule="MessChat" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="t89-G1-oQj"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="9hb-AD-SAZ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="1ke-D1-fnc" kind="relationship" relationship="viewControllers" id="2XA-rL-xwz"/>
+                        <segue destination="BRm-BP-LTV" kind="relationship" relationship="viewControllers" id="yNf-BC-ElG"/>
+                        <segue destination="nzU-Il-i5J" kind="relationship" relationship="viewControllers" id="bve-Ey-VoR"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hyL-w9-sPX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="857" y="-370"/>
+        </scene>
+        <!--Setting-->
+        <scene sceneID="srN-N5-FYi">
+            <objects>
+                <viewController id="eli-5Z-mNT" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Dp7-2C-esf"/>
+                        <viewControllerLayoutGuide type="bottom" id="6Kj-bX-14V"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ps0-23-JHh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Setting" image="menu" id="Q6f-Bv-lvU" customClass="CBTabBarItem" customModule="BubbleTabBar">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
+                                <color key="value" red="0.25882352939999997" green="0.56470588239999997" blue="0.63921568630000003" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
+                    <navigationItem key="navigationItem" title="Setting" id="f86-zd-IVk"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sRJ-E5-Oiy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1985" y="1462"/>
+        </scene>
+        <!--Profile-->
+        <scene sceneID="wGJ-YM-q1S">
+            <objects>
+                <navigationController id="BRm-BP-LTV" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Profile" id="Mka-cZ-32B"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="BgH-cX-RUM">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="4jQ-3N-hYV" kind="relationship" relationship="rootViewController" id="akf-9I-oMa"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aAi-EM-ltT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="857" y="591"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="dashboard" width="14" height="13"/>
+        <image name="menu" width="17" height="8"/>
+        <image name="message" catalog="system" width="128" height="113"/>
+    </resources>
 </document>

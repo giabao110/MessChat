@@ -1,9 +1,13 @@
 //
-//  BubbleTabBarController.swift
-//  BubbleTabBar
+// SceneDelegate.swift
+// MessChat
 //
-//  Created by Anton Skopin on 28/11/2018.
-//  Copyright © 2018 cuberto. All rights reserved.
+// Created by GIABAO Photography on 8/16/20.
+// Copyright © 2020 GIABAO Photography. All rights reserved.
+// VAN HIEN University
+//
+// Website: https://giabaophoto.com
+//
 //
 
 import UIKit
@@ -19,7 +23,7 @@ open class BubbleTabBarController: UITabBarController {
                 shouldSelectOnTabBar = true
                 return
             }
-            guard let tabBar = tabBar as? BubbleTabBar, let index = viewControllers?.index(of: newValue) else {
+            guard let tabBar = tabBar as? BubbleTabBar, let index = viewControllers?.firstIndex(of: newValue) else {
                 return
             }
             tabBar.select(itemAt: index, animated: false)
@@ -85,7 +89,7 @@ open class BubbleTabBarController: UITabBarController {
     }
 
     open override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        guard let idx = tabBar.items?.index(of: item) else {
+        guard let idx = tabBar.items?.firstIndex(of: item) else {
             return
         }
         if let controller = viewControllers?[idx] {

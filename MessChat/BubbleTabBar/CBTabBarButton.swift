@@ -1,10 +1,14 @@
 //
-//  CBTabBarButton.swift
-//  BubbleTabBar
+// SceneDelegate.swift
+// MessChat
 //
-//  Created by Anton Skopin on 28/11/2018.
-//  Copyright © 2018 cuberto. All rights reserved.
+// Created by GIABAO Photography on 8/16/20.
+// Copyright © 2020 GIABAO Photography. All rights reserved.
+// VAN HIEN University
 //
+// Website: https://giabaophoto.com
+//
+// 
 
 import UIKit
 

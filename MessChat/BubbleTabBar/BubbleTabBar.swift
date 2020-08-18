@@ -1,10 +1,14 @@
 //
-//  BubbleTabBar.swift
-//  BubbleTabBar
+// SceneDelegate.swift
+// MessChat
 //
-//  Created by Anton Skopin on 28/11/2018.
-//  Copyright © 2018 cuberto. All rights reserved.
+// Created by GIABAO Photography on 8/16/20.
+// Copyright © 2020 GIABAO Photography. All rights reserved.
+// VAN HIEN University
 //
+// Website: https://giabaophoto.com
+//
+// 
 
 import UIKit
 
@@ -19,7 +23,7 @@ open class BubbleTabBar: UITabBar {
                 buttons.forEach { $0.setSelected(false) }
                 return
             }
-            guard let index = items?.index(of: newValue),
+            guard let index = items?.firstIndex(of: newValue),
                 index != NSNotFound else {
                     return
             }
@@ -66,7 +70,7 @@ open class BubbleTabBar: UITabBar {
         backgroundColor = UIColor.white
         isTranslucent = false
         barTintColor = UIColor.white
-        tintColor = #colorLiteral(red: 0.1176470588, green: 0.1176470588, blue: 0.431372549, alpha: 1)
+        tintColor = #colorLiteral(red: 0.4056133926, green: 0.3682804406, blue: 0.9917752147, alpha: 1)
         addSubview(container)
         container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
         container.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
@@ -150,7 +154,7 @@ open class BubbleTabBar: UITabBar {
     }
     
     @objc private func btnPressed(sender: CBTabBarButton) {
-        guard let index = buttons.index(of: sender),
+        guard let index = buttons.firstIndex(of: sender),
             index != NSNotFound,
             let item = items?[index] else {
                 return
