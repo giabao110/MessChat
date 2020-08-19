@@ -237,6 +237,7 @@
 				C580AB9624E91C6A00D09F09 /* Frameworks */,
 				C580AB9724E91C6A00D09F09 /* Resources */,
 				554CD38AA59BE048190AC1E4 /* [CP] Embed Pods Frameworks */,
+				D8B48284A2CA8D2FEF5A3E73 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -311,6 +312,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MessChat/Pods-MessChat-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D8B48284A2CA8D2FEF5A3E73 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MessChat/Pods-MessChat-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MessChat/Pods-MessChat-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MessChat/Pods-MessChat-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E8AD8B9AB3E1F93A2E09DF38 /* [CP] Check Pods Manifest.lock */ = {

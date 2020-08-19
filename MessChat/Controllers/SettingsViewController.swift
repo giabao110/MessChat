@@ -13,6 +13,8 @@
 
 import UIKit
 import FirebaseAuth
+import FBSDKLoginKit
+import GoogleSignIn
 
 class SettingsViewController: UIViewController {
     
@@ -61,11 +63,18 @@ extension SettingsViewController:UITableViewDelegate, UITableViewDataSource {
             guard let strongSelf = self else {
                 return
             }
+                                                
+            // Log out Facebook
+            
+            FBSDKLoginKit.LoginManager().logOut()
+                                                
+            // Log out Google
+
+            GIDSignIn.sharedInstance()?.signOut()
             
             do {
                 try FirebaseAuth.Auth.auth().signOut()
                 let vc = WelcomeViewController()
-                //                let vc = LoginViewController()
                 let nav = UINavigationController(rootViewController: vc)
                 nav.modalPresentationStyle = .fullScreen
                 strongSelf.present(nav, animated: true)

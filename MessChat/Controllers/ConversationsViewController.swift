@@ -18,21 +18,18 @@ class ConversationsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         validateAuth()
 //        welcome()
-        
     }
     
     private func validateAuth(){
         if FirebaseAuth.Auth.auth().currentUser == nil {
             let vc = WelcomeViewController()
-//            let vc = LoginViewController()
             let nav = UINavigationController(rootViewController: vc)
             nav.modalPresentationStyle = .fullScreen
             present(nav, animated: false)
@@ -46,5 +43,6 @@ class ConversationsViewController: UIViewController {
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: false)
     }
+
 }
 

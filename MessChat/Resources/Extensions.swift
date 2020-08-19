@@ -54,5 +54,8 @@ extension UINavigationController {
         /// Title
         self.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
     }
+}
 
+extension Notification.Name {
+     static let didLogInNotification = Notification.Name("didLogInNotification")
 }
