@@ -24,17 +24,27 @@ class ConversationsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-      validateAuth()
-    
+        validateAuth()
+//        welcome()
+        
     }
     
     private func validateAuth(){
         if FirebaseAuth.Auth.auth().currentUser == nil {
-            let vc = LoginViewController()
+            let vc = WelcomeViewController()
+//            let vc = LoginViewController()
             let nav = UINavigationController(rootViewController: vc)
             nav.modalPresentationStyle = .fullScreen
             present(nav, animated: false)
         }
+    }
+    
+    // Welcome Screen
+    private func welcome(){
+        let vc = WelcomeViewController()
+        let nav = UINavigationController(rootViewController: vc)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: false)
     }
 }
 

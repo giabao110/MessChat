@@ -39,5 +39,20 @@ extension UIView {
     public var right: CGFloat {
         return self.frame.size.width + self.frame.origin.x
     }
+}
+
+// EXTENSION HIDE NAVIGATION BAR
+extension UINavigationController {
     
+    func hideNavigationItemBackground (){
+        self.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationBar.shadowImage = UIImage()
+        self.navigationBar.isTranslucent = true
+        self.view.backgroundColor = UIColor.clear
+        self.navigationBar.barStyle = UIBarStyle.black
+        self.navigationBar.tintColor = UIColor.white
+        /// Title
+        self.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+    }
+
 }

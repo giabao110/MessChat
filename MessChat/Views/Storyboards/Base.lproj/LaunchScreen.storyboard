@@ -25,15 +25,15 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="px7-Ng-gAQ" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="M5A-jq-USU"/>
-                            <constraint firstItem="px7-Ng-gAQ" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="V51-xG-LyH"/>
+                            <constraint firstItem="px7-Ng-gAQ" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Cni-ZG-iny"/>
+                            <constraint firstItem="px7-Ng-gAQ" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="dmQ-1C-w1m"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52.173913043478265" y="375"/>
         </scene>
     </scenes>
     <resources>
