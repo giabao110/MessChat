@@ -9,7 +9,7 @@
         <!--Chats-->
         <scene sceneID="z7B-zi-ZIF">
             <objects>
-                <viewController id="t88-Oi-HJI" customClass="ConversationsViewController" customModule="MessChat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="t88-Oi-HJI" customClass="ConversationsViewController" customModule="MessChat" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="YIw-FS-SZV"/>
                         <viewControllerLayoutGuide type="bottom" id="ODF-3q-xlJ"/>
@@ -92,7 +92,7 @@
         <!--Profile-->
         <scene sceneID="mnf-U4-Rji">
             <objects>
-                <viewController id="Wwi-NE-dwG" customClass="ProfileViewController" customModule="MessChat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Wwi-NE-dwG" customClass="ProfileViewController" customModule="MessChat" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dwI-7F-RXZ"/>
                         <viewControllerLayoutGuide type="bottom" id="dEQ-Zr-YwE"/>
@@ -151,7 +151,7 @@
         <!--Settings-->
         <scene sceneID="ZdT-Uu-MSY">
             <objects>
-                <viewController id="A9U-jQ-gK9" customClass="SettingsViewController" customModule="MessChat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="A9U-jQ-gK9" customClass="SettingsViewController" customModule="MessChat" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="15w-oE-gxZ"/>
                         <viewControllerLayoutGuide type="bottom" id="bu3-4D-SBA"/>

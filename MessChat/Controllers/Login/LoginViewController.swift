@@ -17,9 +17,11 @@ import FBSDKLoginKit
 import FBSDKCoreKit
 import GoogleSignIn
 import RAGTextField
-
+import JGProgressHUD
 
 class LoginViewController: UIViewController {
+    
+    private let spinner = JGProgressHUD(style: .dark)
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -52,7 +54,7 @@ class LoginViewController: UIViewController {
         return field
     }()
     
-    private let passwordField: RAGTextField = {
+    private var passwordField: RAGTextField = {
         let field = RAGTextField()
         if let myImage = UIImage(systemName: "lock"){
             field.withImage(direction: .Left, image: myImage)
@@ -86,8 +88,8 @@ class LoginViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Connect with Google", for: .normal)
         button.backgroundColor = #colorLiteral(red: 0.3948340416, green: 0.3551002145, blue: 0.9879776835, alpha: 1)
-//        button.setImage(UIImage(named: "google"), for: .normal)
-//        button.imageEdgeInsets = UIEdgeInsets(top: 0,left: 50,bottom: 0,right: 25)
+        //        button.setImage(UIImage(named: "google"), for: .normal)
+        //        button.imageEdgeInsets = UIEdgeInsets(top: 0,left: 50,bottom: 0,right: 25)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 8
         button.layer.masksToBounds = true
@@ -120,7 +122,7 @@ class LoginViewController: UIViewController {
         button.permissions = ["email, public_profile"]
         button.layer.cornerRadius = 8
         button.layer.masksToBounds = true
-         button.imageView?.contentMode = .scaleAspectFit
+        button.imageView?.contentMode = .scaleAspectFit
         button.imageEdgeInsets = UIEdgeInsets(top: 25,left: 25,bottom: 25,right: 25)
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
         //        button.imageView?.layer.transform = CATransform3DMakeScale(0.0, 0.0, 0.0)
@@ -128,12 +130,12 @@ class LoginViewController: UIViewController {
     }()
     
     //        private let googleLoginButton: GIDSignInButton = {
-//            let button = GIDSignInButton()
-////            button.layer.cornerRadius = 12
-////            button.layer.masksToBounds = true
-//
-//            return button
-//        }()
+    //            let button = GIDSignInButton()
+    ////            button.layer.cornerRadius = 12
+    ////            button.layer.masksToBounds = true
+    //
+    //            return button
+    //        }()
     
     private var loginObserver: NSObjectProtocol?
     
@@ -238,13 +240,20 @@ class LoginViewController: UIViewController {
                 return
         }
         
+        spinner.textLabel.text = "Loading"
+        spinner.show(in: view)
+        
         // Firebase Log In
         
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: { [weak self] authResult, error in
-            
             guard let strongSelf = self else {
                 return
             }
+            
+            DispatchQueue.main.async {
+                strongSelf.spinner.dismiss()
+            }
+            
             guard case let result = authResult, error == nil else{
                 print("Failed to log in user with email: \(email)")
                 let alert = UIAlertController(title: "Woops",
@@ -312,7 +321,7 @@ extension LoginViewController: LoginButtonDelegate {
         }
         
         let facebookRequest = FBSDKLoginKit.GraphRequest(graphPath: "me",
-                                                         parameters: ["fields": "email, name"],
+                                                         parameters: ["fields": "email, first_name, last_name, picture.type(large)"],
                                                          tokenString: token,
                                                          version: nil,
                                                          httpMethod: .get)
@@ -323,31 +332,63 @@ extension LoginViewController: LoginButtonDelegate {
                 return
             }
             
-            guard let userName = result["name"] as? String,
-                let email = result["email"] as? String else {
+            print(result)
+            
+            guard let firstName = result["first_name"] as? String,
+                let lastName = result["last_name"] as? String,
+                let email = result["email"] as? String,
+                let picture = result["picture"] as? [String:Any],
+                let data = picture["data"] as? [String:Any],
+                let pictureUrl = data["url"] as? String else {
                     print("Failed to get email and name from Facebook result")
                     return
             }
             
-            let nameComponents = userName.components(separatedBy: " ")
-            guard nameComponents.count == 2 else {
-                return
-            }
-            
-            let firstName = nameComponents[0]
-            let lastName = nameComponents[1]
-            
             DatabaseManager.share.userExists(with: email, completion: { exists in
                 if !exists {
-                    DatabaseManager.share.insertUser(with: ChatAppUser(firstName: firstName,
-                                                                       lastName: lastName,
-                                                                       emailAddress: email))
+                    let chatUser = ChatAppUser(firstName: firstName,
+                                               lastName: lastName,
+                                               emailAddress: email)
+                    
+                    DatabaseManager.share.insertUser(with: chatUser, completion: { success in
+                        if success {
+                            
+                            guard let url = URL(string: pictureUrl) else {
+                                return
+                            }
+                            
+                            print("Downloading date from Facebook image")
+                            
+                            URLSession.shared.dataTask(with: url,
+                               completionHandler: { data, _, _ in
+                                guard let data = data else {
+                                    print("Failed to get data from Facebook")
+                                    return
+                                }
+                                
+                                print("Got data from FB, uploading . . .")
+                                
+                                // Upload image
+                                let fileName = chatUser.ProfilePictureFileName
+                                StorageManager.share.uploadProfilePicture(with: data, fileName: fileName, completion: { result in
+                                    switch result {
+                                    case .success(let downloadUrl):
+                                        UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
+                                        print(downloadUrl)
+                                    case .failure(let error):
+                                        print("Storage manager error: \(error)")
+                                    }
+                                })
+                            }).resume()
+                        }
+                    })
                 }
             })
             
             let credential = FacebookAuthProvider.credential(withAccessToken: token)
             
-            FirebaseAuth.Auth.auth().signIn(with: credential, completion: { [weak self]authResult, error in
+            FirebaseAuth.Auth.auth().signIn(with: credential, completion: { [weak self] authResult, error in
+                
                 guard let strongSelf = self else {
                     return
                 }
@@ -380,7 +421,7 @@ extension UITextField {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 45))
         view.backgroundColor = .clear
         view.tintColor = .white
-    
+        
         mainView.addSubview(view)
         
         let imageView = UIImageView(image: image)

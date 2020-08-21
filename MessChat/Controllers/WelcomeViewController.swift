@@ -85,8 +85,6 @@ class WelcomeViewController: UIViewController {
         return button
     }()
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.hideNavigationItemBackground() 

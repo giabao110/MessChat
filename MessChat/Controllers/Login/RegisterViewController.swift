@@ -13,8 +13,12 @@
 
 import UIKit
 import FirebaseAuth
+import JGProgressHUD
 
 class RegisterViewController: UIViewController {
+    
+    private let spinner = JGProgressHUD(style: .dark)
+    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.clipsToBounds = true
@@ -27,8 +31,8 @@ class RegisterViewController: UIViewController {
         imageView.contentMode = .scaleAspectFit
         imageView.layer.masksToBounds = true
         imageView.tintColor = .white
-//        imageView.layer.borderWidth = 2
-//        imageView.layer.borderColor = UIColor.white.cgColor
+        //        imageView.layer.borderWidth = 2
+        //        imageView.layer.borderColor = UIColor.white.cgColor
         return imageView
     }()
     
@@ -57,7 +61,7 @@ class RegisterViewController: UIViewController {
         field.layer.cornerRadius = 12
         field.layer.borderWidth = 1
         field.layer.borderColor = UIColor.lightGray.cgColor
-//        field.placeholder = "Last Name ..."
+        //        field.placeholder = "Last Name ..."
         field.attributedPlaceholder = NSAttributedString(string: "Last Name ...", attributes:  [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         field.leftView = UIView (frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         field.leftViewMode = .always
@@ -74,7 +78,7 @@ class RegisterViewController: UIViewController {
         field.layer.cornerRadius = 12
         field.layer.borderWidth = 1
         field.layer.borderColor = UIColor.lightGray.cgColor
-//        field.placeholder = "Email Address ..."
+        //        field.placeholder = "Email Address ..."
         field.attributedPlaceholder = NSAttributedString(string: "Email Address ...", attributes:  [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         field.leftView = UIView (frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         field.leftViewMode = .always
@@ -91,7 +95,7 @@ class RegisterViewController: UIViewController {
         field.layer.cornerRadius = 12
         field.layer.borderWidth = 1
         field.layer.borderColor = UIColor.lightGray.cgColor
-//        field.placeholder = "Password ..."
+        //        field.placeholder = "Password ..."
         field.attributedPlaceholder = NSAttributedString(string: "Password ...", attributes:  [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         field.leftView = UIView (frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         field.leftViewMode = .always
@@ -116,10 +120,10 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Register"
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register",
-//                                                            style: .done,
-//                                                            target: self,
-//                                                            action: #selector(didTapRegister))
+        //        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register",
+        //                                                            style: .done,
+        //                                                            target: self,
+        //                                                            action: #selector(didTapRegister))
         
         registerButton.addTarget(self,
                                  action: #selector(registerButtonTapped),
@@ -226,17 +230,25 @@ class RegisterViewController: UIViewController {
                 return
         }
         
+        spinner.textLabel.text = "Loading"
+        spinner.show(in: view)
+        
         // Firebase Log In
         
         DatabaseManager.share.userExists(with: email, completion: { [weak self] exists in
             
             guard let strongSelf = self else{
-                            return
-                        }
+                return
+            }
+            
+            DispatchQueue.main.async {
+                        strongSelf.spinner.dismiss()
+                    }
+            
             guard !exists else{
-            // user already exists
-            strongSelf.alertUserLoginError(messenge: "Looks like a user account for that email address already exists") 
-            return
+                // user already exists
+                strongSelf.alertUserLoginError(messenge: "Looks like a user account for that email address already exists")
+                return
             }
             
             FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password, completion: { authResult, error in
@@ -244,15 +256,38 @@ class RegisterViewController: UIViewController {
                     print("Error cureating user")
                     return
                 }
-            
-                DatabaseManager.share.insertUser(with: ChatAppUser(firstName: firstname,
-                                                                   lastName: lastname,
-                                                                   emailAddress: email))
+                
+                let chatUser = ChatAppUser(firstName: firstname,
+                                           lastName: lastname,
+                                           emailAddress: email)
+                
+                DatabaseManager.share.insertUser(with: chatUser, completion: { success in
+                    if success {
+                        //Upload image
+                        guard let image = strongSelf.imageView.image,
+                            let data = image.pngData() else {
+                                return
+                        }
+                        let fileName = chatUser.ProfilePictureFileName
+                        StorageManager.share.uploadProfilePicture(with: data,
+                                                                  fileName: fileName,
+                                                                  completion: { result in
+                        switch result {
+                        case .success(let downloadUrl):
+                            UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
+                            print(downloadUrl)
+                        case .failure(let error):
+                            print("Storage manager error: \(error)")
+                        }
+                        })
+                    }
+                })
                 
                 strongSelf.navigationController?.dismiss(animated: true, completion: nil)
             })
         })
     }
+    
     func  alertUserLoginError(messenge: String = "Please enter all information to create a new accout!") {
         let alert = UIAlertController(title: "Woops",
                                       message: messenge,
@@ -264,7 +299,6 @@ class RegisterViewController: UIViewController {
         
         present(alert, animated: true)
     }
-    
     
     @objc private func didTapRegister() {
         let vc = RegisterViewController()

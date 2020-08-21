@@ -807,24 +807,24 @@ open class RAGTextField: UITextField {
     
     // MARK: - UIResponder
     
-    open override func becomeFirstResponder() -> Bool {
-        defer {
-            updatePlaceholderTransform(animated: true)
-            updatePlaceholderColor()
-        }
-        
-        return super.becomeFirstResponder()
-    }
+//    open override func becomeFirstResponder() -> Bool {
+//        defer {
+//            updatePlaceholderTransform(animated: true)
+//            updatePlaceholderColor()
+//        }
+//        
+//        return super.becomeFirstResponder()
+//    }
     
-    open override func resignFirstResponder() -> Bool {
-        defer {
-            updatePlaceholderTransform(animated: true)
-            updatePlaceholderColor()
-        }
-        
-        return super.resignFirstResponder()
-    }
-    
+//    open override func resignFirstResponder() -> Bool {
+//        defer {
+//            updatePlaceholderTransform(animated: true)
+//            updatePlaceholderColor()
+//        }
+//        
+//        return super.resignFirstResponder()
+//    }
+//    
     // MARK: - Animations
     
     private func updatePlaceholderTransform(animated: Bool = false) {
