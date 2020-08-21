@@ -17,12 +17,12 @@
 		C547AC3824EBE020002D7434 /* CBTabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C547AC3524EBE020002D7434 /* CBTabBarButton.swift */; };
 		C547AC3924EBE020002D7434 /* BubbleTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C547AC3624EBE020002D7434 /* BubbleTabBar.swift */; };
 		C55F865224EBDB6000F3815B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C55F865024EBDB6000F3815B /* Main.storyboard */; };
+		C56298DC24EE7C0000A9FC92 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C56298DB24EE7C0000A9FC92 /* Assets.xcassets */; };
 		C563028524EC45A1003172F7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C563028424EC45A1003172F7 /* SettingsViewController.swift */; };
 		C563028724EC4AD4003172F7 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C563028624EC4AD4003172F7 /* WelcomeViewController.swift */; };
 		C580AB9D24E91C6A00D09F09 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C580AB9C24E91C6A00D09F09 /* AppDelegate.swift */; };
 		C580AB9F24E91C6A00D09F09 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C580AB9E24E91C6A00D09F09 /* SceneDelegate.swift */; };
 		C580ABA124E91C6A00D09F09 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C580ABA024E91C6A00D09F09 /* ConversationsViewController.swift */; };
-		C580ABA624E91C6C00D09F09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C580ABA524E91C6C00D09F09 /* Assets.xcassets */; };
 		C580ABA924E91C6C00D09F09 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C580ABA724E91C6C00D09F09 /* LaunchScreen.storyboard */; };
 		C58677C724EB909E00A11E5C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C58677C624EB909E00A11E5C /* GoogleService-Info.plist */; };
 		C58677C924EB9E3F00A11E5C /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58677C824EB9E3F00A11E5C /* DatabaseManager.swift */; };
@@ -45,17 +45,27 @@
 		C547AC3524EBE020002D7434 /* CBTabBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CBTabBarButton.swift; path = MessChat/BubbleTabBar/CBTabBarButton.swift; sourceTree = SOURCE_ROOT; };
 		C547AC3624EBE020002D7434 /* BubbleTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BubbleTabBar.swift; path = MessChat/BubbleTabBar/BubbleTabBar.swift; sourceTree = SOURCE_ROOT; };
 		C55F865124EBDB6000F3815B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C56298DB24EE7C0000A9FC92 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C563028424EC45A1003172F7 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		C563028624EC4AD4003172F7 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		C580AB9924E91C6A00D09F09 /* MessChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MessChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C580AB9C24E91C6A00D09F09 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C580AB9E24E91C6A00D09F09 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		C580ABA024E91C6A00D09F09 /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
-		C580ABA524E91C6C00D09F09 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C580ABA824E91C6C00D09F09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C580ABAA24E91C6C00D09F09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C58677C624EB909E00A11E5C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		C58677C824EB9E3F00A11E5C /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		C5C5C18124EF79240073E9A4 /* slideInstructions.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = slideInstructions.json; sourceTree = "<group>"; };
+		C5C5C18224EF79250073E9A4 /* settingUpAnimation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = settingUpAnimation.json; sourceTree = "<group>"; };
+		C5C5C18324EF79260073E9A4 /* blankLoadingAnim.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = blankLoadingAnim.json; sourceTree = "<group>"; };
+		C5C5C18424EF79270073E9A4 /* chatTyping.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chatTyping.json; sourceTree = "<group>"; };
+		C5C5C18524EF79280073E9A4 /* changeInfo_anim.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = changeInfo_anim.json; sourceTree = "<group>"; };
+		C5C5C18624EF79290073E9A4 /* audioWave.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = audioWave.json; sourceTree = "<group>"; };
+		C5C5C18724EF792A0073E9A4 /* chatLoadingAnim.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chatLoadingAnim.json; sourceTree = "<group>"; };
+		C5C5C18824EF792B0073E9A4 /* test.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
+		C5C5C18924EF792B0073E9A4 /* loadingAnimation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = loadingAnimation.json; sourceTree = "<group>"; };
+		C5C5C18A24EF792C0073E9A4 /* recentTyping.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = recentTyping.json; sourceTree = "<group>"; };
 		C5F10CC524EA590E0031219A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C5F10CCA24EA6A5A0031219A /* Alata-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Alata-Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,6 +158,23 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		C51D0A6924ED8ABF0015B06B /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				C5C5C18624EF79290073E9A4 /* audioWave.json */,
+				C5C5C18324EF79260073E9A4 /* blankLoadingAnim.json */,
+				C5C5C18524EF79280073E9A4 /* changeInfo_anim.json */,
+				C5C5C18724EF792A0073E9A4 /* chatLoadingAnim.json */,
+				C5C5C18424EF79270073E9A4 /* chatTyping.json */,
+				C5C5C18924EF792B0073E9A4 /* loadingAnimation.json */,
+				C5C5C18A24EF792C0073E9A4 /* recentTyping.json */,
+				C5C5C18224EF79250073E9A4 /* settingUpAnimation.json */,
+				C5C5C18124EF79240073E9A4 /* slideInstructions.json */,
+				C5C5C18824EF792B0073E9A4 /* test.json */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
 		C55F865A24EBDD8200F3815B /* BubbleTabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -202,7 +229,8 @@
 		C5F10CC824EA6A450031219A /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				C580ABA524E91C6C00D09F09 /* Assets.xcassets */,
+				C51D0A6924ED8ABF0015B06B /* Animation */,
+				C56298DB24EE7C0000A9FC92 /* Assets.xcassets */,
 				C5F10CC924EA6A5A0031219A /* Fonts */,
 			);
 			path = Assets;
@@ -287,7 +315,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C580ABA924E91C6C00D09F09 /* LaunchScreen.storyboard in Resources */,
-				C580ABA624E91C6C00D09F09 /* Assets.xcassets in Resources */,
+				C56298DC24EE7C0000A9FC92 /* Assets.xcassets in Resources */,
 				C58677C724EB909E00A11E5C /* GoogleService-Info.plist in Resources */,
 				C55F865224EBDB6000F3815B /* Main.storyboard in Resources */,
 				C5F10CCB24EA6A5A0031219A /* Alata-Regular.ttf in Resources */,

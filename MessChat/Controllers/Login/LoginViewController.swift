@@ -14,7 +14,10 @@
 import UIKit
 import FirebaseAuth
 import FBSDKLoginKit
+import FBSDKCoreKit
 import GoogleSignIn
+import RAGTextField
+
 
 class LoginViewController: UIViewController {
     
@@ -31,35 +34,39 @@ class LoginViewController: UIViewController {
         return imageView
     }()
     
-    private let emailField: UITextField = {
-        let field = UITextField()
-        field.autocapitalizationType = .none
-        field.autocorrectionType = .no
-        field.returnKeyType = .continue
-        field.layer.cornerRadius = 12
-        field.layer.borderWidth = 1
-        field.attributedPlaceholder = NSAttributedString(string: "Email Address ...", attributes:  [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        field.layer.borderColor = UIColor.lightGray.cgColor
-        field.leftView = UIView (frame: CGRect(x: 0, y: 0, width: 5, height: 0))
-        field.leftViewMode = .always
-        field.backgroundColor = .white
-        field.textColor = .darkGray
-        return field
-    }()
-    
-    private let passwordField: UITextField = {
-        let field = UITextField()
+    private let emailField: RAGTextField = {
+        let field = RAGTextField()
+        if let myImage = UIImage(systemName: "person"){
+            field.withImage(direction: .Left, image: myImage)
+        }
+        field.transformedPlaceholderColor = .lightGray
+        field.placeholderColor = .lightGray
         field.autocapitalizationType = .none
         field.autocorrectionType = .no
         field.returnKeyType = .done
-        field.layer.cornerRadius = 12
-        field.layer.borderWidth = 1
-        field.layer.borderColor = UIColor.lightGray.cgColor
-        field.attributedPlaceholder = NSAttributedString(string: "Password ...", attributes:  [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        field.leftView = UIView (frame: CGRect(x: 0, y: 0, width: 5, height: 0))
-        field.leftViewMode = .always
-        field.backgroundColor = .white
-        field.textColor = .darkGray
+        field.layer.cornerRadius = 8
+        field.borderStyle = .none
+        field.placeholderMode = .scalesWhenNotEmpty
+        field.placeholder = "Email Address"
+        field.textColor = .white
+        return field
+    }()
+    
+    private let passwordField: RAGTextField = {
+        let field = RAGTextField()
+        if let myImage = UIImage(systemName: "lock"){
+            field.withImage(direction: .Left, image: myImage)
+        }
+        field.transformedPlaceholderColor = .lightGray
+        field.placeholderColor = .lightGray
+        field.autocapitalizationType = .none
+        field.autocorrectionType = .no
+        field.returnKeyType = .done
+        field.layer.cornerRadius = 8
+        field.borderStyle = .none
+        field.placeholderMode = .scalesWhenNotEmpty
+        field.placeholder = "Password"
+        field.textColor = .white
         field.isSecureTextEntry = true
         return field
     }()
@@ -75,35 +82,58 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    private let googleLoginButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Connect with Google", for: .normal)
+        button.backgroundColor = #colorLiteral(red: 0.3948340416, green: 0.3551002145, blue: 0.9879776835, alpha: 1)
+//        button.setImage(UIImage(named: "google"), for: .normal)
+//        button.imageEdgeInsets = UIEdgeInsets(top: 0,left: 50,bottom: 0,right: 25)
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 8
+        button.layer.masksToBounds = true
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
+        button.addTarget(self, action: #selector(openGoogle), for: .touchUpInside)
+        button.imageView?.contentMode = .scaleAspectFit
+        return button
+    }()
+    
+    //     Google Button Connect
+    @objc private func openGoogle(){
+        GIDSignIn.sharedInstance().signIn()
+    }
+    
     // Background Color
     func setGradientBackground() {
         let gradient = CAGradientLayer()
-        let topColor = UIColor(red: 100/255, green: 90/255, blue: 255/255, alpha: 1).cgColor
-        let bottomColor = UIColor(red: 140/255, green: 135/255, blue: 255/255, alpha: 1).cgColor
+        let topColor = UIColor(red: 13/255, green: 50/255, blue: 77/255, alpha: 1).cgColor
+        let bottomColor = UIColor(red: 127/255, green: 90/255, blue: 131/255, alpha: 1).cgColor
         gradient.colors = [topColor, bottomColor]
         gradient.locations = [0, 1]
         gradient.frame = self.view.bounds
         self.view.layer.insertSublayer(gradient, at:0)
     }
+    
     //    -------
     
     private let facebookLoginButton: FBLoginButton = {
         let button = FBLoginButton()
         button.permissions = ["email, public_profile"]
-        button.layer.cornerRadius = 12
+        button.layer.cornerRadius = 8
         button.layer.masksToBounds = true
+         button.imageView?.contentMode = .scaleAspectFit
+        button.imageEdgeInsets = UIEdgeInsets(top: 25,left: 25,bottom: 25,right: 25)
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
+        //        button.imageView?.layer.transform = CATransform3DMakeScale(0.0, 0.0, 0.0)
         return button
     }()
     
-    private let googleLoginButton: GIDSignInButton = {
-        let button = GIDSignInButton()
-//        button.permissions = ["email, public_profile"]
-        button.layer.cornerRadius = 12
-        button.layer.masksToBounds = true
-        
-        return button
-    }()
+    //        private let googleLoginButton: GIDSignInButton = {
+//            let button = GIDSignInButton()
+////            button.layer.cornerRadius = 12
+////            button.layer.masksToBounds = true
+//
+//            return button
+//        }()
     
     private var loginObserver: NSObjectProtocol?
     
@@ -113,11 +143,10 @@ class LoginViewController: UIViewController {
                                                                object: nil,
                                                                queue: .main,
                                                                using: { [weak self] _ in
-                                                                
-        guard let strongSelf = self else {
-            return
-        }
-        strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+                                                                guard let strongSelf = self else {
+                                                                    return
+                                                                }
+                                                                strongSelf.navigationController?.dismiss(animated: true, completion: nil)
         })
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
@@ -125,7 +154,7 @@ class LoginViewController: UIViewController {
         setGradientBackground()
         title = "Log In"
         navigationController?.hideNavigationItemBackground()
-       
+        
         let rightBarButton = UIBarButtonItem(title: "Register",
                                              style: .done,
                                              target: self,
@@ -175,7 +204,7 @@ class LoginViewController: UIViewController {
                                   height: 52)
         
         passwordField.frame = CGRect(x: 30,
-                                     y: emailField.bottom+10,
+                                     y: emailField.bottom+15,
                                      width: scrollView.width-60,
                                      height: 52)
         
@@ -184,15 +213,18 @@ class LoginViewController: UIViewController {
                                    width: scrollView.width-120,
                                    height: 52)
         
-        facebookLoginButton.frame = CGRect(x: 60,
-                                           y: loginButton.bottom+10,
-                                           width: scrollView.width-120,
+        facebookLoginButton.frame = CGRect(x: 100,
+                                           y: loginButton.bottom+230,
+                                           width: scrollView.width-200,
                                            height: 52)
         
-        googleLoginButton.frame = CGRect(x: 60,
+        googleLoginButton.frame = CGRect(x: 100,
                                          y: facebookLoginButton.bottom+10,
-                                         width: scrollView.width-120,
+                                         width: scrollView.width-200,
                                          height: 52)
+        
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = imageView.bounds.width / 2
     }
     
     @objc private func loginButtonTapped() {
@@ -215,6 +247,15 @@ class LoginViewController: UIViewController {
             }
             guard case let result = authResult, error == nil else{
                 print("Failed to log in user with email: \(email)")
+                let alert = UIAlertController(title: "Woops",
+                                              message: "Mat khau khong chinh xac",
+                                              preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "Dismiss",
+                                              style: .cancel,
+                                              handler: nil))
+                
+                self?.present(alert, animated: true)
                 return
             }
             
@@ -226,7 +267,7 @@ class LoginViewController: UIViewController {
         
     }
     
-    func  alertUserLoginError() {
+    func alertUserLoginError() {
         let alert = UIAlertController(title: "Woops",
                                       message: "Please enter all information to log in!",
                                       preferredStyle: .alert)
@@ -323,5 +364,47 @@ extension LoginViewController: LoginButtonDelegate {
         })
     }
 }
+
+extension UITextField {
+    
+    enum Direction {
+        case Left
+        case Right
+    }
+    
+    // add image to textfield , colorSeparator: UIColor, colorBorder: UIColor
+    func withImage(direction: Direction, image: UIImage){
+        let mainView = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 45))
+        mainView.layer.cornerRadius = 5
+        
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 45))
+        view.backgroundColor = .clear
+        view.tintColor = .white
+    
+        mainView.addSubview(view)
+        
+        let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
+        imageView.frame = CGRect(x: 12.0, y: 14.0, width: 24.0, height: 24.0)
+        
+        view.addSubview(imageView)
+        
+        let seperatorView = UIView()
+        mainView.addSubview(seperatorView)
+        
+        if(Direction.Left == direction){ // image left
+            seperatorView.frame = CGRect(x: 45, y: 0, width: 0, height: 45)
+            self.leftViewMode = .always
+            self.leftView = mainView
+        } else { // image right
+            seperatorView.frame = CGRect(x: 0, y: 0, width: 5, height: 45)
+            self.rightViewMode = .always
+            self.rightView = mainView
+        }
+    }
+}
+
+
+
 
 

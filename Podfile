@@ -17,4 +17,13 @@ pod 'FBSDKLoginKit'
 #Google 
 pod "GoogleSignIn"
 
+pod 'lottie-ios'
+
+pod "RAGTextField"
+
+pod "MessageKit"
+pod 'JGProgressHUD'
+pod "RealmSwift"
+pod "SDWebImage"
+
 end

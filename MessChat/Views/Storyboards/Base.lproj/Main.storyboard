@@ -55,7 +55,8 @@
         <!--Bubble Tab Bar Controller-->
         <scene sceneID="U47-iY-dGq">
             <objects>
-                <tabBarController id="0ph-je-VLT" customClass="BubbleTabBarController" customModule="MessChat" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController id="0ph-je-VLT" customClass="BubbleTabBarController" customModule="MessChat" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="gkt-Pi-bCS"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="45v-0l-Xxu">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
