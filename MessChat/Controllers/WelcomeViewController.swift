@@ -94,7 +94,11 @@ class WelcomeViewController: UIViewController {
         loginButton.addTarget(self,
                               action: #selector(loginButtonTapped),
                               for: .touchUpInside)
-     
+        
+        
+        registerButton.addTarget(self,
+                              action: #selector(registerButtonTapped),
+                              for: .touchUpInside)
         // Add subviews
         view.addSubview(scrollView)
         view.addSubview(imageView)
@@ -145,10 +149,15 @@ class WelcomeViewController: UIViewController {
 //                                         height: 52)
     }
     
+    @objc private func registerButtonTapped() {
+        let vc = RegisterViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     @objc private func loginButtonTapped() {
-let vc = LoginViewController()
-       navigationController?.pushViewController(vc, animated: true)
-        }
+        let vc = LoginViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
         
       
     
