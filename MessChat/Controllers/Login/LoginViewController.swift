@@ -87,10 +87,10 @@ class LoginViewController: UIViewController {
     private let googleLoginButton: UIButton = {
         let button = UIButton()
         button.setTitle("Connect with Google", for: .normal)
-        button.backgroundColor = #colorLiteral(red: 0.3948340416, green: 0.3551002145, blue: 0.9879776835, alpha: 1)
-        //        button.setImage(UIImage(named: "google"), for: .normal)
-        //        button.imageEdgeInsets = UIEdgeInsets(top: 0,left: 50,bottom: 0,right: 25)
-        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = #colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1)
+        button.setImage(UIImage(named: "google"), for: .normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0,left: 0,bottom: 0,right: 15)
+        button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 8
         button.layer.masksToBounds = true
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
@@ -98,12 +98,12 @@ class LoginViewController: UIViewController {
         button.imageView?.contentMode = .scaleAspectFit
         return button
     }()
-    
+
     //     Google Button Connect
     @objc private func openGoogle(){
         GIDSignIn.sharedInstance().signIn()
     }
-    
+
     // Background Color
     func setGradientBackground() {
         let gradient = CAGradientLayer()
@@ -128,14 +128,14 @@ class LoginViewController: UIViewController {
         //        button.imageView?.layer.transform = CATransform3DMakeScale(0.0, 0.0, 0.0)
         return button
     }()
-    
-    //        private let googleLoginButton: GIDSignInButton = {
-    //            let button = GIDSignInButton()
-    ////            button.layer.cornerRadius = 12
-    ////            button.layer.masksToBounds = true
-    //
-    //            return button
-    //        }()
+
+//            private let googleLoginButton: GIDSignInButton = {
+//                let button = GIDSignInButton()
+//            button.backgroundColor = #colorLiteral(red: 0.3948340416, green: 0.3551002145, blue: 0.9879776835, alpha: 1)
+//            button.layer.cornerRadius = 8
+//            button.layer.masksToBounds = true
+//                return button
+//            }()
     
     private var loginObserver: NSObjectProtocol?
     
@@ -271,6 +271,8 @@ class LoginViewController: UIViewController {
             let user = result!.user
             print("Logged In User: \(user)")
             
+            UserDefaults.standard.set(email, forKey: "email")
+            
             strongSelf.navigationController?.dismiss(animated: true, completion: nil)
         })
         
@@ -343,6 +345,8 @@ extension LoginViewController: LoginButtonDelegate {
                     print("Failed to get email and name from Facebook result")
                     return
             }
+            
+                UserDefaults.standard.set(email, forKey: "email")
             
             DatabaseManager.share.userExists(with: email, completion: { exists in
                 if !exists {
@@ -444,8 +448,3 @@ extension UITextField {
         }
     }
 }
-
-
-
-
-
