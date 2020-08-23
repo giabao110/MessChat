@@ -13,6 +13,7 @@
 		C512071924E921BF006DF487 /* VideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C512071824E921BF006DF487 /* VideoPlayerViewController.swift */; };
 		C512071C24E921FB006DF487 /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C512071B24E921FB006DF487 /* NewConversationViewController.swift */; };
 		C512071E24E92235006DF487 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C512071D24E92235006DF487 /* ProfileViewController.swift */; };
+		C53EE05624F23F870099413A /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53EE05524F23F870099413A /* ConversationTableViewCell.swift */; };
 		C547AC3724EBE020002D7434 /* BubbleTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C547AC3424EBE020002D7434 /* BubbleTabBarController.swift */; };
 		C547AC3824EBE020002D7434 /* CBTabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C547AC3524EBE020002D7434 /* CBTabBarButton.swift */; };
 		C547AC3924EBE020002D7434 /* BubbleTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C547AC3624EBE020002D7434 /* BubbleTabBar.swift */; };
@@ -43,6 +44,7 @@
 		C512071824E921BF006DF487 /* VideoPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewController.swift; sourceTree = "<group>"; };
 		C512071B24E921FB006DF487 /* NewConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
 		C512071D24E92235006DF487 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		C53EE05524F23F870099413A /* ConversationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTableViewCell.swift; sourceTree = "<group>"; };
 		C547AC3424EBE020002D7434 /* BubbleTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BubbleTabBarController.swift; path = MessChat/BubbleTabBar/BubbleTabBarController.swift; sourceTree = SOURCE_ROOT; };
 		C547AC3524EBE020002D7434 /* CBTabBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CBTabBarButton.swift; path = MessChat/BubbleTabBar/CBTabBarButton.swift; sourceTree = SOURCE_ROOT; };
 		C547AC3624EBE020002D7434 /* BubbleTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BubbleTabBar.swift; path = MessChat/BubbleTabBar/BubbleTabBar.swift; sourceTree = SOURCE_ROOT; };
@@ -100,6 +102,7 @@
 			children = (
 				C5F10CC824EA6A450031219A /* Assets */,
 				C512070E24E91DD5006DF487 /* Storyboards */,
+				C53EE05524F23F870099413A /* ConversationTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				C547AC3724EBE020002D7434 /* BubbleTabBarController.swift in Sources */,
 				C5C8A16924EF9678004A45AF /* ChatViewController.swift in Sources */,
 				C547AC3924EBE020002D7434 /* BubbleTabBar.swift in Sources */,
+				C53EE05624F23F870099413A /* ConversationTableViewCell.swift in Sources */,
 				C580AB9D24E91C6A00D09F09 /* AppDelegate.swift in Sources */,
 				C512071E24E92235006DF487 /* ProfileViewController.swift in Sources */,
 				C580AB9F24E91C6A00D09F09 /* SceneDelegate.swift in Sources */,
