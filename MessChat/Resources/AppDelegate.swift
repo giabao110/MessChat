@@ -53,18 +53,19 @@ import GoogleSignIn
         
         guard let email = user.profile.email,
             let firstName = user.profile.givenName,
-            let lastname = user.profile.familyName else {
+            let lastName = user.profile.familyName else {
                 return
         }
         
         UserDefaults.standard.set(email, forKey: "email")
+        UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
         
         DatabaseManager.share.userExists(with: email, completion: { exists in
             if !exists {
                 
                 // Insert Database
                 let chatUser = ChatAppUser(firstName: firstName,
-                                           lastName: lastname,
+                                           lastName: lastName,
                                            emailAddress: email)
                 DatabaseManager.share.insertUser(with: chatUser, completion: { success in
                     if success {

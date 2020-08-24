@@ -146,20 +146,21 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         
         print("Sending: \(text)" )
         
+        let mmessage = Message(sender: selfSender,
+                                        messageId: messageId,
+                                        sentDate: Date(),
+                                        kind: .text(text))
+        
         // Send messages
         if isNewConversation {
             // Create convers in database
-            let mmessage = Message(sender: selfSender,
-                                   messageId: messageId,
-                                   sentDate: Date(),
-                                   kind: .text(text))
-            
             DatabaseManager.share.createNewConversation(with: otherUserEmail,
                                                         name: self.title ?? "User",
                                                         firstMessage: mmessage,
-                                                        completion: { success in
+                                                        completion: { [weak self] success in
                 if success {
                     print("Messege sent...")
+                    self?.isNewConversation = false
                 }
                 else {
                     print("Failed to sent")
@@ -167,13 +168,26 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
             })
         }
         else {
+            guard let conversationId = conversationId,
+                let name = self.title else {
+                return
+            }
             // Append to existing conversation data
+            DatabaseManager.share.sendMessage(to: conversationId, otherUserEmail: otherUserEmail, name: name, newMessage: mmessage, completion: { success in
+                if success {
+                    print("Messege sent...")
+                    
+                }
+                else {
+                    print("Failed to sent")
+                }
+            })
         }
     }
     private func createMessageId() -> String? {
         // Date, otherUserEmail, senderEmail, randomInt
         guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String else {
-            return nil
+            return nil 
         }
         
         let safeCurrentEmail = DatabaseManager.safeEmail(emailAddress: currentUserEmail)
