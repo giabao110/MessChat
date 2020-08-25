@@ -78,16 +78,14 @@ extension SettingsViewController:UITableViewDelegate, UITableViewDataSource {
                 let nav = UINavigationController(rootViewController: vc)
                 nav.modalPresentationStyle = .fullScreen
                 strongSelf.present(nav, animated: true)
-                print("log out")
+                print("Log Out")
             }
             catch  {
                 print("Failed to Log Out")
             }
             
         }))
-        
         present(actionSheet, animated: true)
     }
-    
 }
 

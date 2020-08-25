@@ -13,6 +13,7 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
 import FirebaseCore
 import FBSDKCoreKit
 import GoogleSignIn

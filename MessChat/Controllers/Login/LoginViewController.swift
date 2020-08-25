@@ -33,6 +33,10 @@ class LoginViewController: UIViewController {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "logo")
         imageView.contentMode = .scaleAspectFit
+        imageView.layer.masksToBounds = true
+        imageView.tintColor = .white
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.white.cgColor
         return imageView
     }()
     
@@ -41,15 +45,17 @@ class LoginViewController: UIViewController {
         if let myImage = UIImage(systemName: "person"){
             field.withImage(direction: .Left, image: myImage)
         }
-        field.transformedPlaceholderColor = .lightGray
-        field.placeholderColor = .lightGray
+        field.transformedPlaceholderColor = .white
+        field.placeholderColor = .white
+        field.placeholderFont = .systemFont(ofSize: 18, weight: .medium)
+        field.font = .systemFont(ofSize: 18, weight: .medium)
         field.autocapitalizationType = .none
         field.autocorrectionType = .no
         field.returnKeyType = .done
         field.layer.cornerRadius = 8
         field.borderStyle = .none
         field.placeholderMode = .scalesWhenNotEmpty
-        field.placeholder = "Email Address"
+        field.placeholder = "Username"
         field.textColor = .white
         return field
     }()
@@ -59,8 +65,10 @@ class LoginViewController: UIViewController {
         if let myImage = UIImage(systemName: "lock"){
             field.withImage(direction: .Left, image: myImage)
         }
-        field.transformedPlaceholderColor = .lightGray
-        field.placeholderColor = .lightGray
+        field.transformedPlaceholderColor = .white
+        field.placeholderColor = .white
+        field.placeholderFont = .systemFont(ofSize: 18, weight: .medium)
+        field.font = .systemFont(ofSize: 18, weight: .medium)
         field.autocapitalizationType = .none
         field.autocorrectionType = .no
         field.returnKeyType = .done
@@ -76,7 +84,7 @@ class LoginViewController: UIViewController {
     private let loginButton: UIButton = {
         let button = UIButton()
         button.setTitle("Log In", for: .normal)
-        button.backgroundColor = #colorLiteral(red: 0.3948340416, green: 0.3551002145, blue: 0.9879776835, alpha: 1)
+        button.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 12
         button.layer.masksToBounds = true
@@ -87,10 +95,10 @@ class LoginViewController: UIViewController {
     private let googleLoginButton: UIButton = {
         let button = UIButton()
         button.setTitle("Connect with Google", for: .normal)
-        button.backgroundColor = #colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1)
+        button.backgroundColor = .white //UIColor(red: 211/255, green: 72/255, blue: 54/255, alpha: 1)
         button.setImage(UIImage(named: "google"), for: .normal)
         button.imageEdgeInsets = UIEdgeInsets(top: 0,left: 0,bottom: 0,right: 15)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.darkGray, for: .normal)
         button.layer.cornerRadius = 8
         button.layer.masksToBounds = true
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
@@ -106,9 +114,9 @@ class LoginViewController: UIViewController {
 
     // Background Color
     func setGradientBackground() {
-        let gradient = CAGradientLayer()
-        let topColor = UIColor(red: 13/255, green: 50/255, blue: 77/255, alpha: 1).cgColor
-        let bottomColor = UIColor(red: 127/255, green: 90/255, blue: 131/255, alpha: 1).cgColor
+        let gradient = CAGradientLayer() //99, 164, 255)
+        let topColor = UIColor(red: 99/255, green: 164/255, blue: 255/255, alpha: 1).cgColor
+        let bottomColor = UIColor(red: 131/255, green: 234/255, blue: 241/255, alpha: 1).cgColor
         gradient.colors = [topColor, bottomColor]
         gradient.locations = [0, 1]
         gradient.frame = self.view.bounds
@@ -154,7 +162,7 @@ class LoginViewController: UIViewController {
         GIDSignIn.sharedInstance()?.presentingViewController = self
         
         setGradientBackground()
-        title = "Log In"
+        title = "LOG IN"
         navigationController?.hideNavigationItemBackground()
         
         let rightBarButton = UIBarButtonItem(title: "Register",
@@ -225,7 +233,6 @@ class LoginViewController: UIViewController {
                                          width: scrollView.width-200,
                                          height: 52)
         
-        imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = imageView.bounds.width / 2
     }
     
@@ -446,7 +453,7 @@ extension UITextField {
         
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFit
-        imageView.frame = CGRect(x: 12.0, y: 14.0, width: 24.0, height: 24.0)
+        imageView.frame = CGRect(x: 10.0, y: 10.0, width: 24.0, height: 24.0)
         
         view.addSubview(imageView)
         

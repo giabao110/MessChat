@@ -15,6 +15,7 @@ import UIKit
 import FirebaseAuth
 import Lottie
 
+
 class WelcomeViewController: UIViewController {
     
     private let animationView: AnimationView = {
@@ -49,24 +50,25 @@ class WelcomeViewController: UIViewController {
         let textView = UILabel()
         textView.text = "Welcome to MessChat"
         textView.textAlignment = .center
-        textView.font = .systemFont(ofSize: 30, weight: .bold)
+        textView.font = .systemFont(ofSize: 32, weight: .bold)
         return textView
     }()
     
     private let textViewDes: UILabel = {
         let textViewDes = UILabel()
-        textViewDes.text = "Free Messaging, voice and videos, and more!"
+        textViewDes.text = "Free Messaging, voice and videos, and more"
         textViewDes.textAlignment = .center
         textViewDes.font = .systemFont(ofSize: 18, weight: .light)
         textViewDes.contentMode = .scaleAspectFit
-//        textViewDes.centerView = UIView (frame: CGRect(x: 0, y: 0, width: 5, height: 0))
+        textViewDes.numberOfLines = 0
+        textViewDes.lineBreakMode = NSLineBreakMode.byCharWrapping
         return textViewDes
     }()
     
     private let loginButton: UIButton = {
         let button = UIButton()
         button.setTitle("Log In", for: .normal)
-        button.backgroundColor = #colorLiteral(red: 0.3948340416, green: 0.3551002145, blue: 0.9879776835, alpha: 1)
+        button.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 12
         button.layer.masksToBounds = true
@@ -77,7 +79,7 @@ class WelcomeViewController: UIViewController {
     private let registerButton: UIButton = {
         let button = UIButton()
         button.setTitle("Register", for: .normal)
-        button.backgroundColor = #colorLiteral(red: 0.3948340416, green: 0.3551002145, blue: 0.9879776835, alpha: 1)
+        button.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 12
         button.layer.masksToBounds = true
@@ -118,7 +120,7 @@ class WelcomeViewController: UIViewController {
         super.viewDidLayoutSubviews()
         scrollView.frame = view.bounds
         
-        let size = view.width/6
+        let size = view.width/3
         imageView.frame = CGRect(x: (scrollView.width-size)/2,
                                  y:250,
                                  width: size,
@@ -127,15 +129,16 @@ class WelcomeViewController: UIViewController {
         textView.frame = CGRect(x: 30,
                                 y: imageView.bottom+10,
                                 width: scrollView.width-60,
-                                height: 52)
+                                height: 50)
         
+        textViewDes.textAlignment = .center
         textViewDes.frame = CGRect(x: 30,
                                    y: textView.bottom+2,
                                    width: scrollView.width-60,
-                                   height: 100)
+                                   height: 60)
         
         loginButton.frame = CGRect(x: 30,
-                                   y: imageView.bottom+400,
+                                   y: imageView.bottom+350,
                                    width: scrollView.width-60,
                                    height: 52)
         
