@@ -27,7 +27,7 @@ class RegisterViewController: UIViewController {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "person.circle")
+        imageView.image = UIImage(named: "image_icon")
         imageView.contentMode = .scaleAspectFit
         imageView.layer.masksToBounds = true
         imageView.tintColor = .white

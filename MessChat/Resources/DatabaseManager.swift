@@ -416,7 +416,7 @@ extension DatabaseManager {
                 }
                 var kind: MessageKind?
                 if type == "photo" {
-                    // photo
+                    /// Photo
                     guard let imageUrl = URL(string: content),
                     let placeHolder = UIImage(systemName: "plus") else {
                         return nil
@@ -426,6 +426,18 @@ extension DatabaseManager {
                                       placeholderImage: placeHolder,
                                       size: CGSize(width: 300, height: 300))
                     kind = .photo(media)
+                }
+                else if type == "video" {
+                    /// Video
+                    guard let videoUrl = URL(string: content),
+                    let placeHolder = UIImage(named: "placeholder") else {
+                        return nil
+                    }
+                    let media = Media(url: videoUrl,
+                                      image: nil,
+                                      placeholderImage: placeHolder,
+                                      size: CGSize(width: 300, height: 300))
+                    kind = .video(media)
                 }
                 else {
                     kind = .text(content)
@@ -489,7 +501,10 @@ extension DatabaseManager {
                     message = targetUrlString
                 }
                 break
-            case .video(_):
+            case .video(let mediaItem):
+                if let targetUrlString = mediaItem.url?.absoluteString {
+                    message = targetUrlString
+                }
                 break
             case .location(_):
                 break

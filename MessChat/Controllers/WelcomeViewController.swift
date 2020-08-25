@@ -108,11 +108,11 @@ class WelcomeViewController: UIViewController {
         view.addSubview(textViewDes)
         view.addSubview(loginButton)
         view.addSubview(registerButton)
-//        view.addSubview(animationView)
+        //        view.addSubview(animationView)
         imageView.frame = CGRect(x: 0,
-                                     y: 0,
-                                     width: 100,
-                                     height: 100)
+                                 y: 0,
+                                 width: 100,
+                                 height: 100)
         animationView.center = view.center
     }
     
@@ -138,18 +138,18 @@ class WelcomeViewController: UIViewController {
                                    height: 60)
         
         loginButton.frame = CGRect(x: 30,
-                                   y: imageView.bottom+350,
+                                   y: imageView.bottom+360,
                                    width: scrollView.width-60,
                                    height: 52)
         
         registerButton.frame = CGRect(x: 30,
-                                   y: loginButton.bottom+10,
-                                   width: scrollView.width-60,
-                                   height: 52)
-//        animationView.frame = CGRect(x: 30,
-//                                         y: loginButton.bottom+300,
-//                                         width: scrollView.width-60,
-//                                         height: 52)
+                                      y: loginButton.bottom+10,
+                                      width: scrollView.width-60,
+                                      height: 52)
+        //        animationView.frame = CGRect(x: 30,
+        //                                         y: loginButton.bottom+300,
+        //                                         width: scrollView.width-60,
+        //                                         height: 52)
     }
     
     @objc private func registerButtonTapped() {

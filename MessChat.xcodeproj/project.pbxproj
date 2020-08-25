@@ -31,6 +31,7 @@
 		C5C8A16B24EFCB9D004A45AF /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C8A16A24EFCB9D004A45AF /* StorageManager.swift */; };
 		C5F10CC624EA590E0031219A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F10CC524EA590E0031219A /* Extensions.swift */; };
 		C5F10CCB24EA6A5A0031219A /* Alata-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5F10CCA24EA6A5A0031219A /* Alata-Regular.ttf */; };
+		C5FF5B1824F5155B00E7A908 /* NewConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FF5B1724F5155B00E7A908 /* NewConversationCell.swift */; };
 		CE03E42088413E62084EA5F2 /* Pods_MessChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 893DA01D8A53A5B78BC7918A /* Pods_MessChat.framework */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +75,7 @@
 		C5C8A16A24EFCB9D004A45AF /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		C5F10CC524EA590E0031219A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C5F10CCA24EA6A5A0031219A /* Alata-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Alata-Regular.ttf"; sourceTree = "<group>"; };
+		C5FF5B1724F5155B00E7A908 /* NewConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				C5F10CC824EA6A450031219A /* Assets */,
 				C512070E24E91DD5006DF487 /* Storyboards */,
 				C53EE05524F23F870099413A /* ConversationTableViewCell.swift */,
+				C5FF5B1724F5155B00E7A908 /* NewConversationCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -398,6 +401,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C512071124E9213D006DF487 /* LoginViewController.swift in Sources */,
+				C5FF5B1824F5155B00E7A908 /* NewConversationCell.swift in Sources */,
 				C563028724EC4AD4003172F7 /* WelcomeViewController.swift in Sources */,
 				C58677C924EB9E3F00A11E5C /* DatabaseManager.swift in Sources */,
 				C5C8A16B24EFCB9D004A45AF /* StorageManager.swift in Sources */,

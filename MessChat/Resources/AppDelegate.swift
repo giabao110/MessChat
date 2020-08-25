@@ -20,8 +20,12 @@ import GoogleSignIn
 
 @UIApplicationMain class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     
+//    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+//        Thread.sleep(forTimeInterval: 3.0)
+//        // Override point for customization after application launch.
+//        return true
+//    }
     func application( _ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? ) -> Bool {
-        
         FirebaseApp.configure()
         
         ApplicationDelegate.shared.application( application, didFinishLaunchingWithOptions: launchOptions )
@@ -29,6 +33,8 @@ import GoogleSignIn
         GIDSignIn.sharedInstance()?.clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance()?.delegate = self
         
+        // Override point for customization LaunchScreen Time Delay
+        Thread.sleep(forTimeInterval: 0.0)
         return true
     }
     

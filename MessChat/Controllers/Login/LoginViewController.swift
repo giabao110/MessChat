@@ -34,8 +34,14 @@ class LoginViewController: UIViewController {
         imageView.image = UIImage(named: "logo")
         imageView.contentMode = .scaleAspectFit
         imageView.layer.masksToBounds = true
-        imageView.tintColor = .white
-        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.white.cgColor
+        return imageView
+    }()
+    
+    private let imageTitleView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "messchatlogo")
+        imageView.contentMode = .scaleAspectFit
         imageView.layer.borderColor = UIColor.white.cgColor
         return imageView
     }()
@@ -92,6 +98,17 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    private let facebookLoginButton: FBLoginButton = {
+        let button = FBLoginButton()
+        button.permissions = ["email, public_profile"]
+        button.layer.cornerRadius = 8
+        button.layer.masksToBounds = true
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageEdgeInsets = UIEdgeInsets(top: 25,left: 25,bottom: 25,right: 25)
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
+        return button
+    }()
+    
     private let googleLoginButton: UIButton = {
         let button = UIButton()
         button.setTitle("Connect with Google", for: .normal)
@@ -111,7 +128,7 @@ class LoginViewController: UIViewController {
     @objc private func openGoogle(){
         GIDSignIn.sharedInstance().signIn()
     }
-
+    
     // Background Color
     func setGradientBackground() {
         let gradient = CAGradientLayer() //99, 164, 255)
@@ -122,20 +139,6 @@ class LoginViewController: UIViewController {
         gradient.frame = self.view.bounds
         self.view.layer.insertSublayer(gradient, at:0)
     }
-    
-    //    -------
-    
-    private let facebookLoginButton: FBLoginButton = {
-        let button = FBLoginButton()
-        button.permissions = ["email, public_profile"]
-        button.layer.cornerRadius = 8
-        button.layer.masksToBounds = true
-        button.imageView?.contentMode = .scaleAspectFit
-        button.imageEdgeInsets = UIEdgeInsets(top: 25,left: 25,bottom: 25,right: 25)
-        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
-        //        button.imageView?.layer.transform = CATransform3DMakeScale(0.0, 0.0, 0.0)
-        return button
-    }()
 
 //            private let googleLoginButton: GIDSignInButton = {
 //                let button = GIDSignInButton()
@@ -162,7 +165,7 @@ class LoginViewController: UIViewController {
         GIDSignIn.sharedInstance()?.presentingViewController = self
         
         setGradientBackground()
-        title = "LOG IN"
+        title = "Log In"
         navigationController?.hideNavigationItemBackground()
         
         let rightBarButton = UIBarButtonItem(title: "Register",
@@ -185,6 +188,7 @@ class LoginViewController: UIViewController {
         // Add subviews
         view.addSubview(scrollView)
         scrollView.addSubview(imageView)
+        scrollView.addSubview(imageTitleView)
         scrollView.addSubview(emailField)
         scrollView.addSubview(passwordField)
         scrollView.addSubview(loginButton)
@@ -202,14 +206,19 @@ class LoginViewController: UIViewController {
         super.viewDidLayoutSubviews()
         scrollView.frame = view.bounds
         
-        let size = view.width/3
+        let size = view.width/6
         imageView.frame = CGRect(x: (scrollView.width-size)/2,
-                                 y: 20,
+                                 y: 10,
                                  width: size,
                                  height: size)
         
+        imageTitleView.frame = CGRect(x: 60,
+                                  y: imageView.bottom+10,
+                                  width: scrollView.width-120,
+                                  height: 80)
+        
         emailField.frame = CGRect(x: 30,
-                                  y: imageView.bottom+40,
+                                  y: imageTitleView.bottom+60,
                                   width: scrollView.width-60,
                                   height: 52)
         
@@ -224,7 +233,7 @@ class LoginViewController: UIViewController {
                                    height: 52)
         
         facebookLoginButton.frame = CGRect(x: 100,
-                                           y: loginButton.bottom+230,
+                                           y: loginButton.bottom+200,
                                            width: scrollView.width-200,
                                            height: 52)
         
