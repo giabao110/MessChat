@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0ph-je-VLT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="jJm-cp-Y3W">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -9,7 +9,7 @@
         <!--Chats-->
         <scene sceneID="z7B-zi-ZIF">
             <objects>
-                <viewController id="t88-Oi-HJI" customClass="ConversationsViewController" customModule="MessChat" sceneMemberID="viewController">
+                <viewController id="t88-Oi-HJI" customClass="ConversationsViewController" customModule="MessChat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="YIw-FS-SZV"/>
                         <viewControllerLayoutGuide type="bottom" id="ODF-3q-xlJ"/>
@@ -17,7 +17,7 @@
                     <view key="view" contentMode="scaleToFill" id="KW1-2V-2rP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Chats" image="message" catalog="system" id="Rxv-7N-Pne" customClass="CBTabBarItem" customModule="MessChat">
                         <userDefinedRuntimeAttributes>
@@ -33,6 +33,45 @@
             </objects>
             <point key="canvasLocation" x="-930" y="-52"/>
         </scene>
+        <!--Item-->
+        <scene sceneID="tww-kq-hIV">
+            <objects>
+                <navigationController storyboardIdentifier="LoginNavigationController" id="i9p-e6-SH6" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="iR5-Nb-Ovi"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="7dl-lc-PDh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="ivS-HP-fgu" kind="relationship" relationship="rootViewController" id="Au3-6F-7fc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XhQ-y5-anr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2244" y="-1276.0119940029986"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="kWQ-cv-Tfg">
+            <objects>
+                <viewController id="ivS-HP-fgu" customClass="LoginViewController" customModule="MessChat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vzK-s0-pkc"/>
+                        <viewControllerLayoutGuide type="bottom" id="SS2-ja-kgP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="EHa-VU-rpW">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="F06-d5-ZHZ"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rge-cO-q3u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1232.8" y="-1276.0119940029986"/>
+        </scene>
         <!--Chats-->
         <scene sceneID="emI-CZ-Lnp">
             <objects>
@@ -42,6 +81,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="rNX-F9-gnD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -50,27 +90,30 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KBf-CO-EDI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-929" y="-864"/>
+            <point key="canvasLocation" x="948" y="-845.1274362818591"/>
         </scene>
-        <!--Bubble Tab Bar Controller-->
+        <!--Tab Bar Controller-->
         <scene sceneID="U47-iY-dGq">
             <objects>
-                <tabBarController id="0ph-je-VLT" customClass="BubbleTabBarController" customModule="MessChat" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainTabBarController" id="0ph-je-VLT" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="gkt-Pi-bCS"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="45v-0l-Xxu">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="NO"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
-                        <segue destination="KkZ-02-T7E" kind="relationship" relationship="viewControllers" id="vm2-a8-9Fx"/>
+                        <segue destination="KkZ-02-T7E" kind="relationship" relationship="viewControllers" id="93J-Yt-6Yh"/>
                         <segue destination="B5v-Ld-mfT" kind="relationship" relationship="viewControllers" id="Rrx-gn-rXd"/>
                         <segue destination="4Wm-Ja-Hh0" kind="relationship" relationship="viewControllers" id="GiN-05-D0r"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nc4-E4-Ys7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="476" y="-1707"/>
+            <point key="canvasLocation" x="2354.4000000000001" y="-1707.7961019490256"/>
         </scene>
         <!--Profile-->
         <scene sceneID="p8P-mj-w7d">
@@ -87,12 +130,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Vd-gQ-H3z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="476" y="-864"/>
+            <point key="canvasLocation" x="2354.4000000000001" y="-815.44227886056979"/>
         </scene>
         <!--Profile-->
         <scene sceneID="mnf-U4-Rji">
             <objects>
-                <viewController id="Wwi-NE-dwG" customClass="ProfileViewController" customModule="MessChat" sceneMemberID="viewController">
+                <viewController id="Wwi-NE-dwG" customClass="ProfileViewController" customModule="MessChat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dwI-7F-RXZ"/>
                         <viewControllerLayoutGuide type="bottom" id="dEQ-Zr-YwE"/>
@@ -146,12 +189,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wMJ-Kt-D6g" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1743" y="-864"/>
+            <point key="canvasLocation" x="3620" y="-845.1274362818591"/>
         </scene>
         <!--Settings-->
         <scene sceneID="ZdT-Uu-MSY">
             <objects>
-                <viewController id="A9U-jQ-gK9" customClass="SettingsViewController" customModule="MessChat" sceneMemberID="viewController">
+                <viewController id="A9U-jQ-gK9" customClass="SettingsViewController" customModule="MessChat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="15w-oE-gxZ"/>
                         <viewControllerLayoutGuide type="bottom" id="bu3-4D-SBA"/>
@@ -189,6 +232,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Opw-CW-h0E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1742" y="-53"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="agc-Yw-7Pp">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="jJm-cp-Y3W" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="1A2-p7-EsS">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="i9p-e6-SH6" kind="relationship" relationship="viewControllers" id="Snm-rO-CWz"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yCn-HS-xA4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3183.1999999999998" y="-1276.0119940029986"/>
         </scene>
     </scenes>
     <resources>

@@ -36,7 +36,6 @@ class ConversationTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 19, weight: .regular)
         label.numberOfLines = 0
-        
         return label
     }()
     
@@ -45,6 +44,18 @@ class ConversationTableViewCell: UITableViewCell {
         contentView.addSubview(userImageView)
         contentView.addSubview(userNameLabel)
         contentView.addSubview(userMessageLabel)
+        contentView.backgroundColor = .white
+        
+        contentView.layer.cornerRadius = 10.0
+        
+        contentView.layer.shadowColor = UIColor.gray.cgColor
+        
+        contentView.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
+        
+        contentView.layer.shadowRadius = 6.0
+        
+        contentView.layer.shadowOpacity = 0.7
+        contentView.layer.masksToBounds = true
     }
     
     required init?(coder: NSCoder) {
@@ -53,6 +64,7 @@ class ConversationTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
         userImageView.frame = CGRect(x: 10,
                                      y: 10,
                                      width: 100,
@@ -70,7 +82,9 @@ class ConversationTableViewCell: UITableViewCell {
     }
     
     public func configure(with model: Conversation) {
-        self.userMessageLabel.text = model.lastedMessage.text
+        
+        
+        self.userMessageLabel.text = model.latestMessage.text
         self.userNameLabel.text = model.name
         
         let path = "images/\(model.otherUserEmail)_profile_picture.png"

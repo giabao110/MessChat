@@ -25,6 +25,7 @@ import GoogleSignIn
 //        // Override point for customization after application launch.
 //        return true
 //    }
+    
     func application( _ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? ) -> Bool {
         FirebaseApp.configure()
         
@@ -114,13 +115,21 @@ import GoogleSignIn
                                                        accessToken: authentication.accessToken)
         
         FirebaseAuth.Auth.auth().signIn(with: credential, completion: { authResult, error in
+
             guard authResult != nil, error == nil else {
                 print("Failed to log in with Google credential")
                 return
             }
             
             print("Successfully signed in with Google credential")
-            NotificationCenter.default.post(name: .didLogInNotification, object: nil)
+            
+            // NotificationCenter.default.post(name: .didLogInNotification, object: nil)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let mainTabBarController = storyboard.instantiateViewController(identifier: "MainTabBarController")
+            
+            // This is to get the SceneDelegate object from your view controller
+            // then call the change root view controller function to change to main tab bar
+            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mainTabBarController)
         })
     }
     

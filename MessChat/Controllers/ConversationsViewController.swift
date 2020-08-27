@@ -1,5 +1,5 @@
 //
-// ViewController.swift
+// ConversationsViewController.swift
 // MessChat
 //
 // Created by GIABAO Photography on 8/16/20.
@@ -19,10 +19,10 @@ struct Conversation {
     let id: String
     let name: String
     let otherUserEmail: String
-    let lastedMessage: LastedMessage
+    let latestMessage: LatestMessage
 }
 
-struct LastedMessage {
+struct LatestMessage {
     let date: String
     let text: String
     let isRead: Bool
@@ -52,6 +52,8 @@ class ConversationsViewController: UIViewController {
         return label
     }()
     
+    private var loginObserver: NSObjectProtocol?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose,
@@ -59,19 +61,31 @@ class ConversationsViewController: UIViewController {
                                                             action: #selector(didTapComposeButton))
         view.addSubview(tableView)
         view.addSubview(noConversationsLabel)
+        
         setupTableView()
         fetchConversations()
         startListeningForConversation()
+        loginObserver = NotificationCenter.default.addObserver(forName: .didLogInNotification, object: nil, queue: .main, using: { [weak self] _ in
+                   guard let strongSelf = self else {
+                       return
+                   }
+                   strongSelf.startListeningForConversation()
+               })
     }
     
     private func startListeningForConversation() {
         guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
             return
         }
-        
-        print("Starting conversation fetch...")
-        
+
+        if let observer = loginObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+
+        print("starting conversation fetch...")
+
         let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
+        print("\(safeEmail)")
         
         DatabaseManager.share.getAllConversations(for: safeEmail, completion: { [weak self] result in
             switch result {
@@ -85,7 +99,6 @@ class ConversationsViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
                 }
-                
             case .failure(let error):
                 print("Failed to get convos: \(error)")
             }
@@ -95,7 +108,24 @@ class ConversationsViewController: UIViewController {
     @objc func didTapComposeButton(){
         let vc = NewConversationViewController()
         vc.completion = { [weak self] result in
-            self?.createNewConversation(results: result)
+            guard let strongSelf = self else {
+                return
+            }
+            
+            let currentConversation = strongSelf.conversations
+            
+            if let targetConversation = currentConversation.first(where: {
+                $0.otherUserEmail == DatabaseManager.safeEmail(emailAddress: result.email)
+            }){
+                let vc = ChatViewController(with: targetConversation.otherUserEmail, id: targetConversation.id)
+                vc.isNewConversation = false
+                vc.title = targetConversation.name
+                vc.navigationItem.largeTitleDisplayMode = .never
+                strongSelf.navigationController?.pushViewController(vc, animated: true)
+            }
+            else {
+                strongSelf.createNewConversation(results: result)
+            }
         }
         let naVC = UINavigationController(rootViewController: vc)
         present(naVC, animated: true)
@@ -103,13 +133,32 @@ class ConversationsViewController: UIViewController {
     
     private func createNewConversation(results: SearchResult){
         let name = results.name
-        let email = results.email
+        let email = DatabaseManager.safeEmail(emailAddress: results.email)
         
-        let vc = ChatViewController(with: email, id: nil)
-        vc.isNewConversation = true 
-        vc.title = name
-        vc.navigationItem.largeTitleDisplayMode = .never
-        navigationController?.pushViewController(vc, animated: true)
+        // Check in database if conversation with these two user exists
+        // If it does, reuse conversation id
+        // Otherwise use existing code
+        
+        DatabaseManager.share.conversationExists(with: email, completion: { [weak self] result in
+            guard let strongSelf = self else {
+                return
+            }
+            switch result {
+            case .success(let conversationId):
+                let vc = ChatViewController(with: email, id: conversationId)
+                vc.isNewConversation = false
+                vc.title = name
+                vc.navigationItem.largeTitleDisplayMode = .never
+                strongSelf.navigationController?.pushViewController(vc, animated: true)
+                
+            case .failure(_):
+                let vc = ChatViewController(with: email, id: nil)
+                vc.isNewConversation = true
+                vc.title = name
+                vc.navigationItem.largeTitleDisplayMode = .never
+                strongSelf.navigationController?.pushViewController(vc, animated: true)
+            }
+        })
     }
     
     override func viewDidLayoutSubviews() {
@@ -120,12 +169,11 @@ class ConversationsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         validateAuth()
-//        welcome()
     }
     
     private func validateAuth() {
         if FirebaseAuth.Auth.auth().currentUser == nil {
-            let vc = WelcomeViewController()
+            let vc = LoginViewController()
             let nav = UINavigationController(rootViewController: vc)
             nav.modalPresentationStyle = .fullScreen
             present(nav, animated: false)
@@ -151,7 +199,7 @@ class ConversationsViewController: UIViewController {
 }
 
 extension ConversationsViewController: UITableViewDelegate, UITableViewDataSource {
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return conversations.count
     }
@@ -167,15 +215,45 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let model = conversations[indexPath.row]
-        
+        openConversation(model)
+    }
+    
+    func openConversation(_ model: Conversation) {
         let vc = ChatViewController(with: model.otherUserEmail, id: model.id)
         vc.title = model.name
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
+//        print("sss\(model.latestMessage.isRead)")
+//        print("sss\(model.latestMessage.isRead)")
+       
+//a
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let alert = UIAlertController(title: "", message: "Are you sure you want to permanently delete this conversation?", preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
+                // Begin delete
+                let conversationId = self?.conversations[indexPath.row].id
+                tableView.beginUpdates()
+                DatabaseManager.share.deleteConversation(conversationId: conversationId!, completion: { [weak self] success in
+                    if success {
+                        self?.conversations.remove(at: indexPath.row)
+                        tableView.deleteRows(at: [indexPath], with: .left)
+                    }
+                })
+                tableView.endUpdates()
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }
 

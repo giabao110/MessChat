@@ -283,7 +283,10 @@ class RegisterViewController: UIViewController {
                     }
                 })
                 
-                strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+//                strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                           let mainTabBarController = storyboard.instantiateViewController(identifier: "MainTabBarController")
+                           (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mainTabBarController)
             })
         })
     }

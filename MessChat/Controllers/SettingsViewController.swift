@@ -10,13 +10,12 @@
 // 
 // 
 
-
 import UIKit
 import FirebaseAuth
 import FBSDKLoginKit
 import GoogleSignIn
 
-class SettingsViewController: UIViewController {
+final class SettingsViewController: UIViewController {
     
     @IBOutlet weak var tableViewSet: UITableView!
     
@@ -47,43 +46,37 @@ extension SettingsViewController:UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    
+        let actionSheet = UIAlertController(title: "Sign out?",
+                                            message: "You can always access your content by signing back in",
+                                            preferredStyle: UIAlertController.Style.alert)
         
-        let actionSheet = UIAlertController(title: "",
-                                      message: "",
-                                      preferredStyle: .alert)
-        
-        actionSheet.addAction(UIAlertAction(title: "Cancel",
-                                            style: .cancel,
-                                            handler: nil))
-        
-        actionSheet.addAction(UIAlertAction(title: "Log Out",
-                                            style: .destructive,
-                                            handler: { [weak self] _ in
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Sign out", style: .destructive, handler: { _ in
             
-            guard let strongSelf = self else {
-                return
-            }
-                                                
-            // Log out Facebook
+            UserDefaults.standard.setValue(nil, forKey: "email")
+            UserDefaults.standard.setValue(nil, forKey: "name")
             
+            // LOG OUT FACEBOOK
             FBSDKLoginKit.LoginManager().logOut()
-                                                
-            // Log out Google
-
+            
+            // LOG OUT GOOGLE
             GIDSignIn.sharedInstance()?.signOut()
             
             do {
                 try FirebaseAuth.Auth.auth().signOut()
-                let vc = WelcomeViewController()
-                let nav = UINavigationController(rootViewController: vc)
-                nav.modalPresentationStyle = .fullScreen
-                strongSelf.present(nav, animated: true)
-                print("Log Out")
+                //                let vc = WelcomeViewController()
+                //                let nav = UINavigationController(rootViewController: vc)
+                //                nav.modalPresentationStyle = .fullScreen
+                //                strongSelf.present(nav, animated: true)
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let loginNavController = storyboard.instantiateViewController(identifier: "LoginNavigationController")
+                (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(loginNavController)
+                print("LOG OUT")
             }
             catch  {
-                print("Failed to Log Out")
+                print("Failed to Log Out !!!")
             }
-            
         }))
         present(actionSheet, animated: true)
     }

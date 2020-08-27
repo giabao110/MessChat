@@ -73,6 +73,8 @@ class ChatViewController: MessagesViewController {
         return formatter
     }()
     
+    private var conversations = [Conversation]()
+    
     public let otherUserEmail: String
     
     private let conversationId: String?
@@ -105,12 +107,17 @@ class ChatViewController: MessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+          messagesCollectionView.scrollToBottom(animated: true) //
+             messagesCollectionView.contentInset = UIEdgeInsets(top: 120, left: 0, bottom: 0, right: 0)
         view.backgroundColor = .red
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
         messagesCollectionView.messageCellDelegate = self
+        messagesCollectionView.messagesLayoutDelegate = self
         messageInputBar.delegate = self
+//        let member = Member(name: "bluemoon", color: .blue)
+
         setupInputButton()
     }
     
@@ -339,6 +346,12 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
                                         sentDate: Date(),
                                         kind: .text(text))
         
+        inputBar.inputTextView.text = "" //
+        messagesCollectionView.reloadData() //
+      
+   
+
+
         // Send messages
         if isNewConversation {
             // Create convers in database
@@ -363,21 +376,21 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
             // Append to existing conversation data
             DatabaseManager.share.sendMessage(to: conversationId, otherUserEmail: otherUserEmail, name: name, newMessage: mmessage, completion: { success in
                 if success {
-                    print("Messege sent...")
+                    print("Messege sent append")
                     
                 }
                 else {
-                    print("Failed to sent")
+                    print("Failed to sent append")
                 }
             })
         }
     }
+    
     private func createMessageId() -> String? {
         // Date, otherUserEmail, senderEmail, randomInt
         guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String else {
             return nil 
         }
-        
         let safeCurrentEmail = DatabaseManager.safeEmail(emailAddress: currentUserEmail)
         
         let dateString = Self.dateFormatter.string(from: Date())
@@ -392,7 +405,7 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
 extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate {
     func currentSender() -> SenderType {
         if let sender = selfSender {
-             return sender
+            return sender
         }
         fatalError("Self Sender is nil, email should be cached")
     }
@@ -400,6 +413,19 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
         return messages[indexPath.section]
     }
+    //
+    
+    func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        return isFromCurrentSender(message: message) ? .white : .darkText
+    }
+    
+    func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        return isFromCurrentSender(message: message) ?
+            UIColor(red: 69/255, green: 193/255, blue: 89/255, alpha: 1) :
+            UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+    }
+    
+    //
     
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
         return messages.count
@@ -419,6 +445,53 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
             break
         }
     }
+    func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return 35
+    }
+    
+    func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+        let date = messages[indexPath.section].sentDate
+        let df = DateFormatter()
+        df.setLocalizedDateFormatFromTemplate("MMMd , hh:mm") // set template after setting locale
+        let now = df.string(from: date)
+        return NSAttributedString(
+            string: now,
+            attributes: [
+                .font: UIFont.preferredFont(forTextStyle: .caption1),
+                .foregroundColor: UIColor(white: 0.3, alpha: 1),
+            ]
+        )
+    }
+    
+    func messageTopLabelHeight(
+        for message: MessageType,
+        at indexPath: IndexPath,
+        in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return 18
+    }
+    
+    //    func messageBottomLabelHeight(
+    //        for message: MessageType,
+    //        at indexPath: IndexPath,
+    //        in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+    //        return 15
+    //    }
+    
+    func messageTopLabelAttributedText(
+        for message: MessageType,
+        at indexPath: IndexPath) -> NSAttributedString? {
+        return NSAttributedString(
+            string: message.sender.displayName,
+            attributes: [.font: UIFont.systemFont(ofSize: 12)])
+    }
+    
+//    func messageBottomLabelAttributedText(
+//        for message: MessageType,
+//        at indexPath: IndexPath) -> NSAttributedString? {
+//        return NSAttributedString(
+//            string: message.sender.displayName,
+//            attributes: [.font: UIFont.systemFont(ofSize: 12)])
+//    }
 }
 
 extension ChatViewController: MessageCellDelegate {

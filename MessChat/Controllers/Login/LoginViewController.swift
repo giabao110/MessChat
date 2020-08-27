@@ -10,7 +10,6 @@
 // 
 // 
 
-
 import UIKit
 import FirebaseAuth
 import FBSDKLoginKit
@@ -87,6 +86,18 @@ class LoginViewController: UIViewController {
         return field
     }()
     
+//    lazy var passwordContainerView: UIView = {
+//        let field = UITextField()
+//        
+//        return field.textContainerView(view: view, #imageLiteral(resourceName: <#T##String#>), textfield: passwordField)
+//    }()
+//    
+//    lazy var passwordField: UITextField = {
+//        let field = UITextField()
+//        
+//        return field.textField(withPlaceholder: "Password", isSecureTextEntry: true)
+//    }()
+    
     private let loginButton: UIButton = {
         let button = UIButton()
         button.setTitle("Log In", for: .normal)
@@ -152,14 +163,12 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loginObserver = NotificationCenter.default.addObserver(forName: .didLogInNotification,
-                                                               object: nil,
-                                                               queue: .main,
-                                                               using: { [weak self] _ in
-                                                                guard let strongSelf = self else {
-                                                                    return
-                                                                }
-                                                                strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+        loginObserver = NotificationCenter.default.addObserver(forName: .didLogInNotification, object: nil, queue: .main, using: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.navigationController?.dismiss(animated: true, completion: nil)
         })
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
@@ -207,6 +216,8 @@ class LoginViewController: UIViewController {
         scrollView.frame = view.bounds
         
         let size = view.width/6
+        let sizes = view.width/2
+        print("\(sizes)")
         imageView.frame = CGRect(x: (scrollView.width-size)/2,
                                  y: 10,
                                  width: size,
@@ -218,7 +229,7 @@ class LoginViewController: UIViewController {
                                   height: 80)
         
         emailField.frame = CGRect(x: 30,
-                                  y: imageTitleView.bottom+60,
+                                  y: imageTitleView.bottom+30,
                                   width: scrollView.width-60,
                                   height: 52)
         
@@ -233,7 +244,7 @@ class LoginViewController: UIViewController {
                                    height: 52)
         
         facebookLoginButton.frame = CGRect(x: 100,
-                                           y: loginButton.bottom+200,
+                                           y: loginButton.bottom+sizes,
                                            width: scrollView.width-200,
                                            height: 52)
         
@@ -285,7 +296,6 @@ class LoginViewController: UIViewController {
             }
             
             let user = result!.user
-            print("Logged In User: \(user)")
             
             let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
             DatabaseManager.share.getDataFor(path: safeEmail, completion: { result in
@@ -303,10 +313,13 @@ class LoginViewController: UIViewController {
             })
             
             UserDefaults.standard.set(email, forKey: "email")
+            print("Logged In User: \(user)")
             
-            strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+            // strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let mainTabBarController = storyboard.instantiateViewController(identifier: "MainTabBarController")
+            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mainTabBarController)
         })
-        
     }
     
     func alertUserLoginError() {
@@ -429,6 +442,10 @@ extension LoginViewController: LoginButtonDelegate {
                     return
                 }
                 
+                DispatchQueue.main.async {
+                    strongSelf.spinner.dismiss()
+                }
+                
                 guard authResult != nil, error == nil else{
                     if let error = error {
                         print("Facebook credential login failed, MFA may be needed : \(error)")
@@ -436,7 +453,13 @@ extension LoginViewController: LoginButtonDelegate {
                     return
                 }
                 print("Successfully logged user in")
-                strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+                // strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let mainTabBarController = storyboard.instantiateViewController(identifier: "MainTabBarController")
+                
+                // This is to get the SceneDelegate object from your view controller
+                // then call the change root view controller function to change to main tab bar
+                (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mainTabBarController)
             })
         })
     }
