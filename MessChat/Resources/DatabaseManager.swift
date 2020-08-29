@@ -14,6 +14,7 @@
 import Foundation
 import FirebaseDatabase
 import MessageKit
+import CoreLocation
 
 final class DatabaseManager {
     
@@ -413,7 +414,7 @@ extension DatabaseManager {
             
             let messages: [Message] = value.compactMap({ dictionary in
                 guard let name = dictionary["name"] as? String,
-                    let isRead = dictionary["is_read"] as? Bool,
+                    let _ = dictionary["is_read"] as? Bool,
                     let messageID = dictionary["id"] as? String,
                     let content = dictionary["content"] as? String,
                     let senderEmail = dictionary["sender_email"] as? String,
@@ -444,9 +445,19 @@ extension DatabaseManager {
                     let media = Media(url: videoUrl,
                                       image: nil,
                                       placeholderImage: placeHolder,
-                                      size: CGSize(width: 200, height: 200))
+                                      size: CGSize(width: 300, height: 200))
                     kind = .video(media)
                 }
+                    
+                else if type == "location" {
+                    let locationComponents = content.components(separatedBy: ",")
+                    guard let longtitude = Double(locationComponents[0]), let latitude = Double(locationComponents[1]) else {
+                        return nil
+                    }
+                    let location = Location(location: CLLocation(latitude: latitude, longitude: longtitude), size: CGSize(width: 200, height: 200))
+                    kind = .location(location)
+                }
+                    
                 else {
                     kind = .text(content)
                 }
@@ -514,7 +525,9 @@ extension DatabaseManager {
                     message = targetUrlString
                 }
                 break
-            case .location(_):
+            case .location(let locationData):
+                let location = locationData.location
+                message = ("\(location.coordinate.longitude),\(location.coordinate.latitude)")
                 break
             case .emoji(_):
                 break
@@ -525,7 +538,7 @@ extension DatabaseManager {
             case .custom(_):
                 break
             }
-            //
+            
             guard let myEmail = UserDefaults.standard.value(forKey: "email") as? String else {
                 completion(false)
                 return
@@ -554,7 +567,7 @@ extension DatabaseManager {
                     var databaseEntryConversations = [[String: Any]]()
                     let updateValue: [String: Any] = [
                                    "date": dateString,
-                                   "is_read": false,
+                                   "is_read": true,
                                    "message": message,
                                ]
                     if var currentUserConversations = snapshot.value as? [[String: Any]] {
@@ -740,24 +753,11 @@ extension DatabaseManager {
         })
     }
     
-//    public func isRead(with isRead: [String: Any], completion: @escaping (Bool) -> Void) {
-////        let abc:Bool = isRead
-////        guard let isReadChage = UserDefaults.standard.value(forKey: abc) as? Bool else {
-////             return
-////         }
-//
-//        print("\(isRead)")
-//        completion(true)
-//
-////
-////
-////        database.child("\()").setValue(isRead == true) { error, _ in
-////            guard error == nil else {
-////                completion(false)
-////                return
-////            }
-////        }
-//    }
+    public func isRead(with safeEmail: String, conversationId: String) {
+
+        database.child("\(safeEmail)/conversations/0/latest_message").updateChildValues(["is_read": true])
+      
+    }
 }
 
 struct ChatAppUser {

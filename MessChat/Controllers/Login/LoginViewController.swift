@@ -33,7 +33,7 @@ class LoginViewController: UIViewController {
         imageView.image = UIImage(named: "logo")
         imageView.contentMode = .scaleAspectFit
         imageView.layer.masksToBounds = true
-        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.cornerRadius = imageView.width / 2
         return imageView
     }()
     
@@ -41,7 +41,6 @@ class LoginViewController: UIViewController {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "messchatlogo")
         imageView.contentMode = .scaleAspectFit
-        imageView.layer.borderColor = UIColor.white.cgColor
         return imageView
     }()
     
@@ -339,7 +338,6 @@ class LoginViewController: UIViewController {
         let vc = RegisterViewController()
         vc.title = "Create Accout"
         navigationController?.pushViewController(vc, animated: true)
-        
     }
 }
 

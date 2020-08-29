@@ -13,17 +13,21 @@
 
 import UIKit
 import FirebaseAuth
+import SDWebImage
 
 class ProfileViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-
-    let data = ["Log Out"]
-
+    
+    var data = [ProfileViewModel]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(UITableViewCell.self,
-                           forCellReuseIdentifier: "cell")
+        tableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: ProfileTableViewCell.indentifier)
+        data.append(ProfileViewModel(viewModelType: .info,
+                                     title: "Name: \(UserDefaults.standard.value(forKey: "name") as? String ?? "No Name")", handler: nil))
+        data.append(ProfileViewModel(viewModelType: .info,
+                                     title: "Email: \(UserDefaults.standard.value(forKey: "email") as? String ?? "No Email")", handler: nil))
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableHeaderView = createTableHeader()
@@ -54,82 +58,53 @@ class ProfileViewController: UIViewController {
         imageView.layer.borderColor = UIColor.white.cgColor
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 3
-        imageView.backgroundColor = .white
+        imageView.backgroundColor = .secondarySystemBackground
         imageView.layer.cornerRadius = imageView.width/2 
         headerView.addSubview(imageView)
         
-        StorageManager.share.downloadURL(for: path, completion: { [weak self] result in
+        StorageManager.share.downloadURL(for: path, completion: {result in
             switch result {
             case .success(let url):
-                self?.downloadImage(imageView: imageView, url: url)
-                
+               imageView.sd_setImage(with: url, completed: nil)
             case .failure(let error):
                 print("Fail to get download url: \(error)")
             }
         })
         return headerView
     }
-    func downloadImage(imageView: UIImageView, url: URL) {
-        URLSession.shared.dataTask(with: url, completionHandler: { data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
-            DispatchQueue.main.async {
-                let image = UIImage(data: data)
-                imageView.image = image
-            }
-            }).resume()
-    }
 }
 
-extension ProfileViewController:UITableViewDelegate, UITableViewDataSource {
+extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = data[indexPath.row]
-        cell.textLabel?.textAlignment = .center
-        cell.textLabel?.textColor = .red
+        let viewModel = data[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: ProfileTableViewCell.indentifier, for: indexPath) as! ProfileTableViewCell
+        cell.setUp(with: viewModel)
         return cell
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-
-        let actionSheet = UIAlertController(title: "",
-                                      message: "",
-                                      preferredStyle: .alert)
-
-        actionSheet.addAction(UIAlertAction(title: "Cancel",
-                                            style: .cancel,
-                                            handler: nil))
-
-        actionSheet.addAction(UIAlertAction(title: "Log Out",
-                                            style: .destructive,
-                                            handler: { [weak self] _ in
-
-            guard let strongSelf = self else {
-                return
-            }
-
-            do {
-                try FirebaseAuth.Auth.auth().signOut()
-                let vc = WelcomeViewController()
-//                let vc = LoginViewController()
-                let nav = UINavigationController(rootViewController: vc)
-                nav.modalPresentationStyle = .fullScreen
-                strongSelf.present(nav, animated: true)
-                print("log out")
-            }
-            catch  {
-                print("Failed to Log Out")
-            }
-
-        }))
-
-        present(actionSheet, animated: true)
+        data[indexPath.row].handler?()
     }
+}
 
+class ProfileTableViewCell: UITableViewCell {
+    
+    static var indentifier = "ProfileTableViewCell"
+    
+    public func setUp(with viewModel: ProfileViewModel) {
+        self.textLabel?.text = viewModel.title
+        switch viewModel.viewModelType {
+        case .info:
+            self.textLabel?.textAlignment = .center
+            self.selectionStyle = .none
+            self.textLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
+        case .logout:
+            self.textLabel?.textAlignment = .center
+        }
+    }
 }

@@ -67,9 +67,9 @@ open class BubbleTabBar: UITabBar {
     private var csContainerBottom: NSLayoutConstraint!
     
     private func configure() {
-        backgroundColor = UIColor.white
+        backgroundColor = UIColor.systemBackground
         isTranslucent = false
-        barTintColor = UIColor.white
+        barTintColor = UIColor.systemBackground
         tintColor = #colorLiteral(red: 0.4056133926, green: 0.3682804406, blue: 0.9917752147, alpha: 1)
         addSubview(container)
         container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true

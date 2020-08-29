@@ -56,6 +56,10 @@ class ConversationsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+      
+        navigationItem.rightBarButtonItem?.setTitlePositionAdjustment(.init(horizontal: 10, vertical: 20), for: UIBarMetrics.default)
+
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose,
                                                             target: self,
                                                             action: #selector(didTapComposeButton))
@@ -169,11 +173,15 @@ class ConversationsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         validateAuth()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+        print("Reload")
     }
     
     private func validateAuth() {
         if FirebaseAuth.Auth.auth().currentUser == nil {
-            let vc = LoginViewController()
+            let vc = WelcomeViewController()
             let nav = UINavigationController(rootViewController: vc)
             nav.modalPresentationStyle = .fullScreen
             present(nav, animated: false)
@@ -223,10 +231,16 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
         vc.title = model.name
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
-//        print("sss\(model.latestMessage.isRead)")
-//        print("sss\(model.latestMessage.isRead)")
-       
-//a
+        
+        guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
+            return
+        }
+        
+        let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
+//
+        
+        DatabaseManager.share.isRead(with: safeEmail, conversationId: model.id)
+        print("aaaaaaa\(model.latestMessage.isRead)")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

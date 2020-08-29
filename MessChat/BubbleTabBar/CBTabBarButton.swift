@@ -92,7 +92,7 @@ public class CBTabBarButton: UIControl {
     private var tabLabel = UILabel()
     private var tabBg = UIView()
 
-    private let bgHeight: CGFloat = 42.0
+    private let bgHeight: CGFloat = 40.0
     private var csFoldedBgTrailing: NSLayoutConstraint!
     private var csUnfoldedBgTrailing: NSLayoutConstraint!
     private var csFoldedLblLeading: NSLayoutConstraint!

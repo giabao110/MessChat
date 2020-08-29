@@ -17,6 +17,7 @@ import InputBarAccessoryView
 import SDWebImage
 import AVFoundation
 import AVKit
+import CoreLocation
 
 struct Message: MessageType {
     public var sender: SenderType
@@ -60,6 +61,11 @@ struct Media: MediaItem {
     var url: URL?
     var image: UIImage?
     var placeholderImage: UIImage
+    var size: CGSize
+}
+
+struct Location: LocationItem {
+    var location: CLLocation
     var size: CGSize
 }
 
@@ -107,22 +113,35 @@ class ChatViewController: MessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-          messagesCollectionView.scrollToBottom(animated: true) //
-             messagesCollectionView.contentInset = UIEdgeInsets(top: 120, left: 0, bottom: 0, right: 0)
-        view.backgroundColor = .red
+//        //
+     
+//        let containView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+//                       let imageview = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+//                       imageview.image = UIImage(systemName: "circle.fill")
+//        imageview.contentMode = UIView.ContentMode.scaleAspectFit
+//                       imageview.layer.cornerRadius = 20
+//                       imageview.layer.masksToBounds = true
+//                       containView.addSubview(imageview)
+//                       let rightBarButton = UIBarButtonItem(customView: containView)
+//        self.navigationItem.center = rightBarButton
+//        //
+        messagesCollectionView.scrollToBottom(animated: true) //
+        messagesCollectionView.contentInset = UIEdgeInsets(top: 120, left: 0, bottom: 0, right: 0)
+        
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
         messagesCollectionView.messageCellDelegate = self
         messagesCollectionView.messagesLayoutDelegate = self
         messageInputBar.delegate = self
-//        let member = Member(name: "bluemoon", color: .blue)
-
         setupInputButton()
+
     }
+    
     
     private func setupInputButton() {
         let button = InputBarButtonItem()
+        button.backgroundColor = .systemBackground
         button.setSize(CGSize(width: 35, height: 35), animated: false)
         button.setImage(UIImage(systemName: "paperclip"), for: .normal)
         button.onTouchUpInside({ [weak self] _ in
@@ -143,11 +162,53 @@ class ChatViewController: MessagesViewController {
         actionSheet.addAction(UIAlertAction(title: "Video", style: .default, handler: { [weak self] _ in
             self?.presetVideoInputActionSheet()
         }))
+        actionSheet.addAction(UIAlertAction(title: "Location", style: .default, handler: {[weak self] _ in
+            self?.presentLocationPicker()
+        }))
         actionSheet.addAction(UIAlertAction(title: "Audio", style: .default, handler: { _ in
             
         }))
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(actionSheet, animated: true)
+    }
+    private func presentLocationPicker() {
+        let vc = LocationPickerViewController(coordinates: nil)
+        vc.title = "Pick Location"
+        vc.navigationItem.largeTitleDisplayMode = .never
+        vc.completion = { [weak self] selectedCoorindates in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
+            guard let messageId = strongSelf.createMessageId(),
+                let conversationId = strongSelf.conversationId,
+                let name = strongSelf.title,
+                let selfSender = strongSelf.selfSender else {
+                    return
+            }
+            
+            let longitude: Double = selectedCoorindates.longitude
+            let latitude: Double = selectedCoorindates.latitude
+            
+            let location = Location(location: CLLocation(latitude: latitude, longitude: longitude), size: .zero)
+            
+            let message = Message(sender: selfSender,
+                                  messageId: messageId,
+                                  sentDate: Date(),
+                                  kind: .location(location))
+            
+            DatabaseManager.share.sendMessage(to: conversationId, otherUserEmail: strongSelf.otherUserEmail, name: name, newMessage: message, completion: { success in
+                if success {
+                    print("Sent location message")
+                }
+                else {
+                    print("Fail to send location message")
+                }
+            })
+            
+        }
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func presetPhotoInputActionSheet() {
@@ -348,9 +409,6 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         
         inputBar.inputTextView.text = "" //
         messagesCollectionView.reloadData() //
-      
-   
-
 
         // Send messages
         if isNewConversation {
@@ -495,16 +553,31 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
 }
 
 extension ChatViewController: MessageCellDelegate {
-    func didTapImage(in cell: MessageCollectionViewCell) {
+    func didTapMessage(in cell: MessageCollectionViewCell) {
         guard let indexPath = messagesCollectionView.indexPath(for: cell) else {
             return
         }
         let message = messages[indexPath.section]
         switch message.kind {
-        case .photo(let media):
-            guard let imageUrl = media.url else {
+        case .location(let locationData):
+            let coordinates = locationData.location.coordinate
+            let vc = LocationPickerViewController(coordinates: coordinates)
+            vc.title = "Location"
+            self.navigationController?.pushViewController(vc, animated: true)
+        default:
+            break
+        }
+    }
+        func didTapImage(in cell: MessageCollectionViewCell) {
+            guard let indexPath = messagesCollectionView.indexPath(for: cell) else {
                 return
             }
+            let message = messages[indexPath.section]
+            switch message.kind {
+            case .photo(let media):
+                guard let imageUrl = media.url else {
+                    return
+                }
             let vc = PhotoViewerViewController(with: imageUrl)
             self.navigationController?.pushViewController(vc, animated: true)
             
@@ -518,5 +591,28 @@ extension ChatViewController: MessageCellDelegate {
         default:
             break
         }
+    }
+}
+
+extension UIViewController {
+
+    func addLogoToNavigationBarItem() {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(systemName: "circle.fill")
+        //imageView.backgroundColor = .lightGray
+
+        // In order to center the title view image no matter what buttons there are, do not set the
+        // image view as title view, because it doesn't work. If there is only one button, the image
+        // will not be aligned. Instead, a content view is set as title view, then the image view is
+        // added as child of the content view. Finally, using constraints the image view is aligned
+        // inside its parent.
+        let contentView = UIView()
+        self.navigationItem.titleView = contentView
+        self.navigationItem.titleView?.addSubview(imageView)
+        imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
     }
 }

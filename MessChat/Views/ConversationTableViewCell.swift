@@ -21,20 +21,28 @@ class ConversationTableViewCell: UITableViewCell {
     private let userImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 50
+        imageView.layer.cornerRadius = 40
         imageView.layer.masksToBounds = true
+        return imageView
+    }()
+    
+    private let iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(systemName: "circle.fill")
+        imageView.isHidden = true
         return imageView
     }()
     
     private let userNameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 21, weight: .semibold)
+        label.font = .systemFont(ofSize: 20, weight: .semibold)
         return label
     }()
     
     private let userMessageLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 19, weight: .regular)
+        label.font = .systemFont(ofSize: 18, weight: .regular)
         label.numberOfLines = 0
         return label
     }()
@@ -44,18 +52,7 @@ class ConversationTableViewCell: UITableViewCell {
         contentView.addSubview(userImageView)
         contentView.addSubview(userNameLabel)
         contentView.addSubview(userMessageLabel)
-        contentView.backgroundColor = .white
-        
-        contentView.layer.cornerRadius = 10.0
-        
-        contentView.layer.shadowColor = UIColor.gray.cgColor
-        
-        contentView.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
-        
-        contentView.layer.shadowRadius = 6.0
-        
-        contentView.layer.shadowOpacity = 0.7
-        contentView.layer.masksToBounds = true
+        contentView.addSubview(iconImageView)
     }
     
     required init?(coder: NSCoder) {
@@ -67,25 +64,41 @@ class ConversationTableViewCell: UITableViewCell {
         
         userImageView.frame = CGRect(x: 10,
                                      y: 10,
-                                     width: 100,
-                                     height: 100)
+                                     width: 80,
+                                     height: 80)
         
-        userNameLabel.frame = CGRect(x: userImageView.right + 10,
-                                     y: 10,
-                                     width: contentView.width - 20 - userImageView.width,
-                                     height: (contentView.height - 20)/2)
+        userNameLabel.frame = CGRect(x: userImageView.right + 12,
+                                     y: 15,
+                                     width: contentView.width - 40 - userImageView.width,
+                                     height: (contentView.height - 40)/2)
         
-        userMessageLabel.frame = CGRect(x: userImageView.right + 10,
-                                        y: userNameLabel.bottom + 10,
-                                        width: contentView.width - 20 - userImageView.width,
+        userMessageLabel.frame = CGRect(x: userImageView.right + 12,
+                                        y: userNameLabel.bottom + 0 ,
+                                        width: contentView.width - 70 - userImageView.width,
                                         height: (contentView.height - 20)/2)
+        
+        iconImageView.frame = CGRect(x: userMessageLabel.right + 12,
+                                     y: contentView.height / 2 ,
+                                     width: 10,
+                                     height: 10)
     }
     
     public func configure(with model: Conversation) {
         
-        
-        self.userMessageLabel.text = model.latestMessage.text
         self.userNameLabel.text = model.name
+        
+        if model.latestMessage.isRead == false {
+            self.userMessageLabel.font = .systemFont(ofSize: 18, weight: .semibold)
+            self.userMessageLabel.textColor = .black
+            self.userMessageLabel.text = model.latestMessage.text
+            self.iconImageView.isHidden = false
+        }
+        else
+        {
+            self.userMessageLabel.text = model.latestMessage.text
+            self.userMessageLabel.textColor = .lightGray
+            self.iconImageView.isHidden = true
+        }
         
         let path = "images/\(model.otherUserEmail)_profile_picture.png"
         StorageManager.share.downloadURL(for: path, completion: { [weak self] result in

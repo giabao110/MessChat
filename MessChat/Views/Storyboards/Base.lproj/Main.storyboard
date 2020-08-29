@@ -50,10 +50,10 @@
             </objects>
             <point key="canvasLocation" x="-2244" y="-1276.0119940029986"/>
         </scene>
-        <!--Login View Controller-->
+        <!--Welcome View Controller-->
         <scene sceneID="kWQ-cv-Tfg">
             <objects>
-                <viewController id="ivS-HP-fgu" customClass="LoginViewController" customModule="MessChat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ivS-HP-fgu" customClass="WelcomeViewController" customModule="MessChat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vzK-s0-pkc"/>
                         <viewControllerLayoutGuide type="bottom" id="SS2-ja-kgP"/>
@@ -81,7 +81,6 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="rNX-F9-gnD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -92,10 +91,10 @@
             </objects>
             <point key="canvasLocation" x="948" y="-845.1274362818591"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Bubble Tab Bar Controller-->
         <scene sceneID="U47-iY-dGq">
             <objects>
-                <tabBarController storyboardIdentifier="MainTabBarController" id="0ph-je-VLT" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainTabBarController" id="0ph-je-VLT" customClass="BubbleTabBarController" customModule="MessChat" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="gkt-Pi-bCS"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="45v-0l-Xxu">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>

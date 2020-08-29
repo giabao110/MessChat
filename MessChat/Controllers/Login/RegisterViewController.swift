@@ -242,8 +242,8 @@ class RegisterViewController: UIViewController {
             }
             
             DispatchQueue.main.async {
-                        strongSelf.spinner.dismiss()
-                    }
+                strongSelf.spinner.dismiss()
+            }
             
             guard !exists else{
                 // user already exists

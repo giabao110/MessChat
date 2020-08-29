@@ -45,7 +45,7 @@ class NewConversationViewController: UIViewController {
         label.isHidden = true
         label.text = "No Results"
         label.textAlignment = .center
-        label.textColor = .red
+        label.textColor = .gray
         label.font = .systemFont(ofSize: 21, weight: .medium)
         return label
     }()
@@ -60,7 +60,7 @@ class NewConversationViewController: UIViewController {
         
         searchBar.delegate = self
         
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         navigationController?.navigationBar.topItem?.titleView = searchBar
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel",
                                                             style: .done,
