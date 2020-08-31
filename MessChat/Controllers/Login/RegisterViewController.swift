@@ -257,6 +257,9 @@ class RegisterViewController: UIViewController {
                     return
                 }
                 
+                UserDefaults.standard.setValue(email, forKey: "email")
+                UserDefaults.standard.setValue("\(firstname) \(lastname)", forKey: "name")
+                
                 let chatUser = ChatAppUser(firstName: firstname,
                                            lastName: lastname,
                                            emailAddress: email)
@@ -269,24 +272,22 @@ class RegisterViewController: UIViewController {
                                 return
                         }
                         let fileName = chatUser.ProfilePictureFileName
-                        StorageManager.share.uploadProfilePicture(with: data,
-                                                                  fileName: fileName,
-                                                                  completion: { result in
-                        switch result {
-                        case .success(let downloadUrl):
-                            UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
-                            print(downloadUrl)
-                        case .failure(let error):
-                            print("Storage manager error: \(error)")
-                        }
+                        StorageManager.share.uploadProfilePicture(with: data, fileName: fileName, completion: { result in
+                            switch result {
+                            case .success(let downloadUrl):
+                                UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
+                                print(downloadUrl)
+                            case .failure(let error):
+                                print("Storage manager error: \(error)")
+                            }
                         })
                     }
                 })
                 
-//                strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+                //  strongSelf.navigationController?.dismiss(animated: true, completion: nil)
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                           let mainTabBarController = storyboard.instantiateViewController(identifier: "MainTabBarController")
-                           (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mainTabBarController)
+                let mainTabBarController = storyboard.instantiateViewController(identifier: "MainTabBarController")
+                (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mainTabBarController)
             })
         })
     }

@@ -14,6 +14,8 @@ PODS:
     - FBSDKLoginKit/Login (= 7.1.1)
   - FBSDKLoginKit/Login (7.1.1):
     - FBSDKCoreKit (~> 7.1.1)
+  - Firebase/Analytics (6.31.0):
+    - Firebase/Core
   - Firebase/Auth (6.31.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.9.0)
@@ -22,6 +24,9 @@ PODS:
     - FirebaseAnalytics (= 6.8.0)
   - Firebase/CoreOnly (6.31.0):
     - FirebaseCore (= 6.10.1)
+  - Firebase/Crashlytics (6.31.0):
+    - Firebase/CoreOnly
+    - FirebaseCrashlytics (~> 4.5.0)
   - Firebase/Database (6.31.0):
     - Firebase/CoreOnly
     - FirebaseDatabase (~> 6.5.0)
@@ -51,6 +56,12 @@ PODS:
     - GoogleUtilities/Environment (~> 6.7)
     - GoogleUtilities/Logger (~> 6.7)
     - nanopb (~> 1.30906.0)
+  - FirebaseCrashlytics (4.5.0):
+    - FirebaseCore (~> 6.10)
+    - FirebaseInstallations (~> 1.6)
+    - GoogleDataTransport (~> 7.2)
+    - nanopb (~> 1.30906.0)
+    - PromisesObjC (~> 1.2)
   - FirebaseDatabase (6.5.0):
     - FirebaseCore (~> 6.10)
     - leveldb-library (~> 1.22)
@@ -101,14 +112,49 @@ PODS:
   - GTMSessionFetcher/Core (1.4.0)
   - GTMSessionFetcher/Full (1.4.0):
     - GTMSessionFetcher/Core (= 1.4.0)
-  - InputBarAccessoryView (4.3.3):
-    - InputBarAccessoryView/Core (= 4.3.3)
-  - InputBarAccessoryView/Core (4.3.3)
+  - InputBarAccessoryView (5.0.0):
+    - InputBarAccessoryView/Core (= 5.0.0)
+  - InputBarAccessoryView/Core (5.0.0)
   - JGProgressHUD (2.1)
   - leveldb-library (1.22)
-  - lottie-ios (3.1.8)
-  - MessageKit (3.1.0):
-    - InputBarAccessoryView (~> 4.3.0)
+  - MaterialComponents/AnimationTiming (113.2.0)
+  - MaterialComponents/Availability (113.2.0)
+  - MaterialComponents/Cards (113.2.0):
+    - MaterialComponents/Elevation
+    - MaterialComponents/Ink
+    - MaterialComponents/private/Icons/ic_check_circle
+    - MaterialComponents/private/Math
+    - MaterialComponents/Ripple
+    - MaterialComponents/ShadowLayer
+    - MaterialComponents/Shapes
+  - MaterialComponents/Elevation (113.2.0):
+    - MaterialComponents/Availability
+    - MaterialComponents/private/Color
+    - MaterialComponents/private/Math
+  - MaterialComponents/Ink (113.2.0):
+    - MaterialComponents/Availability
+    - MaterialComponents/private/Color
+    - MaterialComponents/private/Math
+  - MaterialComponents/private/Color (113.2.0):
+    - MaterialComponents/Availability
+  - MaterialComponents/private/Icons/Base (113.2.0)
+  - MaterialComponents/private/Icons/ic_check_circle (113.2.0):
+    - MaterialComponents/private/Icons/Base
+  - MaterialComponents/private/Math (113.2.0)
+  - MaterialComponents/Ripple (113.2.0):
+    - MaterialComponents/AnimationTiming
+    - MaterialComponents/Availability
+    - MaterialComponents/private/Color
+    - MaterialComponents/private/Math
+  - MaterialComponents/ShadowElevations (113.2.0)
+  - MaterialComponents/ShadowLayer (113.2.0):
+    - MaterialComponents/ShadowElevations
+  - MaterialComponents/Shapes (113.2.0):
+    - MaterialComponents/private/Color
+    - MaterialComponents/private/Math
+    - MaterialComponents/ShadowLayer
+  - MessageKit (3.2.0):
+    - InputBarAccessoryView (~> 5.0.0)
   - nanopb (1.30906.0):
     - nanopb/decode (= 1.30906.0)
     - nanopb/encode (= 1.30906.0)
@@ -116,27 +162,23 @@ PODS:
   - nanopb/encode (1.30906.0)
   - PromisesObjC (1.2.10)
   - RAGTextField (0.14.0)
-  - Realm (5.3.5):
-    - Realm/Headers (= 5.3.5)
-  - Realm/Headers (5.3.5)
-  - RealmSwift (5.3.5):
-    - Realm (= 5.3.5)
-  - SDWebImage (5.8.4):
-    - SDWebImage/Core (= 5.8.4)
-  - SDWebImage/Core (5.8.4)
+  - SDWebImage (5.9.0):
+    - SDWebImage/Core (= 5.9.0)
+  - SDWebImage/Core (5.9.0)
 
 DEPENDENCIES:
   - FBSDKLoginKit
+  - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Core
+  - Firebase/Crashlytics
   - Firebase/Database
   - Firebase/Storage
   - GoogleSignIn
   - JGProgressHUD
-  - lottie-ios
+  - MaterialComponents/Cards
   - MessageKit
   - RAGTextField
-  - RealmSwift
   - SDWebImage
 
 SPEC REPOS:
@@ -149,6 +191,7 @@ SPEC REPOS:
     - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreDiagnostics
+    - FirebaseCrashlytics
     - FirebaseDatabase
     - FirebaseInstallations
     - FirebaseStorage
@@ -161,13 +204,11 @@ SPEC REPOS:
     - InputBarAccessoryView
     - JGProgressHUD
     - leveldb-library
-    - lottie-ios
+    - MaterialComponents
     - MessageKit
     - nanopb
     - PromisesObjC
     - RAGTextField
-    - Realm
-    - RealmSwift
     - SDWebImage
 
 SPEC CHECKSUMS:
@@ -179,6 +220,7 @@ SPEC CHECKSUMS:
   FirebaseAuth: 09f086fae98643f1ef235674cf3ae171ce26f5ba
   FirebaseCore: 6fb954e350af0885803d5aa49865d15d9a6b264c
   FirebaseCoreDiagnostics: 7415bfb3883b3500c5a95c42b6ba66baae78f600
+  FirebaseCrashlytics: d2a350ec7fd4a332031b906b0802a7a73697630b
   FirebaseDatabase: d85b47213273708e48c972012b39105f76229588
   FirebaseInstallations: 466c7b4d1f58fe16707693091da253726a731ed2
   FirebaseStorage: 33b92875a9b556824886cc7a65120c7d2cb3a8d8
@@ -188,18 +230,16 @@ SPEC CHECKSUMS:
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
-  InputBarAccessoryView: 8e7fc09e9cba75e0fee5da13450e15c194806f69
+  InputBarAccessoryView: cbc0b2d9456058e1166898897865f9f4960fac81
   JGProgressHUD: aa403e9a5b45cae98903c4600cccdd98c0c3ec90
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
-  lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
-  MessageKit: 3beb578737a5aa2bba25cc27c7b6d6faa09af5a7
+  MaterialComponents: 5124df1e5a48f6ae004f8698ad9aa1ce419f6d77
+  MessageKit: 788199a27809d677ec35f9c6e7797e9f6fa538c5
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
   RAGTextField: ebeab17ae88ce880a85601af33edc2879fa53813
-  Realm: 2b52fcc86fc0ed3d75a56ac0eb1e73c4f1a60e16
-  RealmSwift: a6ea2ea561039fc3833c08dec81371a9a3bb5ca6
-  SDWebImage: cf6922231e95550934da2ada0f20f2becf2ceba9
+  SDWebImage: 62ae4a18473520c67b79e9724c31a63599cc9423
 
-PODFILE CHECKSUM: b8da5693b93dae0f70ababbcc61e245b51fcdb1f
+PODFILE CHECKSUM: 46a814a9f9d2c9c3f1b520e67dd02f836b865d34
 
 COCOAPODS: 1.9.3

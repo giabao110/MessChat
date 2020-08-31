@@ -13,24 +13,10 @@
 
 import UIKit
 import FirebaseAuth
-import Lottie
 
 
 class WelcomeViewController: UIViewController {
-    
-    private let animationView: AnimationView = {
-        let animation = AnimationView()
-        
-        animation.animation = Animation.named("test")
-        animation.contentMode = .scaleToFill
-        animation.loopMode = .loop
-        animation.play()
-        
-        return animation
-    }()
-        
-    
-    
+
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.clipsToBounds = true
@@ -89,6 +75,7 @@ class WelcomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         navigationController?.hideNavigationItemBackground() 
         view.backgroundColor = .white
 
@@ -108,12 +95,10 @@ class WelcomeViewController: UIViewController {
         view.addSubview(textViewDes)
         view.addSubview(loginButton)
         view.addSubview(registerButton)
-        //        view.addSubview(animationView)
         imageView.frame = CGRect(x: 0,
                                  y: 0,
                                  width: 100,
                                  height: 100)
-        animationView.center = view.center
     }
     
     override func viewDidLayoutSubviews() {

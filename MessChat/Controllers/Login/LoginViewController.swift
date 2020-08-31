@@ -203,6 +203,7 @@ class LoginViewController: UIViewController {
         scrollView.addSubview(facebookLoginButton)
         scrollView.addSubview(googleLoginButton)
     }
+ 
     
     deinit {
         if let observer = loginObserver {

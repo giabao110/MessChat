@@ -10,6 +10,8 @@ pod 'Firebase/Core'
 pod 'Firebase/Auth'
 pod 'Firebase/Database'
 pod 'Firebase/Storage'
+pod 'Firebase/Crashlytics'
+pod 'Firebase/Analytics'
 
 #Facebook
 pod 'FBSDKLoginKit'
@@ -17,14 +19,12 @@ pod 'FBSDKLoginKit'
 #Google 
 pod "GoogleSignIn"
 
-pod 'lottie-ios'
-
 pod "RAGTextField"
 
 pod "MessageKit"
 pod 'JGProgressHUD'
-pod "RealmSwift"
 pod "SDWebImage"
 
+pod "MaterialComponents/Cards"
 
 end

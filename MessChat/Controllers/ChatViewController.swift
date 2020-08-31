@@ -47,6 +47,8 @@ extension MessageKind {
             return "contact"
         case .custom(_):
             return "custom"
+        case .linkPreview(_):
+            return "linkPreview"
         }
     }
 }
@@ -71,6 +73,10 @@ struct Location: LocationItem {
 
 class ChatViewController: MessagesViewController {
     
+    private var senderPhotoURL: URL?
+    
+    private var otherPhotoURL: URL?
+    
     public static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -83,7 +89,7 @@ class ChatViewController: MessagesViewController {
     
     public let otherUserEmail: String
     
-    private let conversationId: String?
+    private var conversationId: String?
     
     public var isNewConversation = false
     
@@ -113,8 +119,7 @@ class ChatViewController: MessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        //
-     
+//
 //        let containView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
 //                       let imageview = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
 //                       imageview.image = UIImage(systemName: "circle.fill")
@@ -123,10 +128,7 @@ class ChatViewController: MessagesViewController {
 //                       imageview.layer.masksToBounds = true
 //                       containView.addSubview(imageview)
 //                       let rightBarButton = UIBarButtonItem(customView: containView)
-//        self.navigationItem.center = rightBarButton
-//        //
-        messagesCollectionView.scrollToBottom(animated: true) //
-        messagesCollectionView.contentInset = UIEdgeInsets(top: 120, left: 0, bottom: 0, right: 0)
+//        self.navigationItem.rightBarButtonItem = rightBarButton
         
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
@@ -135,9 +137,8 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.messagesLayoutDelegate = self
         messageInputBar.delegate = self
         setupInputButton()
-
+        messagesCollectionView.contentInset = UIEdgeInsets(top: 120, left: 0, bottom: 0, right: 0) //
     }
-    
     
     private func setupInputButton() {
         let button = InputBarButtonItem()
@@ -171,6 +172,7 @@ class ChatViewController: MessagesViewController {
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(actionSheet, animated: true)
     }
+    
     private func presentLocationPicker() {
         let vc = LocationPickerViewController(coordinates: nil)
         vc.title = "Pick Location"
@@ -403,23 +405,26 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         print("Sending: \(text)" )
         
         let mmessage = Message(sender: selfSender,
-                                        messageId: messageId,
-                                        sentDate: Date(),
-                                        kind: .text(text))
+                               messageId: messageId,
+                               sentDate: Date(),
+                               kind: .text(text))
         
-        inputBar.inputTextView.text = "" //
-        messagesCollectionView.reloadData() //
-
+        self.messageInputBar.inputTextView.text = nil
+    
         // Send messages
         if isNewConversation {
             // Create convers in database
-            DatabaseManager.share.createNewConversation(with: otherUserEmail,
-                                                        name: self.title ?? "User",
-                                                        firstMessage: mmessage,
-                                                        completion: { [weak self] success in
+            DatabaseManager.share.createNewConversation(with: otherUserEmail, name: self.title ?? "User", firstMessage: mmessage, completion: { [weak self] success in
                 if success {
                     print("Messege sent...")
                     self?.isNewConversation = false
+                    let newConversationId = "Conversation_\(mmessage.messageId)"
+                    self?.conversationId = newConversationId
+                    self?.listenForMessage(id: newConversationId, shouldScrollToBottom: true)
+                    //  self?.messageInputBar.inputTextView.text = nil
+                    self?.messagesCollectionView.reloadData()
+                    self?.messagesCollectionView.scrollToBottom(animated: true)
+                    
                 }
                 else {
                     print("Failed to sent")
@@ -429,13 +434,15 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         else {
             guard let conversationId = conversationId,
                 let name = self.title else {
-                return
+                    return
             }
             // Append to existing conversation data
-            DatabaseManager.share.sendMessage(to: conversationId, otherUserEmail: otherUserEmail, name: name, newMessage: mmessage, completion: { success in
+            DatabaseManager.share.sendMessage(to: conversationId, otherUserEmail: otherUserEmail, name: name, newMessage: mmessage, completion: { [weak self] success in
                 if success {
+                    //  self?.messageInputBar.inputTextView.text = nil
+                    self?.messagesCollectionView.reloadData()
+                    self?.messagesCollectionView.scrollToBottom(animated: true)
                     print("Messege sent append")
-                    
                 }
                 else {
                     print("Failed to sent append")
@@ -471,19 +478,6 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
         return messages[indexPath.section]
     }
-    //
-    
-    func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-        return isFromCurrentSender(message: message) ? .white : .darkText
-    }
-    
-    func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-        return isFromCurrentSender(message: message) ?
-            UIColor(red: 69/255, green: 193/255, blue: 89/255, alpha: 1) :
-            UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
-    }
-    
-    //
     
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
         return messages.count
@@ -503,6 +497,70 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
             break
         }
     }
+    
+    //TEXT CHAT COLOR
+    func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        return isFromCurrentSender(message: message) ? .white : .white
+    }
+    
+    //BACKGROUND COLOR
+    func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        return isFromCurrentSender(message: message) ? #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1) : .lightGray
+    }
+    
+    //AVATAR
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        let sender = message.sender
+        if sender.senderId == selfSender?.senderId {
+            // Show our image avatar
+            if let senderPhotoURL = self.senderPhotoURL {
+                avatarView.sd_setImage(with: senderPhotoURL, completed: nil)
+            }
+            else {
+                // Fetch URL
+                guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
+                    return
+                }
+                let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
+                let path = ("images/\(safeEmail)_profile_picture.png")
+                StorageManager.share.downloadURL(for: path, completion: { [weak self] result in
+                    switch result {
+                    case .success(let url):
+                        self?.senderPhotoURL = url
+                        DispatchQueue.main.async {
+                            avatarView.sd_setImage(with: url, completed: nil)
+                        }
+                    case . failure(let error):
+                        print("\(error)")
+                    }
+                })
+            }
+        }
+        else {
+            // Show other user image avatar
+            if let otherPhotoURL = self.otherPhotoURL {
+                avatarView.sd_setImage(with: otherPhotoURL, completed: nil)
+            }
+            else {
+                // Fetch URL
+                let email = self.otherUserEmail
+                let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
+                let path = ("images/\(safeEmail)_profile_picture.png")
+                StorageManager.share.downloadURL(for: path, completion: { [weak self] result in
+                    switch result {
+                    case .success(let url):
+                        self?.otherPhotoURL = url
+                        DispatchQueue.main.async {
+                            avatarView.sd_setImage(with: url, completed: nil)
+                        }
+                    case . failure(let error):
+                        print("\(error)")
+                    }
+                })
+            }
+        }
+    }
+    
     func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return 35
     }
@@ -510,13 +568,13 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
     func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         let date = messages[indexPath.section].sentDate
         let df = DateFormatter()
-        df.setLocalizedDateFormatFromTemplate("MMMd , hh:mm") // set template after setting locale
+        df.setLocalizedDateFormatFromTemplate("MMMd") // Set template after setting locale
         let now = df.string(from: date)
         return NSAttributedString(
             string: now,
             attributes: [
                 .font: UIFont.preferredFont(forTextStyle: .caption1),
-                .foregroundColor: UIColor(white: 0.3, alpha: 1),
+                .foregroundColor: UIColor(white: 0.5, alpha: 1),
             ]
         )
     }
@@ -528,28 +586,34 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
         return 18
     }
     
-    //    func messageBottomLabelHeight(
-    //        for message: MessageType,
-    //        at indexPath: IndexPath,
-    //        in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-    //        return 15
-    //    }
-    
-    func messageTopLabelAttributedText(
-        for message: MessageType,
-        at indexPath: IndexPath) -> NSAttributedString? {
+    func messageTopLabelAttributedText( for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         return NSAttributedString(
             string: message.sender.displayName,
-            attributes: [.font: UIFont.systemFont(ofSize: 12)])
+            attributes: [.font: UIFont.systemFont(ofSize: 13)])
     }
     
-//    func messageBottomLabelAttributedText(
-//        for message: MessageType,
-//        at indexPath: IndexPath) -> NSAttributedString? {
-//        return NSAttributedString(
-//            string: message.sender.displayName,
-//            attributes: [.font: UIFont.systemFont(ofSize: 12)])
-//    }
+    func messageBottomLabelHeight(
+        for message: MessageType,
+        at indexPath: IndexPath,
+        in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return 18
+    }
+    
+    func messageBottomLabelAttributedText(
+        for message: MessageType,
+        at indexPath: IndexPath) -> NSAttributedString? {
+        let date = messages[indexPath.section].sentDate
+        let df = DateFormatter()
+        df.setLocalizedDateFormatFromTemplate("hh:mm") // Set template after setting locale
+        let now = df.string(from: date)
+        return NSAttributedString(
+            string: now,
+            attributes: [
+                .font: UIFont.preferredFont(forTextStyle: .caption1),
+                .foregroundColor: UIColor(white: 0.5, alpha: 1),
+            ]
+        )
+    }
 }
 
 extension ChatViewController: MessageCellDelegate {
@@ -594,8 +658,8 @@ extension ChatViewController: MessageCellDelegate {
     }
 }
 
+// Extension Logo Center Navigation Bar Chat View
 extension UIViewController {
-
     func addLogoToNavigationBarItem() {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -603,7 +667,6 @@ extension UIViewController {
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(systemName: "circle.fill")
         //imageView.backgroundColor = .lightGray
-
         // In order to center the title view image no matter what buttons there are, do not set the
         // image view as title view, because it doesn't work. If there is only one button, the image
         // will not be aligned. Instead, a content view is set as title view, then the image view is
@@ -614,5 +677,6 @@ extension UIViewController {
         self.navigationItem.titleView?.addSubview(imageView)
         imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        
     }
 }

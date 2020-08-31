@@ -15,6 +15,7 @@ import FirebaseAuth
 import FBSDKLoginKit
 import GoogleSignIn
 
+
 final class SettingsViewController: UIViewController {
     
     @IBOutlet weak var tableViewSet: UITableView!
