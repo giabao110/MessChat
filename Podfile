@@ -25,6 +25,6 @@ pod "MessageKit"
 pod 'JGProgressHUD'
 pod "SDWebImage"
 
-pod "MaterialComponents/Cards"
+pod 'ProgressHUD'
 
 end

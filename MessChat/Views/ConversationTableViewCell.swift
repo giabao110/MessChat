@@ -84,22 +84,19 @@ class ConversationTableViewCell: UITableViewCell {
     }
     
     public func configure(with model: Conversation) {
-        
-        self.userNameLabel.text = model.name
-        
+        userNameLabel.text = model.name
         if model.latestMessage.isRead == false {
-            self.userMessageLabel.font = .systemFont(ofSize: 18, weight: .semibold)
-            self.userMessageLabel.textColor = .black
-            self.userMessageLabel.text = model.latestMessage.text
-            self.iconImageView.isHidden = false
+            userMessageLabel.font = .systemFont(ofSize: 18, weight: .semibold)
+            userMessageLabel.textColor = .black
+            userMessageLabel.text = model.latestMessage.text
+            iconImageView.isHidden = false
         }
         else
         {
-            self.userMessageLabel.text = model.latestMessage.text
-            self.userMessageLabel.textColor = .lightGray
-            self.iconImageView.isHidden = true
+            userMessageLabel.text = model.latestMessage.text
+            userMessageLabel.textColor = .lightGray
+            iconImageView.isHidden = true
         }
-        
         let path = "images/\(model.otherUserEmail)_profile_picture.png"
         StorageManager.share.downloadURL(for: path, completion: { [weak self] result in
             switch result {

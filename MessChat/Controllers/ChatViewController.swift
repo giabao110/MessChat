@@ -19,59 +19,7 @@ import AVFoundation
 import AVKit
 import CoreLocation
 
-struct Message: MessageType {
-    public var sender: SenderType
-    public var messageId: String
-    public var sentDate: Date
-    public var kind: MessageKind
-}
-
-extension MessageKind {
-    var messageKindString: String {
-        switch self {
-        case .text(_):
-            return "text"
-        case .attributedText(_):
-            return "attributed_text"
-        case .photo(_):
-            return "photo"
-        case .video(_):
-            return "video"
-        case .location(_):
-            return "location"
-        case .emoji(_):
-            return "emoji"
-        case .audio(_):
-            return "audio"
-        case .contact(_):
-            return "contact"
-        case .custom(_):
-            return "custom"
-        case .linkPreview(_):
-            return "linkPreview"
-        }
-    }
-}
-
-struct Sender: SenderType {
-    public var photoURL: String
-    public var senderId: String
-    public var displayName: String
-}
-
-struct Media: MediaItem {
-    var url: URL?
-    var image: UIImage?
-    var placeholderImage: UIImage
-    var size: CGSize
-}
-
-struct Location: LocationItem {
-    var location: CLLocation
-    var size: CGSize
-}
-
-class ChatViewController: MessagesViewController {
+final class ChatViewController: MessagesViewController {
     
     private var senderPhotoURL: URL?
     
@@ -421,7 +369,6 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
                     let newConversationId = "Conversation_\(mmessage.messageId)"
                     self?.conversationId = newConversationId
                     self?.listenForMessage(id: newConversationId, shouldScrollToBottom: true)
-                    //  self?.messageInputBar.inputTextView.text = nil
                     self?.messagesCollectionView.reloadData()
                     self?.messagesCollectionView.scrollToBottom(animated: true)
                     
@@ -439,7 +386,6 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
             // Append to existing conversation data
             DatabaseManager.share.sendMessage(to: conversationId, otherUserEmail: otherUserEmail, name: name, newMessage: mmessage, completion: { [weak self] success in
                 if success {
-                    //  self?.messageInputBar.inputTextView.text = nil
                     self?.messagesCollectionView.reloadData()
                     self?.messagesCollectionView.scrollToBottom(animated: true)
                     print("Messege sent append")
@@ -626,8 +572,9 @@ extension ChatViewController: MessageCellDelegate {
         case .location(let locationData):
             let coordinates = locationData.location.coordinate
             let vc = LocationPickerViewController(coordinates: coordinates)
+            
             vc.title = "Location"
-            self.navigationController?.pushViewController(vc, animated: true)
+            navigationController?.pushViewController(vc, animated: true)
         default:
             break
         }
@@ -643,7 +590,7 @@ extension ChatViewController: MessageCellDelegate {
                     return
                 }
             let vc = PhotoViewerViewController(with: imageUrl)
-            self.navigationController?.pushViewController(vc, animated: true)
+            navigationController?.pushViewController(vc, animated: true)
             
         case .video(let media):
             guard let videoUrl = media.url else {
@@ -673,8 +620,8 @@ extension UIViewController {
         // added as child of the content view. Finally, using constraints the image view is aligned
         // inside its parent.
         let contentView = UIView()
-        self.navigationItem.titleView = contentView
-        self.navigationItem.titleView?.addSubview(imageView)
+        navigationItem.titleView = contentView
+        navigationItem.titleView?.addSubview(imageView)
         imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         

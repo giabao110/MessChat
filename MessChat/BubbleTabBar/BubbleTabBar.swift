@@ -1,5 +1,5 @@
 //
-// SceneDelegate.swift
+// BubbleTabBar.swift
 // MessChat
 //
 // Created by GIABAO Photography on 8/16/20.

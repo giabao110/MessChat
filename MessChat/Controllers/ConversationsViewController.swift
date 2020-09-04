@@ -15,20 +15,8 @@ import UIKit
 import FirebaseAuth
 import JGProgressHUD
 
-struct Conversation {
-    let id: String
-    let name: String
-    let otherUserEmail: String
-    let latestMessage: LatestMessage
-}
-
-struct LatestMessage {
-    let date: String
-    let text: String
-    let isRead: Bool
-}
-
-class ConversationsViewController: UIViewController {
+/// Controller that shows list  of conversations
+final class ConversationsViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)
     
@@ -53,10 +41,11 @@ class ConversationsViewController: UIViewController {
     }()
     
     private var loginObserver: NSObjectProtocol?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem?.setTitlePositionAdjustment(.init(horizontal: 10, vertical: 20), for: UIBarMetrics.default)
+        navigationItem.rightBarButtonItem?.setTitlePositionAdjustment(.init(horizontal: 10, vertical: 20),
+                                                                      for: UIBarMetrics.default)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose,
                                                             target: self,
                                                             action: #selector(didTapComposeButton))
@@ -70,20 +59,19 @@ class ConversationsViewController: UIViewController {
             }
             strongSelf.startListeningForConversation()
         })
-     
     }
     
     private func startListeningForConversation() {
         guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
             return
         }
-
+        
         if let observer = loginObserver {
             NotificationCenter.default.removeObserver(observer)
         }
-
+        
         print("starting conversation fetch...")
-
+        
         let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
         print("\(safeEmail)")
         
@@ -140,11 +128,9 @@ class ConversationsViewController: UIViewController {
     private func createNewConversation(results: SearchResult){
         let name = results.name
         let email = DatabaseManager.safeEmail(emailAddress: results.email)
-        
         // Check in database if conversation with these two user exists
         // If it does, reuse conversation id
         // Otherwise use existing code
-        
         DatabaseManager.share.conversationExists(with: email, completion: { [weak self] result in
             guard let strongSelf = self else {
                 return
@@ -194,14 +180,6 @@ class ConversationsViewController: UIViewController {
         }
     }
     
-    // Welcome Screen
-    private func welcome() {
-        let vc = LoginViewController()
-        let nav = UINavigationController(rootViewController: vc)
-        nav.modalPresentationStyle = .fullScreen
-        present(nav, animated: false)
-    }
-    
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -209,7 +187,6 @@ class ConversationsViewController: UIViewController {
 }
 
 extension ConversationsViewController: UITableViewDelegate, UITableViewDataSource {
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return conversations.count
     }
@@ -233,14 +210,10 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
         vc.title = model.name
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
-        
         guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
             return
         }
-        
         let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
-//
-        
         DatabaseManager.share.isRead(with: safeEmail, conversationId: model.id)
         print("aaaaaaa\(model.latestMessage.isRead)")
     }
@@ -252,23 +225,25 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .delete
     }
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let alert = UIAlertController(title: "", message: "Are you sure you want to permanently delete this conversation?", preferredStyle: .actionSheet)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
-                // Begin delete
+                // Begin delete conversation
                 let conversationId = self?.conversations[indexPath.row].id
                 tableView.beginUpdates()
-                DatabaseManager.share.deleteConversation(conversationId: conversationId!, completion: { [weak self] success in
-                    if success {
-                        self?.conversations.remove(at: indexPath.row)
-                        tableView.deleteRows(at: [indexPath], with: .left)
+                self?.conversations.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .left)
+                DatabaseManager.share.deleteConversation(conversationId: conversationId!, completion: { success in
+                    if !success {
+                        // Add model and row back and show error alert
                     }
                 })
                 tableView.endUpdates()
             }))
-            self.present(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
         }
     }
 }

@@ -17,10 +17,14 @@ import MessageKit
 import CoreLocation
 import Firebase
 
+/// Manager object to read and write data to realtime database
 final class DatabaseManager {
+    
     /// Shared instance of class
     public static let share = DatabaseManager()
+    
     private let database = Database.database().reference()
+
     static func safeEmail(emailAddress: String) -> String {
         var safeEmail = emailAddress.replacingOccurrences(of: ".", with: "-")
         safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
@@ -29,6 +33,7 @@ final class DatabaseManager {
 }
 
 extension DatabaseManager {
+    
     /// Returns dictionary node at child path
     public func getDataFor(path: String, completion: @escaping (Result<Any, Error>) -> Void) {
         database.child("\(path)").observeSingleEvent(of: .value) { snapshot in
@@ -42,7 +47,13 @@ extension DatabaseManager {
 }
 
 //MARK: - Accout Managerment
+
 extension DatabaseManager {
+    
+    /// Checks if user exists for given email
+    /// Parameters
+    /// - `email`:              Target email to be checked
+    /// - `completion`    Async closure to return with result
     public func userExists(with email: String,
                            completion: @escaping ((Bool) -> Void)){
         let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
@@ -52,6 +63,19 @@ extension DatabaseManager {
                 return
             }
             completion(true)
+        })
+    }
+    
+    /// Reset password
+    public func resetPasswordEmail(email: String, onSuccess: @escaping () -> Void,
+                                   onError: @escaping (_ errorMessage: String) -> Void) {
+        FirebaseAuth.Auth.auth().sendPasswordReset(withEmail: email, completion: { error in
+            if error == nil {
+                onSuccess()
+            }
+            else {
+                onError(error!.localizedDescription)
+            }
         })
     }
     
@@ -72,7 +96,7 @@ extension DatabaseManager {
             }
             strongSelf.database.child("users").observeSingleEvent(of: .value, with: { snapshot in
                 if var userCollection = snapshot.value as? [[String: String]] {
-                    // Append to user dictinary
+                    // Append to user dictionary
                     let newElement =    [
                         "name": user.firstName + " " + user.lastName,
                         "email": user.safeEmail
@@ -107,6 +131,7 @@ extension DatabaseManager {
     })
     }
     
+    ///Gets all users from database
     public func getAllUsers(completion: @escaping (Result<[[String: String]], Error>) -> Void){
         database.child("users").observeSingleEvent(of: .value, with: { snapshot in
             guard let value = snapshot.value as? [[String: String]] else {
@@ -118,26 +143,33 @@ extension DatabaseManager {
     }
 }
 
-public enum DatabaseError: Error {
-    case failedToFetch
-}
-/*
- users => [
-     [
-        "name":
-        "safe_email":
-     ],
-     [
-         "name":
-         "safe_email":
-     ]
- ]
- */
+    public enum DatabaseError: Error {
+        case failedToFetch
+        
+        public var localizedDescription: String {
+            switch self {
+            case .failedToFetch:
+                return "This mean blah failed!"
+            }
+        }
+    }
 
-// MARK: - Sending messages / conversation
-extension DatabaseManager {
     /*
-     
+     users => [
+         [
+            "name":
+            "safe_email":
+         ],
+         [
+             "name":
+             "safe_email":
+         ]
+     ]
+     */
+
+    // MARK: - Sending messages / conversation
+    extension DatabaseManager {
+     /*
      "giabao123" {
          "messages": [
              {

@@ -16,11 +16,9 @@ import FBSDKLoginKit
 import FBSDKCoreKit
 import GoogleSignIn
 import RAGTextField
-import JGProgressHUD
+import ProgressHUD
 
-class LoginViewController: UIViewController {
-    
-    private let spinner = JGProgressHUD(style: .dark)
+final class LoginViewController: UIViewController {
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -46,56 +44,13 @@ class LoginViewController: UIViewController {
     
     private let emailField: RAGTextField = {
         let field = RAGTextField()
-        if let myImage = UIImage(systemName: "person"){
-            field.withImage(direction: .Left, image: myImage)
-        }
-        field.transformedPlaceholderColor = .white
-        field.placeholderColor = .white
-        field.placeholderFont = .systemFont(ofSize: 18, weight: .medium)
-        field.font = .systemFont(ofSize: 18, weight: .medium)
-        field.autocapitalizationType = .none
-        field.autocorrectionType = .no
-        field.returnKeyType = .done
-        field.layer.cornerRadius = 8
-        field.borderStyle = .none
-        field.placeholderMode = .scalesWhenNotEmpty
-        field.placeholder = "Username"
-        field.textColor = .white
-        return field
+        return field.textField(placeHolder: "Email Address", imageName: "person", isSecureTextEntry: false)
     }()
     
     private var passwordField: RAGTextField = {
         let field = RAGTextField()
-        if let myImage = UIImage(systemName: "lock"){
-            field.withImage(direction: .Left, image: myImage)
-        }
-        field.transformedPlaceholderColor = .white
-        field.placeholderColor = .white
-        field.placeholderFont = .systemFont(ofSize: 18, weight: .medium)
-        field.font = .systemFont(ofSize: 18, weight: .medium)
-        field.autocapitalizationType = .none
-        field.autocorrectionType = .no
-        field.returnKeyType = .done
-        field.layer.cornerRadius = 8
-        field.borderStyle = .none
-        field.placeholderMode = .scalesWhenNotEmpty
-        field.placeholder = "Password"
-        field.textColor = .white
-        field.isSecureTextEntry = true
-        return field
+        return field.textField(placeHolder: "Password", imageName: "lock", isSecureTextEntry: true)
     }()
-    
-//    lazy var passwordContainerView: UIView = {
-//        let field = UITextField()
-//        
-//        return field.textContainerView(view: view, #imageLiteral(resourceName: <#T##String#>), textfield: passwordField)
-//    }()
-//    
-//    lazy var passwordField: UITextField = {
-//        let field = UITextField()
-//        
-//        return field.textField(withPlaceholder: "Password", isSecureTextEntry: true)
-//    }()
     
     private let loginButton: UIButton = {
         let button = UIButton()
@@ -104,40 +59,27 @@ class LoginViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 12
         button.layer.masksToBounds = true
-        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
+        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
         return button
     }()
     
-    private let facebookLoginButton: FBLoginButton = {
-        let button = FBLoginButton()
-        button.permissions = ["email, public_profile"]
-        button.layer.cornerRadius = 8
-        button.layer.masksToBounds = true
-        button.imageView?.contentMode = .scaleAspectFit
-        button.imageEdgeInsets = UIEdgeInsets(top: 25,left: 25,bottom: 25,right: 25)
-        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
-        return button
-    }()
-    
-    private let googleLoginButton: UIButton = {
+    private let signUpButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Connect with Google", for: .normal)
-        button.backgroundColor = .white //UIColor(red: 211/255, green: 72/255, blue: 54/255, alpha: 1)
-        button.setImage(UIImage(named: "google"), for: .normal)
-        button.imageEdgeInsets = UIEdgeInsets(top: 0,left: 0,bottom: 0,right: 15)
-        button.setTitleColor(.darkGray, for: .normal)
-        button.layer.cornerRadius = 8
-        button.layer.masksToBounds = true
+        button.setTitle("Log In", for: .normal)
+        button.backgroundColor = .clear
+        button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
-        button.addTarget(self, action: #selector(openGoogle), for: .touchUpInside)
-        button.imageView?.contentMode = .scaleAspectFit
         return button
     }()
 
-    //     Google Button Connect
-    @objc private func openGoogle(){
-        GIDSignIn.sharedInstance().signIn()
-    }
+    private let forgotPassButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Forgot Password? ", for: .normal)
+        button.backgroundColor = .clear
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+        return button
+    }()
     
     // Background Color
     func setGradientBackground() {
@@ -146,17 +88,9 @@ class LoginViewController: UIViewController {
         let bottomColor = UIColor(red: 131/255, green: 234/255, blue: 241/255, alpha: 1).cgColor
         gradient.colors = [topColor, bottomColor]
         gradient.locations = [0, 1]
-        gradient.frame = self.view.bounds
-        self.view.layer.insertSublayer(gradient, at:0)
+        gradient.frame = view.bounds
+        view.layer.insertSublayer(gradient, at:0)
     }
-
-//            private let googleLoginButton: GIDSignInButton = {
-//                let button = GIDSignInButton()
-//            button.backgroundColor = #colorLiteral(red: 0.3948340416, green: 0.3551002145, blue: 0.9879776835, alpha: 1)
-//            button.layer.cornerRadius = 8
-//            button.layer.masksToBounds = true
-//                return button
-//            }()
     
     private var loginObserver: NSObjectProtocol?
     
@@ -176,22 +110,15 @@ class LoginViewController: UIViewController {
         title = "Log In"
         navigationController?.hideNavigationItemBackground()
         
-        let rightBarButton = UIBarButtonItem(title: "Register",
-                                             style: .done,
-                                             target: self,
-                                             action: #selector(didTapRegister))
+        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         
-        navigationItem.rightBarButtonItem = rightBarButton
-        rightBarButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white], for: .normal)
+        forgotPassButton.addTarget(self, action: #selector(forgotPassword), for: .touchUpInside)
         
-        loginButton.addTarget(self,
-                              action: #selector(loginButtonTapped),
-                              for: .touchUpInside)
+        signUpButton.addTarget(self, action: #selector(signUp), for: .touchUpInside)
         
+        // Delegate
         emailField.delegate = self
         passwordField.delegate = self
-        
-        facebookLoginButton.delegate = self
         
         // Add subviews
         view.addSubview(scrollView)
@@ -200,10 +127,26 @@ class LoginViewController: UIViewController {
         scrollView.addSubview(emailField)
         scrollView.addSubview(passwordField)
         scrollView.addSubview(loginButton)
-        scrollView.addSubview(facebookLoginButton)
-        scrollView.addSubview(googleLoginButton)
+        scrollView.addSubview(signUpButton)
+        scrollView.addSubview(forgotPassButton)
+       
+        
+        emailField.addLine(position: .bottom, color: UIColor.white, height: 1.0)
+        passwordField.addLine(position: .bottom, color: UIColor.white, height: 1.0)
+      
+        let attributedText = NSMutableAttributedString(string: "Don't have an account? ",
+        attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16, weight: .light),
+                     NSAttributedString.Key.foregroundColor : UIColor.white
+        ])
+   
+        let attributedSubText = NSMutableAttributedString(string: "Sign up",
+        attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16, weight: .bold),
+                     NSAttributedString.Key.foregroundColor : UIColor.white
+        ])
+        
+        attributedText.append(attributedSubText)
+        signUpButton.setAttributedTitle(attributedText, for: .normal)
     }
- 
     
     deinit {
         if let observer = loginObserver {
@@ -214,18 +157,17 @@ class LoginViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollView.frame = view.bounds
-        
         let size = view.width/6
-        let sizes = view.width/2
-        print("\(sizes)")
         imageView.frame = CGRect(x: (scrollView.width-size)/2,
                                  y: 10,
                                  width: size,
                                  height: size)
         
-        imageTitleView.frame = CGRect(x: 60,
+        imageView.layer.cornerRadius = imageView.bounds.width / 2
+        
+        imageTitleView.frame = CGRect(x: 80,
                                   y: imageView.bottom+10,
-                                  width: scrollView.width-120,
+                                  width: scrollView.width-160,
                                   height: 80)
         
         emailField.frame = CGRect(x: 30,
@@ -234,31 +176,47 @@ class LoginViewController: UIViewController {
                                   height: 52)
         
         passwordField.frame = CGRect(x: 30,
-                                     y: emailField.bottom+15,
+                                     y: emailField.bottom+10,
                                      width: scrollView.width-60,
                                      height: 52)
         
-        loginButton.frame = CGRect(x: 60,
+        loginButton.frame = CGRect(x: 30,
                                    y: passwordField.bottom+40,
-                                   width: scrollView.width-120,
-                                   height: 52)
+                                   width: scrollView.width-60,
+                                   height: 50)
         
-        facebookLoginButton.frame = CGRect(x: 100,
-                                           y: loginButton.bottom+sizes,
-                                           width: scrollView.width-200,
-                                           height: 52)
+        signUpButton.frame = CGRect(x: 60,
+                                    y: loginButton.bottom+2,
+                                    width: scrollView.width-120,
+                                    height: 50)
         
-        googleLoginButton.frame = CGRect(x: 100,
-                                         y: facebookLoginButton.bottom+10,
-                                         width: scrollView.width-200,
-                                         height: 52)
-        
-        imageView.layer.cornerRadius = imageView.bounds.width / 2
+        forgotPassButton.frame = CGRect(x: 60,
+                                    y: signUpButton.bottom+270,
+                                    width: scrollView.width-120,
+                                    height: 50)
+    }
+    // Sign up
+    @objc private func signUp(){
+        let vc = RegisterViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
+    // Forgot password
+    @objc private func forgotPassword(){
+        let vc = ForgotPasswordViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    // Login Button
     @objc private func loginButtonTapped() {
         emailField.resignFirstResponder()
         passwordField.resignFirstResponder()
+        let validEmail = isValidEmail(emailField.text!)
+        
+        guard validEmail == true else {
+            alertEmailError()
+            return
+        }
         
         guard let email = emailField.text,
             let password = passwordField.text,
@@ -267,24 +225,19 @@ class LoginViewController: UIViewController {
                 return
         }
         
-        spinner.textLabel.text = "Loading"
-        spinner.show(in: view)
+        ProgressHUD.show()
+        ProgressHUD.animationType = .circleSpinFade
+        ProgressHUD.colorAnimation = .systemBlue
         
         // Firebase Log In
-        
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: { [weak self] authResult, error in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            DispatchQueue.main.async {
-                strongSelf.spinner.dismiss()
-            }
             
             guard case let result = authResult, error == nil else{
-                print("Failed to log in user with email: \(email)")
+                DispatchQueue.main.async {
+                    ProgressHUD.dismiss()
+                }
                 let alert = UIAlertController(title: "Woops",
-                                              message: "Mat khau khong chinh xac",
+                                              message: "The password is not valid \n Please try again",
                                               preferredStyle: .alert)
                 
                 alert.addAction(UIAlertAction(title: "Dismiss",
@@ -292,6 +245,8 @@ class LoginViewController: UIViewController {
                                               handler: nil))
                 
                 self?.present(alert, animated: true)
+                
+                print("Failed to log in user with email: \(email)")
                 return
             }
             
@@ -314,14 +269,12 @@ class LoginViewController: UIViewController {
             
             UserDefaults.standard.set(email, forKey: "email")
             print("Logged In User: \(user)")
-            
-            // strongSelf.navigationController?.dismiss(animated: true, completion: nil)
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let mainTabBarController = storyboard.instantiateViewController(identifier: "MainTabBarController")
             (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mainTabBarController)
         })
     }
-    
+    // Alert
     func alertUserLoginError() {
         let alert = UIAlertController(title: "Woops",
                                       message: "Please enter all information to log in!",
@@ -332,13 +285,20 @@ class LoginViewController: UIViewController {
                                       handler: nil))
         
         present(alert, animated: true)
+        return
     }
     
-    
-    @objc private func didTapRegister() {
-        let vc = RegisterViewController()
-        vc.title = "Create Accout"
-        navigationController?.pushViewController(vc, animated: true)
+    func alertEmailError() {
+        let alert = UIAlertController(title: "Woops",
+                                      message: "Please enter correct email address !!!",
+                                      preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Dismiss",
+                                      style: .cancel,
+                                      handler: nil))
+        
+        present(alert, animated: true)
+        return
     }
 }
 
@@ -354,151 +314,3 @@ extension LoginViewController: UITextFieldDelegate {
     }
 }
 
-extension LoginViewController: LoginButtonDelegate {
-    func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
-        // no operation
-    }
-    
-    func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
-        guard let token = result?.token?.tokenString else {
-            print("User failed to log in with Facebook")
-            return
-        }
-        
-        let facebookRequest = FBSDKLoginKit.GraphRequest(graphPath: "me",
-                                                         parameters: ["fields": "email, first_name, last_name, picture.type(large)"],
-                                                         tokenString: token,
-                                                         version: nil,
-                                                         httpMethod: .get)
-        
-        facebookRequest.start(completionHandler: { _, result, error in
-            guard let result = result as? [String:Any], error == nil else {
-                print("Failed to make facebook graph request")
-                return
-            }
-            
-            print(result)
-            
-            guard let firstName = result["first_name"] as? String,
-                let lastName = result["last_name"] as? String,
-                let email = result["email"] as? String,
-                let picture = result["picture"] as? [String:Any],
-                let data = picture["data"] as? [String:Any],
-                let pictureUrl = data["url"] as? String else {
-                    print("Failed to get email and name from Facebook result")
-                    return
-            }
-            
-            UserDefaults.standard.set(email, forKey: "email")
-            UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
-            
-            DatabaseManager.share.userExists(with: email, completion: { exists in
-                if !exists {
-                    let chatUser = ChatAppUser(firstName: firstName,
-                                               lastName: lastName,
-                                               emailAddress: email)
-                    
-                    DatabaseManager.share.insertUser(with: chatUser, completion: { success in
-                        if success {
-                            
-                            guard let url = URL(string: pictureUrl) else {
-                                return
-                            }
-                            
-                            print("Downloading date from Facebook image")
-                            
-                            URLSession.shared.dataTask(with: url,
-                               completionHandler: { data, _, _ in
-                                guard let data = data else {
-                                    print("Failed to get data from Facebook")
-                                    return
-                                }
-                                
-                                print("Got data from FB, uploading . . .")
-                                
-                                // Upload image
-                                let fileName = chatUser.ProfilePictureFileName
-                                StorageManager.share.uploadProfilePicture(with: data, fileName: fileName, completion: { result in
-                                    switch result {
-                                    case .success(let downloadUrl):
-                                        UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
-                                        print(downloadUrl)
-                                    case .failure(let error):
-                                        print("Storage manager error: \(error)")
-                                    }
-                                })
-                            }).resume()
-                        }
-                    })
-                }
-            })
-            
-            let credential = FacebookAuthProvider.credential(withAccessToken: token)
-            
-            FirebaseAuth.Auth.auth().signIn(with: credential, completion: { [weak self] authResult, error in
-                
-                guard let strongSelf = self else {
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    strongSelf.spinner.dismiss()
-                }
-                
-                guard authResult != nil, error == nil else{
-                    if let error = error {
-                        print("Facebook credential login failed, MFA may be needed : \(error)")
-                    }
-                    return
-                }
-                print("Successfully logged user in")
-                // strongSelf.navigationController?.dismiss(animated: true, completion: nil)
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let mainTabBarController = storyboard.instantiateViewController(identifier: "MainTabBarController")
-                
-                // This is to get the SceneDelegate object from your view controller
-                // then call the change root view controller function to change to main tab bar
-                (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mainTabBarController)
-            })
-        })
-    }
-}
-
-extension UITextField {
-    
-    enum Direction {
-        case Left
-        case Right
-    }
-    
-    // add image to textfield , colorSeparator: UIColor, colorBorder: UIColor
-    func withImage(direction: Direction, image: UIImage){
-        let mainView = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 45))
-        mainView.layer.cornerRadius = 5
-        
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 45))
-        view.backgroundColor = .clear
-        view.tintColor = .white
-        
-        mainView.addSubview(view)
-        
-        let imageView = UIImageView(image: image)
-        imageView.contentMode = .scaleAspectFit
-        imageView.frame = CGRect(x: 10.0, y: 10.0, width: 24.0, height: 24.0)
-        
-        view.addSubview(imageView)
-        
-        let seperatorView = UIView()
-        mainView.addSubview(seperatorView)
-        
-        if(Direction.Left == direction){ // image left
-            seperatorView.frame = CGRect(x: 45, y: 0, width: 0, height: 45)
-            self.leftViewMode = .always
-            self.leftView = mainView
-        } else { // image right
-            seperatorView.frame = CGRect(x: 0, y: 0, width: 5, height: 45)
-            self.rightViewMode = .always
-            self.rightView = mainView
-        }
-    }
-}

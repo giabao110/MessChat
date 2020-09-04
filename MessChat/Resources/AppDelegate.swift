@@ -17,14 +17,10 @@ import FirebaseAuth
 import FirebaseCore
 import FBSDKCoreKit
 import GoogleSignIn
+import ProgressHUD
 
-@UIApplicationMain class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
-    
-//    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-//        Thread.sleep(forTimeInterval: 3.0)
-//        // Override point for customization after application launch.
-//        return true
-//    }
+
+@UIApplicationMain class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application( _ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? ) -> Bool {
         FirebaseApp.configure()
@@ -43,9 +39,15 @@ import GoogleSignIn
                       open url: URL,
                       options: [UIApplication.OpenURLOptionsKey : Any] = [:] ) -> Bool { ApplicationDelegate.shared.application( app, open: url, sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplication.OpenURLOptionsKey.annotation] )
         return GIDSignIn.sharedInstance().handle(url)
-        
     }
+}
+
+
+// MARK: - GIDSignInDelegate
+
+extension AppDelegate: GIDSignInDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        
         guard error == nil else {
             if let error = error {
                 print("Failed to sign in with Google: \(error)")
@@ -114,21 +116,22 @@ import GoogleSignIn
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
                                                        accessToken: authentication.accessToken)
         
+        DispatchQueue.main.async {
+            ProgressHUD.showSucceed("Login Success", interaction: true )
+            ProgressHUD.colorAnimation = .systemBlue
+        }
+        
         FirebaseAuth.Auth.auth().signIn(with: credential, completion: { authResult, error in
-
+            
             guard authResult != nil, error == nil else {
                 print("Failed to log in with Google credential")
                 return
             }
             
             print("Successfully signed in with Google credential")
-            
-            // NotificationCenter.default.post(name: .didLogInNotification, object: nil)
+
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let mainTabBarController = storyboard.instantiateViewController(identifier: "MainTabBarController")
-            
-            // This is to get the SceneDelegate object from your view controller
-            // then call the change root view controller function to change to main tab bar
             (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mainTabBarController)
         })
     }
@@ -137,5 +140,3 @@ import GoogleSignIn
         print("Google user was disconnected")
     }
 }
-
-

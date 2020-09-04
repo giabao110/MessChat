@@ -15,7 +15,6 @@ import FirebaseAuth
 import FBSDKLoginKit
 import GoogleSignIn
 
-
 final class SettingsViewController: UIViewController {
     
     @IBOutlet weak var tableViewSet: UITableView!
@@ -88,14 +87,14 @@ class LogOutTableViewCell: UITableViewCell {
     static var indentifier = "LogOutTableViewCell"
     
     public func setUp(with viewModel: ProfileViewModel) {
-        self.textLabel?.text = viewModel.title
+        textLabel?.text = viewModel.title
         switch viewModel.viewModelType {
         case .info:
-            self.textLabel?.textAlignment = .center
+            textLabel?.textAlignment = .center
         case .logout:
-            self.textLabel?.textColor = .red
-            self.textLabel?.textAlignment = .center
-            self.textLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
+            textLabel?.textColor = .red
+            textLabel?.textAlignment = .center
+            textLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
         }
     }
 }

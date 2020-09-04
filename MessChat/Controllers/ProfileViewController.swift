@@ -15,7 +15,7 @@ import UIKit
 import FirebaseAuth
 import SDWebImage
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -96,14 +96,14 @@ class ProfileTableViewCell: UITableViewCell {
     static var indentifier = "ProfileTableViewCell"
     
     public func setUp(with viewModel: ProfileViewModel) {
-        self.textLabel?.text = viewModel.title
+        textLabel?.text = viewModel.title
         switch viewModel.viewModelType {
         case .info:
-            self.textLabel?.textAlignment = .center
-            self.selectionStyle = .none
-            self.textLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
+            textLabel?.textAlignment = .center
+            selectionStyle = .none
+            textLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
         case .logout:
-            self.textLabel?.textAlignment = .center
+            textLabel?.textAlignment = .center
         }
     }
 }

@@ -10,10 +10,12 @@
 		C512071124E9213D006DF487 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C512071024E9213D006DF487 /* LoginViewController.swift */; };
 		C512071424E92166006DF487 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C512071324E92166006DF487 /* RegisterViewController.swift */; };
 		C512071724E921A4006DF487 /* PhotoViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C512071624E921A4006DF487 /* PhotoViewerViewController.swift */; };
-		C512071924E921BF006DF487 /* VideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C512071824E921BF006DF487 /* VideoPlayerViewController.swift */; };
 		C512071C24E921FB006DF487 /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C512071B24E921FB006DF487 /* NewConversationViewController.swift */; };
 		C512071E24E92235006DF487 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C512071D24E92235006DF487 /* ProfileViewController.swift */; };
 		C512E2C224F57A1A0067BCC2 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C512E2C124F57A1A0067BCC2 /* ProfileViewModel.swift */; };
+		C52E97DE24FD139500EEF01D /* ConversationsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52E97DD24FD139500EEF01D /* ConversationsModels.swift */; };
+		C52E97E024FD140E00EEF01D /* ChatModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52E97DF24FD140E00EEF01D /* ChatModels.swift */; };
+		C52E97E224FD153700EEF01D /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52E97E124FD153700EEF01D /* SearchResult.swift */; };
 		C53EE05624F23F870099413A /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53EE05524F23F870099413A /* ConversationTableViewCell.swift */; };
 		C547AC3724EBE020002D7434 /* BubbleTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C547AC3424EBE020002D7434 /* BubbleTabBarController.swift */; };
 		C547AC3824EBE020002D7434 /* CBTabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C547AC3524EBE020002D7434 /* CBTabBarButton.swift */; };
@@ -28,8 +30,11 @@
 		C580ABA924E91C6C00D09F09 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C580ABA724E91C6C00D09F09 /* LaunchScreen.storyboard */; };
 		C58677C724EB909E00A11E5C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C58677C624EB909E00A11E5C /* GoogleService-Info.plist */; };
 		C58677C924EB9E3F00A11E5C /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58677C824EB9E3F00A11E5C /* DatabaseManager.swift */; };
+		C5B46CEC2501FB740026B55D /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B46CEB2501FB740026B55D /* ForgotPasswordViewController.swift */; };
+		C5B46CEE250260A40026B55D /* Function.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B46CED250260A40026B55D /* Function.swift */; };
 		C5C8A16924EF9678004A45AF /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C8A16824EF9678004A45AF /* ChatViewController.swift */; };
 		C5C8A16B24EFCB9D004A45AF /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C8A16A24EFCB9D004A45AF /* StorageManager.swift */; };
+		C5E8DB6F24FE3A27006CFBFB /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E8DB6E24FE3A27006CFBFB /* StartViewController.swift */; };
 		C5EE437524FA4837002F80D0 /* LocationPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EE437424FA4837002F80D0 /* LocationPickerViewController.swift */; };
 		C5F10CC624EA590E0031219A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F10CC524EA590E0031219A /* Extensions.swift */; };
 		C5F10CCB24EA6A5A0031219A /* Alata-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5F10CCA24EA6A5A0031219A /* Alata-Regular.ttf */; };
@@ -44,10 +49,12 @@
 		C512071024E9213D006DF487 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C512071324E92166006DF487 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		C512071624E921A4006DF487 /* PhotoViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerViewController.swift; sourceTree = "<group>"; };
-		C512071824E921BF006DF487 /* VideoPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewController.swift; sourceTree = "<group>"; };
 		C512071B24E921FB006DF487 /* NewConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
 		C512071D24E92235006DF487 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		C512E2C124F57A1A0067BCC2 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		C52E97DD24FD139500EEF01D /* ConversationsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsModels.swift; sourceTree = "<group>"; };
+		C52E97DF24FD140E00EEF01D /* ChatModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModels.swift; sourceTree = "<group>"; };
+		C52E97E124FD153700EEF01D /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		C53EE05524F23F870099413A /* ConversationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTableViewCell.swift; sourceTree = "<group>"; };
 		C547AC3424EBE020002D7434 /* BubbleTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BubbleTabBarController.swift; path = MessChat/BubbleTabBar/BubbleTabBarController.swift; sourceTree = SOURCE_ROOT; };
 		C547AC3524EBE020002D7434 /* CBTabBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CBTabBarButton.swift; path = MessChat/BubbleTabBar/CBTabBarButton.swift; sourceTree = SOURCE_ROOT; };
@@ -64,6 +71,8 @@
 		C580ABAA24E91C6C00D09F09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C58677C624EB909E00A11E5C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		C58677C824EB9E3F00A11E5C /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		C5B46CEB2501FB740026B55D /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
+		C5B46CED250260A40026B55D /* Function.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Function.swift; sourceTree = "<group>"; };
 		C5C5C18124EF79240073E9A4 /* slideInstructions.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = slideInstructions.json; sourceTree = "<group>"; };
 		C5C5C18224EF79250073E9A4 /* settingUpAnimation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = settingUpAnimation.json; sourceTree = "<group>"; };
 		C5C5C18324EF79260073E9A4 /* blankLoadingAnim.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = blankLoadingAnim.json; sourceTree = "<group>"; };
@@ -76,6 +85,7 @@
 		C5C5C18A24EF792C0073E9A4 /* recentTyping.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = recentTyping.json; sourceTree = "<group>"; };
 		C5C8A16824EF9678004A45AF /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		C5C8A16A24EFCB9D004A45AF /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		C5E8DB6E24FE3A27006CFBFB /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		C5EE437424FA4837002F80D0 /* LocationPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerViewController.swift; sourceTree = "<group>"; };
 		C5F10CC524EA590E0031219A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C5F10CCA24EA6A5A0031219A /* Alata-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Alata-Regular.ttf"; sourceTree = "<group>"; };
@@ -118,6 +128,9 @@
 			isa = PBXGroup;
 			children = (
 				C512E2C124F57A1A0067BCC2 /* ProfileViewModel.swift */,
+				C52E97DD24FD139500EEF01D /* ConversationsModels.swift */,
+				C52E97DF24FD140E00EEF01D /* ChatModels.swift */,
+				C52E97E124FD153700EEF01D /* SearchResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -137,6 +150,7 @@
 				C5F10CC524EA590E0031219A /* Extensions.swift */,
 				C58677C824EB9E3F00A11E5C /* DatabaseManager.swift */,
 				C5C8A16A24EFCB9D004A45AF /* StorageManager.swift */,
+				C5B46CED250260A40026B55D /* Function.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -155,12 +169,13 @@
 			children = (
 				C580ABA024E91C6A00D09F09 /* ConversationsViewController.swift */,
 				C512071F24E9249D006DF487 /* Login */,
+				C5B46CEB2501FB740026B55D /* ForgotPasswordViewController.swift */,
+				C563028624EC4AD4003172F7 /* WelcomeViewController.swift */,
+				C5E8DB6E24FE3A27006CFBFB /* StartViewController.swift */,
 				C512071624E921A4006DF487 /* PhotoViewerViewController.swift */,
-				C512071824E921BF006DF487 /* VideoPlayerViewController.swift */,
 				C512071B24E921FB006DF487 /* NewConversationViewController.swift */,
 				C512071D24E92235006DF487 /* ProfileViewController.swift */,
 				C563028424EC45A1003172F7 /* SettingsViewController.swift */,
-				C563028624EC4AD4003172F7 /* WelcomeViewController.swift */,
 				C5C8A16824EF9678004A45AF /* ChatViewController.swift */,
 				C5EE437424FA4837002F80D0 /* LocationPickerViewController.swift */,
 			);
@@ -436,14 +451,19 @@
 				C512E2C224F57A1A0067BCC2 /* ProfileViewModel.swift in Sources */,
 				C512071C24E921FB006DF487 /* NewConversationViewController.swift in Sources */,
 				C580ABA124E91C6A00D09F09 /* ConversationsViewController.swift in Sources */,
-				C512071924E921BF006DF487 /* VideoPlayerViewController.swift in Sources */,
+				C5B46CEC2501FB740026B55D /* ForgotPasswordViewController.swift in Sources */,
+				C52E97DE24FD139500EEF01D /* ConversationsModels.swift in Sources */,
+				C52E97E224FD153700EEF01D /* SearchResult.swift in Sources */,
 				C5F10CC624EA590E0031219A /* Extensions.swift in Sources */,
 				C547AC3824EBE020002D7434 /* CBTabBarButton.swift in Sources */,
 				C563028524EC45A1003172F7 /* SettingsViewController.swift in Sources */,
+				C52E97E024FD140E00EEF01D /* ChatModels.swift in Sources */,
 				C547AC3724EBE020002D7434 /* BubbleTabBarController.swift in Sources */,
+				C5B46CEE250260A40026B55D /* Function.swift in Sources */,
 				C5C8A16924EF9678004A45AF /* ChatViewController.swift in Sources */,
 				C547AC3924EBE020002D7434 /* BubbleTabBar.swift in Sources */,
 				C53EE05624F23F870099413A /* ConversationTableViewCell.swift in Sources */,
+				C5E8DB6F24FE3A27006CFBFB /* StartViewController.swift in Sources */,
 				C580AB9D24E91C6A00D09F09 /* AppDelegate.swift in Sources */,
 				C512071E24E92235006DF487 /* ProfileViewController.swift in Sources */,
 				C580AB9F24E91C6A00D09F09 /* SceneDelegate.swift in Sources */,

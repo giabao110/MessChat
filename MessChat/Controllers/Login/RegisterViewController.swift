@@ -13,11 +13,10 @@
 
 import UIKit
 import FirebaseAuth
-import JGProgressHUD
+import ProgressHUD
+import RAGTextField
 
-class RegisterViewController: UIViewController {
-    
-    private let spinner = JGProgressHUD(style: .dark)
+final class RegisterViewController: UIViewController {
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -31,106 +30,71 @@ class RegisterViewController: UIViewController {
         imageView.contentMode = .scaleAspectFit
         imageView.layer.masksToBounds = true
         imageView.tintColor = .white
-        //        imageView.layer.borderWidth = 2
-        //        imageView.layer.borderColor = UIColor.white.cgColor
         return imageView
     }()
     
-    private let firtnameField: UITextField = {
-        let field = UITextField()
-        field.autocapitalizationType = .none
-        field.autocorrectionType = .no
-        field.returnKeyType = .continue
-        field.layer.cornerRadius = 12
-        field.layer.borderWidth = 1
-        field.layer.borderColor = UIColor.lightGray.cgColor
-        //        field.placeholder = "First Name ..."
-        field.attributedPlaceholder = NSAttributedString(string: "First Name ...", attributes:  [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        field.leftView = UIView (frame: CGRect(x: 0, y: 0, width: 5, height: 0))
-        field.leftViewMode = .always
-        field.backgroundColor = .white
-        field.textColor = .darkGray
-        return field
+    private let imageView2: UIImageView = {
+           let imageView = UIImageView()
+           imageView.image = UIImage(systemName: "plus.circle.fill")
+           imageView.contentMode = .scaleAspectFit
+           return imageView
+       }()
+    
+    private let firtnameField: RAGTextField = {
+        let field = RAGTextField()
+        return field.textField(placeHolder: "First Name", imageName: "", isSecureTextEntry: false)
     }()
     
-    private let lastnameField: UITextField = {
-        let field = UITextField()
-        field.autocapitalizationType = .none
-        field.autocorrectionType = .no
-        field.returnKeyType = .continue
-        field.layer.cornerRadius = 12
-        field.layer.borderWidth = 1
-        field.layer.borderColor = UIColor.lightGray.cgColor
-        //        field.placeholder = "Last Name ..."
-        field.attributedPlaceholder = NSAttributedString(string: "Last Name ...", attributes:  [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        field.leftView = UIView (frame: CGRect(x: 0, y: 0, width: 5, height: 0))
-        field.leftViewMode = .always
-        field.backgroundColor = .white
-        field.textColor = .darkGray
-        return field
+    private let lastnameField: RAGTextField = {
+        let field = RAGTextField()
+        return field.textField(placeHolder: "Last Name", imageName: "", isSecureTextEntry: false)
     }()
     
-    private let emailField: UITextField = {
-        let field = UITextField()
-        field.autocapitalizationType = .none
-        field.autocorrectionType = .no
-        field.returnKeyType = .continue
-        field.layer.cornerRadius = 12
-        field.layer.borderWidth = 1
-        field.layer.borderColor = UIColor.lightGray.cgColor
-        //        field.placeholder = "Email Address ..."
-        field.attributedPlaceholder = NSAttributedString(string: "Email Address ...", attributes:  [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        field.leftView = UIView (frame: CGRect(x: 0, y: 0, width: 5, height: 0))
-        field.leftViewMode = .always
-        field.backgroundColor = .white
-        field.textColor = .darkGray
-        return field
+    private let emailField: RAGTextField = {
+        let field = RAGTextField()
+        return field.textField(placeHolder: "Email Address", imageName: "", isSecureTextEntry: false)
     }()
     
-    private let passwordField: UITextField = {
-        let field = UITextField()
-        field.autocapitalizationType = .none
-        field.autocorrectionType = .no
-        field.returnKeyType = .done
-        field.layer.cornerRadius = 12
-        field.layer.borderWidth = 1
-        field.layer.borderColor = UIColor.lightGray.cgColor
-        //        field.placeholder = "Password ..."
-        field.attributedPlaceholder = NSAttributedString(string: "Password ...", attributes:  [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        field.leftView = UIView (frame: CGRect(x: 0, y: 0, width: 5, height: 0))
-        field.leftViewMode = .always
-        field.backgroundColor = .white
-        field.textColor = .darkGray
-        field.isSecureTextEntry = true
-        return field
+    private let passwordField: RAGTextField = {
+        let field = RAGTextField()
+        return field.textField(placeHolder: "Password", imageName: "", isSecureTextEntry: true)
+    }()
+    
+    private let passwordReField: RAGTextField = {
+        let field = RAGTextField()
+        return field.textField(placeHolder: "Confirm Password", imageName: "", isSecureTextEntry: true)
+    }()
+    
+    private let phoneField: RAGTextField = {
+        let field = RAGTextField()
+        return field.textField(placeHolder: "Phone number", imageName: "", isSecureTextEntry: false)
+        
     }()
     
     private let registerButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Register", for: .normal)
-        button.backgroundColor = .systemGreen
+        button.setTitle("Sign Up", for: .normal)
+        button.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 12
         button.layer.masksToBounds = true
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-        //      button.titleLabel?.font = UIFont(name: "Alata-Regular", size: 40)
+        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
         return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Register"
-        //        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register",
-        //                                                            style: .done,
-        //                                                            target: self,
-        //                                                            action: #selector(didTapRegister))
+        title = "Create Account"
         
         registerButton.addTarget(self,
                                  action: #selector(registerButtonTapped),
                                  for: .touchUpInside)
         
+        setGradientBackground()
+        
         emailField.delegate = self
         passwordField.delegate = self
+        passwordReField.delegate = self
         
         // Add subviews
         view.addSubview(scrollView)
@@ -138,9 +102,18 @@ class RegisterViewController: UIViewController {
         scrollView.addSubview(firtnameField)
         scrollView.addSubview(lastnameField)
         scrollView.addSubview(emailField)
+        scrollView.addSubview(phoneField)
         scrollView.addSubview(passwordField)
+        scrollView.addSubview(passwordReField)
         scrollView.addSubview(registerButton)
+        imageView.addSubview(imageView2)
         
+        firtnameField.addLine(position: .bottom, color: UIColor.white, height: 1.0)
+        lastnameField.addLine(position: .bottom, color: UIColor.white, height: 1.0)
+        emailField.addLine(position: .bottom, color: UIColor.white, height: 1.0)
+        phoneField.addLine(position: .bottom, color: UIColor.white, height: 1.0)
+        passwordField.addLine(position: .bottom, color: UIColor.white, height: 1.0)
+        passwordReField.addLine(position: .bottom, color: UIColor.white, height: 1.0)
         
         //Call screen
         imageView.isUserInteractionEnabled = true
@@ -149,25 +122,22 @@ class RegisterViewController: UIViewController {
         let gesture = UITapGestureRecognizer(target: self,
                                              action: #selector(didTapChangeProfilePic))
         imageView.addGestureRecognizer(gesture)
-        
     }
     
     // Background Color
     func setGradientBackground() {
-        let gradient = CAGradientLayer()
-        let topColor = UIColor(red: 100/255, green: 90/255, blue: 255/255, alpha: 1).cgColor
-        let bottomColor = UIColor(red: 140/255, green: 135/255, blue: 255/255, alpha: 1).cgColor
+        let gradient = CAGradientLayer() //99, 164, 255)
+        let topColor = UIColor(red: 99/255, green: 164/255, blue: 255/255, alpha: 1).cgColor
+        let bottomColor = UIColor(red: 131/255, green: 234/255, blue: 241/255, alpha: 1).cgColor
         gradient.colors = [topColor, bottomColor]
         gradient.locations = [0, 1]
-        gradient.frame = self.view.bounds
-        self.view.layer.insertSublayer(gradient, at:0)
+        gradient.frame = view.bounds
+        view.layer.insertSublayer(gradient, at:0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setGradientBackground()
         super.viewWillAppear(animated)
     }
-    //    -------
     
     @objc private func didTapChangeProfilePic() {
         presentPhotoActionSheet()
@@ -179,62 +149,110 @@ class RegisterViewController: UIViewController {
         
         let size = view.width/3
         imageView.frame = CGRect(x: (scrollView.width-size)/2,
-                                 y: 20,
+                                 y: 10,
                                  width: size,
                                  height: size)
         
         imageView.layer.cornerRadius = imageView.width/2.0
         
+        imageView2.frame = CGRect(x: (view.width)/2,
+                                  y: 50,
+                                  width: 20,
+                                  height: 20)
+        
         firtnameField.frame = CGRect(x: 30,
-                                     y: imageView.bottom+40,
+                                     y: imageView2.bottom+50,
                                      width: scrollView.width-60,
-                                     height: 52)
+                                     height: 50)
         
         lastnameField.frame = CGRect(x: 30,
                                      y: firtnameField.bottom+10,
                                      width: scrollView.width-60,
-                                     height: 52)
+                                     height: 50)
         
         emailField.frame = CGRect(x: 30,
                                   y: lastnameField.bottom+10,
                                   width: scrollView.width-60,
-                                  height: 52)
+                                  height: 50)
+        
+        phoneField.frame = CGRect(x: 30,
+                                  y: emailField.bottom+10,
+                                  width: scrollView.width-60,
+                                  height: 50)
         
         passwordField.frame = CGRect(x: 30,
-                                     y: emailField.bottom+10,
+                                     y: phoneField.bottom+10,
                                      width: scrollView.width-60,
-                                     height: 52)
+                                     height: 50)
+        
+        passwordReField.frame = CGRect(x: 30,
+                                       y: passwordField.bottom+10,
+                                       width: scrollView.width-60,
+                                       height: 50)
         
         registerButton.frame = CGRect(x: 30,
-                                      y: passwordField.bottom+10,
+                                      y: passwordReField.bottom+50,
                                       width: scrollView.width-60,
-                                      height: 52)
+                                      height: 50)
     }
     
     @objc private func registerButtonTapped() {
+        let validEmail = isValidEmail(emailField.text!)
+        let validPassword = isValidPassword(passwordField.text!)
+        let validRePassword = isValidPassword(passwordReField.text!)
+        let validPhone = isValidPhone(phoneField.text!)
         
-        emailField.resignFirstResponder()
-        passwordField.resignFirstResponder()
         firtnameField.resignFirstResponder()
         lastnameField.resignFirstResponder()
+        emailField.resignFirstResponder()
+        phoneField.resignFirstResponder()
+        passwordField.resignFirstResponder()
+        passwordReField.resignFirstResponder()
         
-        guard let firstname = firtnameField.text,
-            let lastname = lastnameField.text,
-            let email = emailField.text,
-            let password = passwordField.text,
-            !firstname.isEmpty,
-            !lastname.isEmpty,
+        guard  let email = emailField.text,
             !email.isEmpty,
-            !password.isEmpty, password.count >= 6 else {
-                alertUserLoginError()
+            validEmail == true else {
+                alertEmailError()
                 return
         }
         
-        spinner.textLabel.text = "Loading"
-        spinner.show(in: view)
+        guard let password = passwordField.text,
+            let passwordRe = passwordReField.text,
+            !password.isEmpty,
+            !passwordRe.isEmpty,
+            validPassword == true,
+            validRePassword == true
+            else {
+                alertPasswordError()
+                return
+        }
+        
+        guard let phone = phoneField.text,
+            !phone.isEmpty,
+            validPhone == true else {
+                alertPhoneError()
+                return
+        }
+        
+        guard password == passwordRe  else {
+            PasswordError()
+            return
+        }
+        
+        guard let firstname = firtnameField.text,
+            let lastname = lastnameField.text,
+            !firstname.isEmpty,
+            !lastname.isEmpty
+            else {
+                alertUserSignUpError()
+                return
+        }
+        
+        ProgressHUD.show()
+        ProgressHUD.animationType = .circleSpinFade
+        ProgressHUD.colorAnimation = .systemBlue
         
         // Firebase Log In
-        
         DatabaseManager.share.userExists(with: email, completion: { [weak self] exists in
             
             guard let strongSelf = self else{
@@ -242,12 +260,12 @@ class RegisterViewController: UIViewController {
             }
             
             DispatchQueue.main.async {
-                strongSelf.spinner.dismiss()
+                ProgressHUD.dismiss()
             }
             
             guard !exists else{
-                // user already exists
-                strongSelf.alertUserLoginError(messenge: "Looks like a user account for that email address already exists")
+                // User already exists
+                strongSelf.alertUserSignUpError(messenge: "Looks like a user account for that email address already exists")
                 return
             }
             
@@ -266,7 +284,7 @@ class RegisterViewController: UIViewController {
                 
                 DatabaseManager.share.insertUser(with: chatUser, completion: { success in
                     if success {
-                        //Upload image
+                        // Upload image
                         guard let image = strongSelf.imageView.image,
                             let data = image.pngData() else {
                                 return
@@ -283,8 +301,6 @@ class RegisterViewController: UIViewController {
                         })
                     }
                 })
-                
-                //  strongSelf.navigationController?.dismiss(animated: true, completion: nil)
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let mainTabBarController = storyboard.instantiateViewController(identifier: "MainTabBarController")
                 (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mainTabBarController)
@@ -292,7 +308,7 @@ class RegisterViewController: UIViewController {
         })
     }
     
-    func  alertUserLoginError(messenge: String = "Please enter all information to create a new accout!") {
+    func alertUserSignUpError(messenge: String = "Please enter all information to create a new accout!") {
         let alert = UIAlertController(title: "Woops",
                                       message: messenge,
                                       preferredStyle: .alert)
@@ -304,12 +320,57 @@ class RegisterViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    @objc private func didTapRegister() {
-        let vc = RegisterViewController()
-        vc.title = "Create Accout"
-        navigationController?.pushViewController(vc, animated: true)
+    func alertEmailError() {
+        let alert = UIAlertController(title: "Woops",
+                                      message: "Please enter correct email address !!!",
+                                      preferredStyle: .alert)
         
+        alert.addAction(UIAlertAction(title: "Dismiss",
+                                      style: .cancel,
+                                      handler: nil))
+        
+        present(alert, animated: true)
+        return
     }
+    
+    func alertPasswordError() {
+        let alert = UIAlertController(title: "Woops",
+                                      message: "Password is minimum 8 characters at least 1 Alphabet and 1 Number !!!",
+                                      preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Dismiss",
+                                      style: .cancel,
+                                      handler: nil))
+        
+        present(alert, animated: true)
+        return
+    }
+    
+    func PasswordError() {
+        let alert = UIAlertController(title: "Woops",
+                                      message: "Confirm password is not correct !!!",
+                                      preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Dismiss",
+                                      style: .cancel,
+                                      handler: nil))
+        
+        present(alert, animated: true)
+        return
+    }
+    
+    func alertPhoneError() {
+           let alert = UIAlertController(title: "Woops",
+                                         message: "Please enter correct phone number address !!!",
+                                         preferredStyle: .alert)
+           
+           alert.addAction(UIAlertAction(title: "Dismiss",
+                                         style: .cancel,
+                                         handler: nil))
+           
+           present(alert, animated: true)
+           return
+       }
 }
 
 extension RegisterViewController: UITextFieldDelegate {
@@ -370,7 +431,6 @@ extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationC
         vc.delegate = self
         vc.allowsEditing = true
         present(vc, animated: true)
-        
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -380,12 +440,10 @@ extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationC
         guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
             return
         }
-        self.imageView.image = selectedImage
-        
+        imageView.image = selectedImage
     }
-    
+
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
-    
 }
