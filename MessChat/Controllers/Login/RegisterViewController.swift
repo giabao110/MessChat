@@ -34,11 +34,12 @@ final class RegisterViewController: UIViewController {
     }()
     
     private let imageView2: UIImageView = {
-           let imageView = UIImageView()
-           imageView.image = UIImage(systemName: "plus.circle.fill")
-           imageView.contentMode = .scaleAspectFit
-           return imageView
-       }()
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "plus.circle.fill")
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .white
+        return imageView
+    }()
     
     private let firtnameField: RAGTextField = {
         let field = RAGTextField()
@@ -82,6 +83,15 @@ final class RegisterViewController: UIViewController {
         return button
     }()
     
+    private let signInButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Log In", for: .normal)
+        button.backgroundColor = .clear
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Create Account"
@@ -89,6 +99,8 @@ final class RegisterViewController: UIViewController {
         registerButton.addTarget(self,
                                  action: #selector(registerButtonTapped),
                                  for: .touchUpInside)
+        
+        signInButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
         
         setGradientBackground()
         
@@ -106,8 +118,11 @@ final class RegisterViewController: UIViewController {
         scrollView.addSubview(passwordField)
         scrollView.addSubview(passwordReField)
         scrollView.addSubview(registerButton)
-        imageView.addSubview(imageView2)
+        scrollView.addSubview(imageView2)
+        scrollView.addSubview(signInButton)
         
+        scrollView.scrollsToBottom(animated: true)
+
         firtnameField.addLine(position: .bottom, color: UIColor.white, height: 1.0)
         lastnameField.addLine(position: .bottom, color: UIColor.white, height: 1.0)
         emailField.addLine(position: .bottom, color: UIColor.white, height: 1.0)
@@ -117,16 +132,36 @@ final class RegisterViewController: UIViewController {
         
         //Call screen
         imageView.isUserInteractionEnabled = true
+        imageView2.isUserInteractionEnabled = true
         scrollView.isUserInteractionEnabled = true
         
         let gesture = UITapGestureRecognizer(target: self,
                                              action: #selector(didTapChangeProfilePic))
+        
+        let gesturee = UITapGestureRecognizer(target: self,
+                                             action: #selector(didTapChangeProfilePic))
+        
         imageView.addGestureRecognizer(gesture)
+        
+        imageView2.addGestureRecognizer(gesturee)
+
+        let attributedText = NSMutableAttributedString(string: "Already have an accout? ",
+              attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16, weight: .light),
+                           NSAttributedString.Key.foregroundColor : UIColor.white
+              ])
+         
+              let attributedSubText = NSMutableAttributedString(string: "Sign In",
+              attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16, weight: .bold),
+                           NSAttributedString.Key.foregroundColor : UIColor.white
+              ])
+              
+        attributedText.append(attributedSubText)
+        signInButton.setAttributedTitle(attributedText, for: .normal)
     }
     
     // Background Color
     func setGradientBackground() {
-        let gradient = CAGradientLayer() //99, 164, 255)
+        let gradient = CAGradientLayer()
         let topColor = UIColor(red: 99/255, green: 164/255, blue: 255/255, alpha: 1).cgColor
         let bottomColor = UIColor(red: 131/255, green: 234/255, blue: 241/255, alpha: 1).cgColor
         gradient.colors = [topColor, bottomColor]
@@ -139,6 +174,11 @@ final class RegisterViewController: UIViewController {
         super.viewWillAppear(animated)
     }
     
+    @objc private func signIn() {
+        let vc = LoginViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     @objc private func didTapChangeProfilePic() {
         presentPhotoActionSheet()
     }
@@ -147,21 +187,21 @@ final class RegisterViewController: UIViewController {
         super.viewDidLayoutSubviews()
         scrollView.frame = view.bounds
         
-        let size = view.width/3
+        let size = view.width/4
         imageView.frame = CGRect(x: (scrollView.width-size)/2,
                                  y: 10,
                                  width: size,
                                  height: size)
         
-        imageView.layer.cornerRadius = imageView.width/2.0
+        imageView.layer.cornerRadius = imageView.width/2
         
-        imageView2.frame = CGRect(x: (view.width)/2,
-                                  y: 50,
-                                  width: 20,
-                                  height: 20)
+        imageView2.frame = CGRect(x: (scrollView.width-30)/2,
+                                  y: imageView.bottom-8,
+                                  width: 30,
+                                  height: 30)
         
         firtnameField.frame = CGRect(x: 30,
-                                     y: imageView2.bottom+50,
+                                     y: imageView.bottom+40,
                                      width: scrollView.width-60,
                                      height: 50)
         
@@ -191,9 +231,14 @@ final class RegisterViewController: UIViewController {
                                        height: 50)
         
         registerButton.frame = CGRect(x: 30,
-                                      y: passwordReField.bottom+50,
+                                      y: passwordReField.bottom+40,
                                       width: scrollView.width-60,
                                       height: 50)
+        
+        signInButton.frame = CGRect(x: 60,
+                                    y: registerButton.bottom+2,
+                                    width: scrollView.width-120,
+                                    height: 50)
     }
     
     @objc private func registerButtonTapped() {
@@ -202,11 +247,11 @@ final class RegisterViewController: UIViewController {
         let validRePassword = isValidPassword(passwordReField.text!)
         let validPhone = isValidPhone(phoneField.text!)
         
-        firtnameField.resignFirstResponder()
-        lastnameField.resignFirstResponder()
+//        firtnameField.resignFirstResponder()
+//        lastnameField.resignFirstResponder()
         emailField.resignFirstResponder()
-        phoneField.resignFirstResponder()
-        passwordField.resignFirstResponder()
+//        phoneField.resignFirstResponder()
+//        passwordField.resignFirstResponder()
         passwordReField.resignFirstResponder()
         
         guard  let email = emailField.text,
@@ -281,7 +326,7 @@ final class RegisterViewController: UIViewController {
                 let chatUser = ChatAppUser(firstName: firstname,
                                            lastName: lastname,
                                            emailAddress: email)
-                
+                 print("LOGIN")
                 DatabaseManager.share.insertUser(with: chatUser, completion: { success in
                     if success {
                         // Upload image
@@ -304,6 +349,7 @@ final class RegisterViewController: UIViewController {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let mainTabBarController = storyboard.instantiateViewController(identifier: "MainTabBarController")
                 (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mainTabBarController)
+               
             })
         })
     }
@@ -377,9 +423,10 @@ extension RegisterViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == emailField {
-            passwordField.becomeFirstResponder()
-        } else if textField == passwordField {
+            passwordReField.becomeFirstResponder()
+        } else if textField == passwordReField {
             registerButtonTapped()
+            print("ABC")
         }
         return true
     }
@@ -445,5 +492,12 @@ extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationC
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension UIScrollView {
+    func scrollsToBottom(animated: Bool) {
+        let bottomOffset = CGPoint(x: 0, y: contentSize.height - bounds.size.height)
+        setContentOffset(bottomOffset, animated: animated)
     }
 }

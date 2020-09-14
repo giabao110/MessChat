@@ -53,10 +53,11 @@ extension UINavigationController {
         navigationBar.shadowImage = UIImage()
         navigationBar.isTranslucent = true
         view.backgroundColor = UIColor.clear
-        navigationBar.barStyle = UIBarStyle.black
-        navigationBar.tintColor = UIColor.white
+        navigationController?.navigationBar.barStyle = .black
+        navigationBar.tintColor = .white
         /// Title
         navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+        
     }
 }
 
@@ -130,26 +131,6 @@ extension UIView {
     }
 }
 
-//private let emailField: RAGTextField = {
-//    let field = RAGTextField()
-//    if let myImage = UIImage(systemName: "person"){
-//        field.withImage(direction: .Left, image: myImage)
-//    }
-//    field.transformedPlaceholderColor = .white
-//    field.placeholderColor = .white
-//    field.placeholderFont = .systemFont(ofSize: 18, weight: .medium)
-//    field.font = .systemFont(ofSize: 18, weight: .medium)
-//    field.autocapitalizationType = .none
-//    field.autocorrectionType = .no
-//    field.returnKeyType = .done
-//    field.layer.cornerRadius = 8
-//    field.borderStyle = .none
-//    field.placeholderMode = .scalesWhenNotEmpty
-//    field.placeholder = "Email Address"
-//    field.textColor = .white
-//    return field
-//}()
-
 extension RAGTextField {
     func textField(placeHolder: String, imageName: String, isSecureTextEntry: Bool) -> RAGTextField {
         let field = RAGTextField()
@@ -159,7 +140,7 @@ extension RAGTextField {
         field.transformedPlaceholderColor = .white
         field.placeholderColor = .white
         field.placeholderFont = .systemFont(ofSize: 18, weight: .semibold)
-        field.font = .systemFont(ofSize: 18, weight: .light)
+        field.font = .systemFont(ofSize: 18, weight: .medium)
         field.autocapitalizationType = .none
         field.autocorrectionType = .no
         field.returnKeyType = .done
@@ -172,3 +153,42 @@ extension RAGTextField {
         return field
     }
 }
+
+// NAVIGATION
+
+
+extension UIViewController {
+    func setStatusBar() {
+       if #available(iOS 13.0, *) {
+           var statusBarHeight: CGFloat = 0
+           if #available(iOS 13.0, *) {
+               let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+               statusBarHeight = window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+           } else {
+               statusBarHeight = UIApplication.shared.statusBarFrame.height
+           }
+
+           let statusbarView = UIView()
+           statusbarView.backgroundColor = #colorLiteral(red: 0.4002331495, green: 0.668225348, blue: 0.9957198501, alpha: 1)
+           view.addSubview(statusbarView)
+         
+           statusbarView.translatesAutoresizingMaskIntoConstraints = false
+           statusbarView.heightAnchor
+               .constraint(equalToConstant: statusBarHeight).isActive = true
+           statusbarView.widthAnchor
+               .constraint(equalTo: view.widthAnchor, multiplier: 1.0).isActive = true
+           statusbarView.topAnchor
+               .constraint(equalTo: view.topAnchor).isActive = true
+           statusbarView.centerXAnchor
+               .constraint(equalTo: view.centerXAnchor).isActive = true
+         
+       } else {
+           let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
+           statusBar?.backgroundColor = #colorLiteral(red: 0.4002331495, green: 0.668225348, blue: 0.9957198501, alpha: 1)
+        
+       }
+    }
+}
+
+
+

@@ -67,16 +67,6 @@ final class ChatViewController: MessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//
-//        let containView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-//                       let imageview = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-//                       imageview.image = UIImage(systemName: "circle.fill")
-//        imageview.contentMode = UIView.ContentMode.scaleAspectFit
-//                       imageview.layer.cornerRadius = 20
-//                       imageview.layer.masksToBounds = true
-//                       containView.addSubview(imageview)
-//                       let rightBarButton = UIBarButtonItem(customView: containView)
-//        self.navigationItem.rightBarButtonItem = rightBarButton
         
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self

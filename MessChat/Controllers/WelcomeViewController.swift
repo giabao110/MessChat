@@ -136,7 +136,6 @@ final class WelcomeViewController: UIViewController {
         scrollView.addSubview(loginButton)
         scrollView.addSubview(facebookLoginButton)
         scrollView.addSubview(googleLoginButton)
-
     }
     
     override func viewDidLayoutSubviews() {

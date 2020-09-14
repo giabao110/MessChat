@@ -26,5 +26,6 @@ pod 'JGProgressHUD'
 pod "SDWebImage"
 
 pod 'ProgressHUD'
+pod 'SteviaLayout'
 
 end

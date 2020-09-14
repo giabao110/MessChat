@@ -30,7 +30,7 @@ public func isValidPassword(_ password : String) -> Bool
 }
 
 func isValidPhone(_ phone: String) -> Bool {
-          let PHONE_REGEX = "^\\d{3}-\\d{3}-\\d{4}$"
+          let PHONE_REGEX = "^\\d{9}$"
           let phoneTest = NSPredicate(format: "SELF MATCHES %@", PHONE_REGEX)
           let result = phoneTest.evaluate(with: phone)
           return result

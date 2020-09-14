@@ -11,7 +11,7 @@
 		C512071424E92166006DF487 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C512071324E92166006DF487 /* RegisterViewController.swift */; };
 		C512071724E921A4006DF487 /* PhotoViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C512071624E921A4006DF487 /* PhotoViewerViewController.swift */; };
 		C512071C24E921FB006DF487 /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C512071B24E921FB006DF487 /* NewConversationViewController.swift */; };
-		C512071E24E92235006DF487 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C512071D24E92235006DF487 /* ProfileViewController.swift */; };
+		C512071E24E92235006DF487 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C512071D24E92235006DF487 /* ContactViewController.swift */; };
 		C512E2C224F57A1A0067BCC2 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C512E2C124F57A1A0067BCC2 /* ProfileViewModel.swift */; };
 		C52E97DE24FD139500EEF01D /* ConversationsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52E97DD24FD139500EEF01D /* ConversationsModels.swift */; };
 		C52E97E024FD140E00EEF01D /* ChatModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52E97DF24FD140E00EEF01D /* ChatModels.swift */; };
@@ -20,6 +20,9 @@
 		C547AC3724EBE020002D7434 /* BubbleTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C547AC3424EBE020002D7434 /* BubbleTabBarController.swift */; };
 		C547AC3824EBE020002D7434 /* CBTabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C547AC3524EBE020002D7434 /* CBTabBarButton.swift */; };
 		C547AC3924EBE020002D7434 /* BubbleTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C547AC3624EBE020002D7434 /* BubbleTabBar.swift */; };
+		C54D385325089AA9000A11B2 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54D385225089AA9000A11B2 /* SettingCell.swift */; };
+		C54D385525089D9B000A11B2 /* UserInfoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54D385425089D9B000A11B2 /* UserInfoHeader.swift */; };
+		C54D38572508AEA9000A11B2 /* SettingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54D38562508AEA9000A11B2 /* SettingSection.swift */; };
 		C55F865224EBDB6000F3815B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C55F865024EBDB6000F3815B /* Main.storyboard */; };
 		C56298DC24EE7C0000A9FC92 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C56298DB24EE7C0000A9FC92 /* Assets.xcassets */; };
 		C563028524EC45A1003172F7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C563028424EC45A1003172F7 /* SettingsViewController.swift */; };
@@ -50,7 +53,7 @@
 		C512071324E92166006DF487 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		C512071624E921A4006DF487 /* PhotoViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerViewController.swift; sourceTree = "<group>"; };
 		C512071B24E921FB006DF487 /* NewConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
-		C512071D24E92235006DF487 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		C512071D24E92235006DF487 /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
 		C512E2C124F57A1A0067BCC2 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		C52E97DD24FD139500EEF01D /* ConversationsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsModels.swift; sourceTree = "<group>"; };
 		C52E97DF24FD140E00EEF01D /* ChatModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModels.swift; sourceTree = "<group>"; };
@@ -59,6 +62,9 @@
 		C547AC3424EBE020002D7434 /* BubbleTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BubbleTabBarController.swift; path = MessChat/BubbleTabBar/BubbleTabBarController.swift; sourceTree = SOURCE_ROOT; };
 		C547AC3524EBE020002D7434 /* CBTabBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CBTabBarButton.swift; path = MessChat/BubbleTabBar/CBTabBarButton.swift; sourceTree = SOURCE_ROOT; };
 		C547AC3624EBE020002D7434 /* BubbleTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BubbleTabBar.swift; path = MessChat/BubbleTabBar/BubbleTabBar.swift; sourceTree = SOURCE_ROOT; };
+		C54D385225089AA9000A11B2 /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
+		C54D385425089D9B000A11B2 /* UserInfoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoHeader.swift; sourceTree = "<group>"; };
+		C54D38562508AEA9000A11B2 /* SettingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSection.swift; sourceTree = "<group>"; };
 		C55F865124EBDB6000F3815B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C56298DB24EE7C0000A9FC92 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C563028424EC45A1003172F7 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -120,6 +126,8 @@
 				C512070E24E91DD5006DF487 /* Storyboards */,
 				C53EE05524F23F870099413A /* ConversationTableViewCell.swift */,
 				C5FF5B1724F5155B00E7A908 /* NewConversationCell.swift */,
+				C54D385225089AA9000A11B2 /* SettingCell.swift */,
+				C54D385425089D9B000A11B2 /* UserInfoHeader.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -131,6 +139,7 @@
 				C52E97DD24FD139500EEF01D /* ConversationsModels.swift */,
 				C52E97DF24FD140E00EEF01D /* ChatModels.swift */,
 				C52E97E124FD153700EEF01D /* SearchResult.swift */,
+				C54D38562508AEA9000A11B2 /* SettingSection.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -169,13 +178,13 @@
 			children = (
 				C580ABA024E91C6A00D09F09 /* ConversationsViewController.swift */,
 				C512071F24E9249D006DF487 /* Login */,
+				C563028424EC45A1003172F7 /* SettingsViewController.swift */,
+				C512071D24E92235006DF487 /* ContactViewController.swift */,
 				C5B46CEB2501FB740026B55D /* ForgotPasswordViewController.swift */,
 				C563028624EC4AD4003172F7 /* WelcomeViewController.swift */,
 				C5E8DB6E24FE3A27006CFBFB /* StartViewController.swift */,
 				C512071624E921A4006DF487 /* PhotoViewerViewController.swift */,
 				C512071B24E921FB006DF487 /* NewConversationViewController.swift */,
-				C512071D24E92235006DF487 /* ProfileViewController.swift */,
-				C563028424EC45A1003172F7 /* SettingsViewController.swift */,
 				C5C8A16824EF9678004A45AF /* ChatViewController.swift */,
 				C5EE437424FA4837002F80D0 /* LocationPickerViewController.swift */,
 			);
@@ -446,6 +455,7 @@
 				C563028724EC4AD4003172F7 /* WelcomeViewController.swift in Sources */,
 				C58677C924EB9E3F00A11E5C /* DatabaseManager.swift in Sources */,
 				C5C8A16B24EFCB9D004A45AF /* StorageManager.swift in Sources */,
+				C54D385525089D9B000A11B2 /* UserInfoHeader.swift in Sources */,
 				C5EE437524FA4837002F80D0 /* LocationPickerViewController.swift in Sources */,
 				C512071424E92166006DF487 /* RegisterViewController.swift in Sources */,
 				C512E2C224F57A1A0067BCC2 /* ProfileViewModel.swift in Sources */,
@@ -454,18 +464,20 @@
 				C5B46CEC2501FB740026B55D /* ForgotPasswordViewController.swift in Sources */,
 				C52E97DE24FD139500EEF01D /* ConversationsModels.swift in Sources */,
 				C52E97E224FD153700EEF01D /* SearchResult.swift in Sources */,
+				C54D38572508AEA9000A11B2 /* SettingSection.swift in Sources */,
 				C5F10CC624EA590E0031219A /* Extensions.swift in Sources */,
 				C547AC3824EBE020002D7434 /* CBTabBarButton.swift in Sources */,
 				C563028524EC45A1003172F7 /* SettingsViewController.swift in Sources */,
 				C52E97E024FD140E00EEF01D /* ChatModels.swift in Sources */,
 				C547AC3724EBE020002D7434 /* BubbleTabBarController.swift in Sources */,
+				C54D385325089AA9000A11B2 /* SettingCell.swift in Sources */,
 				C5B46CEE250260A40026B55D /* Function.swift in Sources */,
 				C5C8A16924EF9678004A45AF /* ChatViewController.swift in Sources */,
 				C547AC3924EBE020002D7434 /* BubbleTabBar.swift in Sources */,
 				C53EE05624F23F870099413A /* ConversationTableViewCell.swift in Sources */,
 				C5E8DB6F24FE3A27006CFBFB /* StartViewController.swift in Sources */,
 				C580AB9D24E91C6A00D09F09 /* AppDelegate.swift in Sources */,
-				C512071E24E92235006DF487 /* ProfileViewController.swift in Sources */,
+				C512071E24E92235006DF487 /* ContactViewController.swift in Sources */,
 				C580AB9F24E91C6A00D09F09 /* SceneDelegate.swift in Sources */,
 				C512071724E921A4006DF487 /* PhotoViewerViewController.swift in Sources */,
 			);

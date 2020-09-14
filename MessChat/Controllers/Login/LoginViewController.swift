@@ -220,7 +220,7 @@ final class LoginViewController: UIViewController {
         
         guard let email = emailField.text,
             let password = passwordField.text,
-            !email.isEmpty, !password.isEmpty, password.count >= 6 else {
+            !email.isEmpty, !password.isEmpty, password.count >= 8 else {
                 alertUserLoginError()
                 return
         }

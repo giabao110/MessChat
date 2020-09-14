@@ -252,7 +252,7 @@ extension DatabaseManager {
                 "latest_message": [
                     "date": dateString,
                     "message": message,
-                    "is_read": false
+                    "is_read": true
                 ]
             ]
             let recipient_newConversationData: [String: Any] = [
@@ -760,11 +760,51 @@ extension DatabaseManager {
             completion(.failure(DatabaseError.failedToFetch))
             return
         })
-    }
-    
-    public func isRead(with safeEmail: String, conversationId: String) {
-        database.child("\(safeEmail)/conversations/0/latest_message").updateChildValues(["is_read": true])
-    }
+        }
+        
+        public func isRead( conversationId: String) {
+            guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
+                return
+            }
+            let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
+            let ref = database.child("\(safeEmail)/conversations")
+            ref.observeSingleEvent(of: .value, with: { [weak self] snapshot in
+                if let conversations = snapshot.value as? [[String: Any]] {
+                    var positionToRemove = 0
+                    for conversation in conversations {
+                        if let id = conversation["id"] as? String,
+                            id == conversationId {
+                            break
+                        }
+                        positionToRemove += 1
+                    }
+                    self?.database.child("\(safeEmail)/conversations/\(positionToRemove)/latest_message/").updateChildValues(["is_read": true])
+                }
+            })
+        }
+        
+        func countIsRead()  {
+            
+            guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
+                return 
+            }
+            let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
+            
+            let messagesRef = database.child("\(safeEmail)/conversations/0")
+            let queryString = true
+            
+            let ref = messagesRef.queryOrdered(byChild: "is_read").queryEqual(toValue: queryString)
+            ref.observe(.value, with: { snapshot in
+                if snapshot.exists() {
+                    let count = snapshot.childrenCount
+                    print("\(count)")
+
+                } else {
+                    print("no unread messages")
+                }
+            })
+            return
+        }
 }
 
 struct ChatAppUser {

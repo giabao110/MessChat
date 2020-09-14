@@ -15,7 +15,7 @@ import UIKit
 open class BubbleTabBarController: UITabBarController {
 
     fileprivate var shouldSelectOnTabBar = true
-
+    
     open override var selectedViewController: UIViewController? {
         willSet {
             guard shouldSelectOnTabBar,

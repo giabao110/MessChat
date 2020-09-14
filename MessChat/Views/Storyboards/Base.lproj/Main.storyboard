@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="LDt-to-RwT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="LDt-to-RwT">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Chats-->
+        <!--Messages-->
         <scene sceneID="z7B-zi-ZIF">
             <objects>
                 <viewController id="t88-Oi-HJI" customClass="ConversationsViewController" customModule="MessChat" customModuleProvider="target" sceneMemberID="viewController">
@@ -17,21 +17,43 @@
                     <view key="view" contentMode="scaleToFill" id="KW1-2V-2rP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <subviews>
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ju9-69-Xgg">
+                                <rect key="frame" x="0.0" y="96" width="375" height="522"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="ju9-69-Xgg" firstAttribute="top" secondItem="YIw-FS-SZV" secondAttribute="bottom" id="CA1-tb-Y4p"/>
+                            <constraint firstItem="ODF-3q-xlJ" firstAttribute="top" secondItem="ju9-69-Xgg" secondAttribute="bottom" id="MYf-s4-T9y"/>
+                            <constraint firstItem="ju9-69-Xgg" firstAttribute="leading" secondItem="KW1-2V-2rP" secondAttribute="leading" id="uXR-xu-bO5"/>
+                            <constraint firstAttribute="trailing" secondItem="ju9-69-Xgg" secondAttribute="trailing" id="yUd-ri-1KJ"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Chats" image="message" catalog="system" id="Rxv-7N-Pne" customClass="CBTabBarItem" customModule="MessChat">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                <color key="value" red="0.4625624418" green="0.045209519570000002" blue="0.071462444959999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="value" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
-                    <navigationItem key="navigationItem" title="Chats" id="tw8-lN-hdb"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationItem key="navigationItem" title="Messages" largeTitleDisplayMode="always" id="tw8-lN-hdb">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="compose" id="wZz-G2-Ef8">
+                            <inset key="largeContentSizeImageInsets" minX="5" minY="1" maxX="0.0" maxY="10"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="didTapComposeButton:" destination="t88-Oi-HJI" id="DcW-KJ-39r"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="ju9-69-Xgg" id="Frd-PL-whg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dMP-7p-hth" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-930" y="-52"/>
+            <point key="canvasLocation" x="1876" y="-54"/>
         </scene>
         <!--Start View Controller-->
         <scene sceneID="kWQ-cv-Tfg">
@@ -53,17 +75,21 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rge-cO-q3u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-78" y="-1298"/>
+            <point key="canvasLocation" x="1530" y="-1709"/>
         </scene>
         <!--Chats-->
         <scene sceneID="emI-CZ-Lnp">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KkZ-02-T7E" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" interfaceStyle="light" id="KkZ-02-T7E" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Chats" id="zjO-rg-WnF"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="rNX-F9-gnD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.4002331495" green="0.668225348" blue="0.99571985009999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -72,12 +98,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KBf-CO-EDI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1887.2" y="-845.1274362818591"/>
+            <point key="canvasLocation" x="1876" y="-815"/>
         </scene>
-        <!--Bubble Tab Bar Controller-->
+        <!--Tab Bar Controller-->
         <scene sceneID="U47-iY-dGq">
             <objects>
-                <tabBarController storyboardIdentifier="MainTabBarController" id="0ph-je-VLT" customClass="BubbleTabBarController" customModule="MessChat" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainTabBarController" id="0ph-je-VLT" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="gkt-Pi-bCS"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="45v-0l-Xxu">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
@@ -105,6 +131,10 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="W4t-hm-CcC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.4002331495" green="0.668225348" blue="0.99571985009999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
                     </navigationBar>
                     <connections>
                         <segue destination="Wwi-NE-dwG" kind="relationship" relationship="rootViewController" id="1Ob-2k-7Gg"/>
@@ -114,10 +144,10 @@
             </objects>
             <point key="canvasLocation" x="3293.5999999999999" y="-815.44227886056979"/>
         </scene>
-        <!--Profile-->
+        <!--Contact-->
         <scene sceneID="mnf-U4-Rji">
             <objects>
-                <viewController id="Wwi-NE-dwG" customClass="ProfileViewController" customModule="MessChat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Wwi-NE-dwG" customClass="ContactViewController" customModule="MessChat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dwI-7F-RXZ"/>
                         <viewControllerLayoutGuide type="bottom" id="dEQ-Zr-YwE"/>
@@ -128,7 +158,8 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="QRY-HO-DsX">
                                 <rect key="frame" x="0.0" y="96" width="375" height="522"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="2"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -139,14 +170,14 @@
                             <constraint firstItem="dEQ-Zr-YwE" firstAttribute="top" secondItem="QRY-HO-DsX" secondAttribute="bottom" id="wWh-hO-I2m"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Profile" image="person" catalog="system" id="qbv-Y3-XPm" customClass="CBTabBarItem" customModule="MessChat">
+                    <tabBarItem key="tabBarItem" title="Contact" image="person" catalog="system" id="qbv-Y3-XPm" customClass="CBTabBarItem" customModule="MessChat">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
                                 <color key="value" red="0.33333333329999998" green="0.21960784310000001" blue="0.69019607839999997" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
-                    <navigationItem key="navigationItem" title="Profile" id="XP6-8K-zMw"/>
+                    <navigationItem key="navigationItem" title="Contact" largeTitleDisplayMode="always" id="XP6-8K-zMw"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="QRY-HO-DsX" id="Cie-7i-dTy"/>
@@ -154,7 +185,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GqX-BF-qC6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="476" y="-53"/>
+            <point key="canvasLocation" x="3293.5999999999999" y="-53.523238380809602"/>
         </scene>
         <!--Item-->
         <scene sceneID="3Kv-9x-AKX">
@@ -164,6 +195,10 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="T8h-Ye-cbt">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.4002331495" green="0.668225348" blue="0.99571985009999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
                     </navigationBar>
                     <connections>
                         <segue destination="A9U-jQ-gK9" kind="relationship" relationship="rootViewController" id="eyI-fp-GBx"/>
@@ -171,7 +206,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wMJ-Kt-D6g" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4559.1999999999998" y="-845.1274362818591"/>
+            <point key="canvasLocation" x="4622" y="-815"/>
         </scene>
         <!--Settings-->
         <scene sceneID="ZdT-Uu-MSY">
@@ -184,19 +219,7 @@
                     <view key="view" contentMode="scaleToFill" id="oWz-hs-TPm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zU2-KF-lmW">
-                                <rect key="frame" x="0.0" y="96" width="375" height="522"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                            </tableView>
-                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="zU2-KF-lmW" secondAttribute="trailing" id="3tc-by-t5h"/>
-                            <constraint firstItem="bu3-4D-SBA" firstAttribute="top" secondItem="zU2-KF-lmW" secondAttribute="bottom" id="CWz-Ah-Qki"/>
-                            <constraint firstItem="zU2-KF-lmW" firstAttribute="top" secondItem="15w-oE-gxZ" secondAttribute="bottom" id="bC0-D2-Hot"/>
-                            <constraint firstItem="zU2-KF-lmW" firstAttribute="leading" secondItem="oWz-hs-TPm" secondAttribute="leading" id="eah-Zt-BdS"/>
-                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Settings" image="menu" id="pvH-Rc-64a" customClass="CBTabBarItem" customModule="MessChat">
                         <userDefinedRuntimeAttributes>
@@ -205,15 +228,12 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
-                    <navigationItem key="navigationItem" title="Settings" id="IWq-zv-Wt9"/>
+                    <navigationItem key="navigationItem" title="Settings" largeTitleDisplayMode="always" id="IWq-zv-Wt9"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="tableViewSet" destination="zU2-KF-lmW" id="dec-OJ-NL8"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Opw-CW-h0E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1742" y="-53"/>
+            <point key="canvasLocation" x="4622" y="-53"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="2Dg-xC-1Hb">
@@ -231,7 +251,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wfz-5Z-BHn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1106" y="-1276"/>
+            <point key="canvasLocation" x="678" y="-1708"/>
         </scene>
     </scenes>
     <resources>

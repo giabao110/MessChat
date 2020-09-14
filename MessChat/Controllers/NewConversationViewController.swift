@@ -104,6 +104,7 @@ extension NewConversationViewController: UITableViewDelegate, UITableViewDataSou
             self?.completion?(targetUserData)
         })
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
     }

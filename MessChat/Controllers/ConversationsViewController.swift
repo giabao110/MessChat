@@ -14,21 +14,23 @@
 import UIKit
 import FirebaseAuth
 import JGProgressHUD
+import Stevia
+
 
 /// Controller that shows list  of conversations
 final class ConversationsViewController: UIViewController {
     
+    @IBOutlet weak var tableView: UITableView!
+    
+    @IBAction func didTapComposeButton(_ sender: Any) {
+        didTapComposeButton()
+    }
+    
     private let spinner = JGProgressHUD(style: .dark)
     
-    private var conversations = [Conversation]()
+    var count = 0
     
-    private let tableView: UITableView = {
-        let table = UITableView()
-        table.isHidden = true
-        table.register(ConversationTableViewCell.self,
-                       forCellReuseIdentifier: ConversationTableViewCell.identifier )
-        return table
-    }()
+    private var conversations = [Conversation]()
     
     private let noConversationsLabel: UILabel = {
         let label = UILabel()
@@ -41,18 +43,30 @@ final class ConversationsViewController: UIViewController {
     }()
     
     private var loginObserver: NSObjectProtocol?
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setStatusBar()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem?.setTitlePositionAdjustment(.init(horizontal: 10, vertical: 20),
-                                                                      for: UIBarMetrics.default)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose,
-                                                            target: self,
-                                                            action: #selector(didTapComposeButton))
-        view.addSubview(tableView)
-        view.addSubview(noConversationsLabel)
+       
+        
+        
+        tableView.register(ConversationTableViewCell.self,
+                           forCellReuseIdentifier: ConversationTableViewCell.identifier )
+        
+        tableView.tableFooterView = UIView()
+    
+        view.sv (
+            tableView,
+            noConversationsLabel
+        )
+        
         setupTableView()
         startListeningForConversation()
+        
         loginObserver = NotificationCenter.default.addObserver(forName: .didLogInNotification, object: nil, queue: .main, using: { [weak self] _ in
             guard let strongSelf = self else {
                 return
@@ -164,22 +178,22 @@ final class ConversationsViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        validateAuth()
+//        validateAuth()
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
-        print("Reload")
+        print("reload")
     }
     
-    private func validateAuth() {
-        if FirebaseAuth.Auth.auth().currentUser == nil {
-            let vc = WelcomeViewController()
-            let nav = UINavigationController(rootViewController: vc)
-            nav.modalPresentationStyle = .fullScreen
-            present(nav, animated: false)
-        }
-    }
-    
+//    private func validateAuth() {
+//        if FirebaseAuth.Auth.auth().currentUser == nil {
+//            let vc = WelcomeViewController()
+//            let nav = UINavigationController(rootViewController: vc)
+//            nav.modalPresentationStyle = .fullScreen
+//            present(nav, animated: false)
+//        }
+//    }
+//
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -187,7 +201,13 @@ final class ConversationsViewController: UIViewController {
 }
 
 extension ConversationsViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let tabItems = tabBarController?.tabBar.items {
+            // In this case we want to modify the badge number of the third tab:
+            let tabItem = tabItems[0]
+            tabItem.badgeValue = "\(conversations.count)"
+        }
         return conversations.count
     }
     
@@ -206,20 +226,15 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func openConversation(_ model: Conversation) {
+        DatabaseManager.share.isRead(conversationId: model.id)
         let vc = ChatViewController(with: model.otherUserEmail, id: model.id)
         vc.title = model.name
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
-        guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
-            return
-        }
-        let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
-        DatabaseManager.share.isRead(with: safeEmail, conversationId: model.id)
-        print("aaaaaaa\(model.latestMessage.isRead)")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return 110
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {

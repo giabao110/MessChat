@@ -1,5 +1,5 @@
 //
-// ProfileViewController.swift
+// ContactViewController.swift
 // MessChat
 //
 // Created by GIABAO Photography on 8/16/20.
@@ -15,22 +15,25 @@ import UIKit
 import FirebaseAuth
 import SDWebImage
 
-final class ProfileViewController: UIViewController {
+final class ContactViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
     var data = [ProfileViewModel]()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setStatusBar()
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: ProfileTableViewCell.indentifier)
-        data.append(ProfileViewModel(viewModelType: .info,
-                                     title: "Name: \(UserDefaults.standard.value(forKey: "name") as? String ?? "No Name")", handler: nil))
-        data.append(ProfileViewModel(viewModelType: .info,
-                                     title: "Email: \(UserDefaults.standard.value(forKey: "email") as? String ?? "No Email")", handler: nil))
+
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.tableHeaderView = createTableHeader()
+
     }
     
     func createTableHeader() -> UIView? {
@@ -52,13 +55,13 @@ final class ProfileViewController: UIViewController {
                                                   width: 150,
                                                   height: 150))
         
-        headerView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        headerView.backgroundColor = #colorLiteral(red: 0.4002331495, green: 0.668225348, blue: 0.9957198501, alpha: 1)
         imageView.contentMode = .scaleAspectFill
         imageView.layer.borderColor = UIColor.white.cgColor
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 3
         imageView.backgroundColor = .secondarySystemBackground
-        imageView.layer.cornerRadius = imageView.width/2 
+        imageView.layer.cornerRadius = imageView.width/2
         headerView.addSubview(imageView)
         
         StorageManager.share.downloadURL(for: path, completion: {result in
@@ -73,7 +76,7 @@ final class ProfileViewController: UIViewController {
     }
 }
 
-extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
+extension ContactViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
