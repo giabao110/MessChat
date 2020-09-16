@@ -361,7 +361,6 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
                     self?.listenForMessage(id: newConversationId, shouldScrollToBottom: true)
                     self?.messagesCollectionView.reloadData()
                     self?.messagesCollectionView.scrollToBottom(animated: true)
-                    
                 }
                 else {
                     print("Failed to sent")

@@ -1,8 +1,8 @@
 //
-// NewConversationViewController.swift
+// NewContactViewController.swift
 // MessChat
 //
-// Created by GIABAO Photography on 8/16/20.
+// Created by GIABAO Photography on 9/14/20.
 // Copyright © 2020 GIABAO Photography. All rights reserved.
 // VAN HIEN University 
 //
@@ -13,8 +13,10 @@
 
 import UIKit
 import JGProgressHUD
+import ProgressHUD
+import Stevia
 
-final class NewConversationViewController: UIViewController {
+final class NewContactViewController: UIViewController {
     
     public var completion: ((SearchResult) -> (Void))?
     
@@ -24,8 +26,22 @@ final class NewConversationViewController: UIViewController {
     
     private var results = [SearchResult] ()
     
+    private var conversations = [Conversation]()
+    
     private var hasFetched = false
     
+    private var hasClick = false
+    
+    public var isNewConversation = false
+    
+    public static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .long
+        formatter.locale = .current
+        return formatter
+    }()
+
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "Search for Users..."
@@ -35,8 +51,8 @@ final class NewConversationViewController: UIViewController {
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.isHidden = true
-        tableView.register(NewConversationCell.self,
-                           forCellReuseIdentifier: NewConversationCell.identifier)
+        tableView.register(ContactCell.self,
+                           forCellReuseIdentifier: ContactCell.identifier)
         return tableView
     }()
     
@@ -52,12 +68,15 @@ final class NewConversationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(noResultsLabel)
-        view.addSubview(tableView)
+        view.sv(
+            noResultsLabel,
+            tableView
+        )
+        
+        tableView.tableFooterView = UIView()
         
         tableView.delegate = self
         tableView.dataSource = self
-        
         searchBar.delegate = self
         
         view.backgroundColor = .systemBackground
@@ -73,45 +92,92 @@ final class NewConversationViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
-        noResultsLabel.frame = CGRect(x: view.width/4,
-                                      y: (view.height-200)/2,
-                                      width: view.width/2,
-                                      height: 200)
+        noResultsLabel.centerVertically()
+        noResultsLabel.centerHorizontally()
     }
     
     @objc private func dismissSelf() {
         dismiss(animated: true, completion: nil)
     }
+
 }
 
-extension NewConversationViewController: UITableViewDelegate, UITableViewDataSource {
+extension NewContactViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return results.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let model = results[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: NewConversationCell.identifier, for: indexPath) as! NewConversationCell
-        cell.configure(with: model)
+        let cell = tableView.dequeueReusableCell(withIdentifier: ContactCell.identifier, for: indexPath) as! ContactCell
+        
+        cell.addFriendButton.tag = indexPath.row
+        cell.addFriendButton.addTarget(self, action: #selector(addFriendTapped(_:)), for: .touchUpInside)
+        cell.configuree(with: model)
+        if hasClick == true {
+            createFriendRequest(model)
+//            cell.addFriendButton.backgroundColor = .red
+            hasClick = false
+        }
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        // Start conversation
-        let targetUserData = results[indexPath.row]
+    @objc func addFriendTapped(_ sender: UITableView){
+          hasClick = true
+          tableView.reloadData()
+       }
+    
+    func createFriendRequest(_ model: SearchResult) {
+        ProgressHUD.showSucceed("Sending Friend Request", interaction: false)
+        ProgressHUD.colorAnimation = .systemGreen
         
-        dismiss(animated: true, completion: { [weak self] in
-            self?.completion?(targetUserData)
+        guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String else {
+            return
+        }
+        let safeCurrentEmail = DatabaseManager.safeEmail(emailAddress: currentUserEmail)
+        
+        let dateString = Self.dateFormatter.string(from: Date())
+        
+        let newIdentifier  = "Conversation_\(model.email)_\(safeCurrentEmail)_\(dateString)"
+        
+        let email = DatabaseManager.safeEmail(emailAddress: model.email)
+        DatabaseManager.share.fiendsExists(with: email, completion: { result in
+            
+            switch result {
+            case .success(let conversationId):
+                
+                ProgressHUD.showSucceed("\(conversationId)", interaction: false)
+                ProgressHUD.colorAnimation = .systemGreen
+                
+            case .failure(_):
+                
+                DatabaseManager.share.createNewFiendRequest(with: model.email, name: model.name, phone: model.phone,id: newIdentifier, completion: { success in
+                    if success {
+                        print("Messege sent...")
+                    }
+                    else {
+                        print("Failed to sent")
+                    }
+                })
+            }
         })
     }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+//    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+//        return false
+//    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
     }
 }
 
-extension NewConversationViewController: UISearchBarDelegate {
+extension NewContactViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let text = searchBar.text, !text.replacingOccurrences(of: " ", with: "").isEmpty else {
             return
@@ -169,7 +235,7 @@ extension NewConversationViewController: UISearchBarDelegate {
             let phone = $0["phone"] else {
                 return nil
             }
-            return SearchResult(name: name, email: email, phone: phone)
+            return SearchResult(name: name, email: email, phone: phone )
         })
         self.results = results
         updateUI()

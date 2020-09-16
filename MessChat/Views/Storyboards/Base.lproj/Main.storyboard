@@ -19,16 +19,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ju9-69-Xgg">
-                                <rect key="frame" x="0.0" y="96" width="375" height="522"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="574"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search messages" translucent="NO" id="5j4-RO-z6d">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                    <scopeButtonTitles>
+                                        <string>Title</string>
+                                    </scopeButtonTitles>
+                                </searchBar>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="ju9-69-Xgg" firstAttribute="top" secondItem="YIw-FS-SZV" secondAttribute="bottom" id="CA1-tb-Y4p"/>
-                            <constraint firstItem="ODF-3q-xlJ" firstAttribute="top" secondItem="ju9-69-Xgg" secondAttribute="bottom" id="MYf-s4-T9y"/>
-                            <constraint firstItem="ju9-69-Xgg" firstAttribute="leading" secondItem="KW1-2V-2rP" secondAttribute="leading" id="uXR-xu-bO5"/>
-                            <constraint firstAttribute="trailing" secondItem="ju9-69-Xgg" secondAttribute="trailing" id="yUd-ri-1KJ"/>
+                            <constraint firstItem="ODF-3q-xlJ" firstAttribute="top" secondItem="ju9-69-Xgg" secondAttribute="bottom" id="OxH-9L-A3K"/>
+                            <constraint firstItem="ju9-69-Xgg" firstAttribute="top" secondItem="YIw-FS-SZV" secondAttribute="bottom" id="Pt7-Zf-h1x"/>
+                            <constraint firstAttribute="trailing" secondItem="ju9-69-Xgg" secondAttribute="trailing" id="sZx-Cg-k0q"/>
+                            <constraint firstItem="ju9-69-Xgg" firstAttribute="leading" secondItem="KW1-2V-2rP" secondAttribute="leading" id="vo4-yd-Zrf"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Chats" image="message" catalog="system" id="Rxv-7N-Pne" customClass="CBTabBarItem" customModule="MessChat">
@@ -48,12 +56,13 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="searchBar" destination="5j4-RO-z6d" id="mL6-kF-od8"/>
                         <outlet property="tableView" destination="ju9-69-Xgg" id="Frd-PL-whg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dMP-7p-hth" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1876" y="-54"/>
+            <point key="canvasLocation" x="1876" y="-54.422788605697157"/>
         </scene>
         <!--Start View Controller-->
         <scene sceneID="kWQ-cv-Tfg">
@@ -177,7 +186,22 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
-                    <navigationItem key="navigationItem" title="Contact" largeTitleDisplayMode="always" id="XP6-8K-zMw"/>
+                    <navigationItem key="navigationItem" title="Contact" largeTitleDisplayMode="always" id="XP6-8K-zMw">
+                        <rightBarButtonItems>
+                            <barButtonItem image="person.badge.plus.fill" catalog="system" style="done" id="0Nt-f8-QSc">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="didTapRequestFriend:" destination="Wwi-NE-dwG" id="wJN-PG-6ai"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem style="done" systemItem="add" id="XlC-A6-PDe">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="didTapContactButton:" destination="Wwi-NE-dwG" id="dXI-CL-hSe"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="QRY-HO-DsX" id="Cie-7i-dTy"/>
@@ -258,5 +282,6 @@
         <image name="menu" width="17" height="8"/>
         <image name="message" catalog="system" width="128" height="113"/>
         <image name="person" catalog="system" width="128" height="117"/>
+        <image name="person.badge.plus.fill" catalog="system" width="128" height="116"/>
     </resources>
 </document>

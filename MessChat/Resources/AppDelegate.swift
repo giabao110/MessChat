@@ -67,6 +67,8 @@ extension AppDelegate: GIDSignInDelegate {
                 return
         }
         
+        let phone = " "
+        
         UserDefaults.standard.set(email, forKey: "email")
         UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
         
@@ -76,7 +78,8 @@ extension AppDelegate: GIDSignInDelegate {
                 // Insert Database
                 let chatUser = ChatAppUser(firstName: firstName,
                                            lastName: lastName,
-                                           emailAddress: email)
+                                           emailAddress: email,
+                                           phoneNumber: phone)
                 DatabaseManager.share.insertUser(with: chatUser, completion: { success in
                     if success {
                         

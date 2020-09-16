@@ -16,7 +16,19 @@ import FirebaseAuth
 import SDWebImage
 
 final class ContactViewController: UIViewController {
-
+    
+    private var conversations = [Conversation]()
+    
+    @IBAction func didTapContactButton(_ sender: Any) {
+        didTapContactButton()
+    }
+    
+    @IBAction func didTapRequestFriend(_ sender: Any) {
+        let vc = FriendsViewController()
+        vc.title = "Friend Request"
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     @IBOutlet weak var tableView: UITableView!
     
     var data = [ProfileViewModel]()
@@ -30,49 +42,64 @@ final class ContactViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: ProfileTableViewCell.indentifier)
-
         tableView.delegate = self
         tableView.dataSource = self
-
     }
     
-    func createTableHeader() -> UIView? {
-        guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
-            return nil
+    
+    @objc func didTapContactButton(){
+        let vc = NewContactViewController()
+        vc.completion = { [weak self] result in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            let currentConversation = strongSelf.conversations
+            
+            if let targetConversation = currentConversation.first(where: {
+                $0.otherUserEmail == DatabaseManager.safeEmail(emailAddress: result.email)
+            }){
+                let vc = ChatViewController(with: targetConversation.otherUserEmail, id: targetConversation.id)
+                vc.isNewConversation = false
+                vc.title = targetConversation.name
+                vc.navigationItem.largeTitleDisplayMode = .never
+                strongSelf.navigationController?.pushViewController(vc, animated: true)
+            }
+            else {
+                strongSelf.createNewConversation(results: result)
+            }
         }
         
-        let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
-        let fileName = safeEmail + "_profile_picture.png"
-        let path = "images/" + fileName
-        
-        let headerView = UIView(frame: CGRect(x: 0,
-                                              y: 0,
-                                              width: self.view.width,
-                                              height: 300))
-        
-        let imageView = UIImageView(frame: CGRect(x:(headerView.width-150)/2,
-                                                  y: 75,
-                                                  width: 150,
-                                                  height: 150))
-        
-        headerView.backgroundColor = #colorLiteral(red: 0.4002331495, green: 0.668225348, blue: 0.9957198501, alpha: 1)
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.borderColor = UIColor.white.cgColor
-        imageView.layer.masksToBounds = true
-        imageView.layer.borderWidth = 3
-        imageView.backgroundColor = .secondarySystemBackground
-        imageView.layer.cornerRadius = imageView.width/2
-        headerView.addSubview(imageView)
-        
-        StorageManager.share.downloadURL(for: path, completion: {result in
+        let naVC = UINavigationController(rootViewController: vc)
+        present(naVC, animated: true)
+    }
+    
+    private func createNewConversation(results: SearchResult){
+        let name = results.name
+        let email = DatabaseManager.safeEmail(emailAddress: results.email)
+        // Check in database if conversation with these two user exists
+        // If it does, reuse conversation id
+        // Otherwise use existing code
+        DatabaseManager.share.conversationExists(with: email, completion: { [weak self] result in
+            guard let strongSelf = self else {
+                return
+            }
             switch result {
-            case .success(let url):
-               imageView.sd_setImage(with: url, completed: nil)
-            case .failure(let error):
-                print("Fail to get download url: \(error)")
+            case .success(let conversationId):
+                let vc = ChatViewController(with: email, id: conversationId)
+                vc.isNewConversation = false
+                vc.title = name
+                vc.navigationItem.largeTitleDisplayMode = .never
+                strongSelf.navigationController?.pushViewController(vc, animated: true)
+                
+            case .failure(_):
+                let vc = ChatViewController(with: email, id: nil)
+                vc.isNewConversation = true
+                vc.title = name
+                vc.navigationItem.largeTitleDisplayMode = .never
+                strongSelf.navigationController?.pushViewController(vc, animated: true)
             }
         })
-        return headerView
     }
 }
 

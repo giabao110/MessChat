@@ -235,6 +235,8 @@ extension WelcomeViewController: LoginButtonDelegate {
                     return
             }
             
+            let phone = "090000000"
+            
             UserDefaults.standard.set(email, forKey: "email")
             UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
             
@@ -242,7 +244,8 @@ extension WelcomeViewController: LoginButtonDelegate {
                 if !exists {
                     let chatUser = ChatAppUser(firstName: firstName,
                                                lastName: lastName,
-                                               emailAddress: email)
+                                               emailAddress: email,
+                                               phoneNumber: phone)
                     
                     DatabaseManager.share.insertUser(with: chatUser, completion: { success in
                         if success {

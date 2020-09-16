@@ -20,6 +20,13 @@ struct Conversation {
     let latestMessage: LatestMessage
 }
 
+struct FriendRequest {
+    let id: String
+    let name: String
+    let phoneNumber: String
+    let otherUserEmail: String
+}
+
 struct LatestMessage {
     let date: String
     let text: String

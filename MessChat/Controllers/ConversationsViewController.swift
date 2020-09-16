@@ -26,6 +26,8 @@ final class ConversationsViewController: UIViewController {
         didTapComposeButton()
     }
     
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     private let spinner = JGProgressHUD(style: .dark)
     
     var count = 0
@@ -51,14 +53,11 @@ final class ConversationsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-        
-        
         tableView.register(ConversationTableViewCell.self,
                            forCellReuseIdentifier: ConversationTableViewCell.identifier )
         
         tableView.tableFooterView = UIView()
-    
+        
         view.sv (
             tableView,
             noConversationsLabel
@@ -170,34 +169,26 @@ final class ConversationsViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
-        noConversationsLabel.frame = CGRect(x: 10,
-                                            y: (view.height - 100) / 2,
-                                            width: view.width - 20,
-                                            height: 100)
+        noConversationsLabel.centerHorizontally().centerVertically()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        validateAuth()
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
         print("reload")
     }
-    
-//    private func validateAuth() {
-//        if FirebaseAuth.Auth.auth().currentUser == nil {
-//            let vc = WelcomeViewController()
-//            let nav = UINavigationController(rootViewController: vc)
-//            nav.modalPresentationStyle = .fullScreen
-//            present(nav, animated: false)
-//        }
-//    }
-//
+
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+        searchBar.delegate = self
     }
+}
+
+extension ConversationsViewController: UISearchBarDelegate {
+
 }
 
 extension ConversationsViewController: UITableViewDelegate, UITableViewDataSource {
