@@ -79,11 +79,11 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 55/255, green: 120/255, blue: 250/255, alpha: 1)
+        view.backgroundColor = .systemGray5
         
         let title = UILabel()
         title.font = .systemFont(ofSize: 18, weight: .bold)
-        title.textColor = .white
+        title.textColor = .systemBackground
         title.text = SettingSection(rawValue: section)?.description
         view.addSubview(title)
         title.translatesAutoresizingMaskIntoConstraints = false

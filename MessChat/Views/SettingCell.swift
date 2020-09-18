@@ -17,9 +17,8 @@ class SettingCell: UITableViewCell {
     
     lazy var switchControl: UISwitch = {
        let switchControl = UISwitch()
-        switchControl.isOn = true
-        switchControl.onTintColor = .link
-        switchControl.translatesAutoresizingMaskIntoConstraints = false
+        switchControl.isOn = false
+        switchControl.onTintColor = .systemBlue
         switchControl.addTarget(self, action: #selector(handSwitchAction), for: .valueChanged)
         return switchControl
     }()
@@ -50,9 +49,13 @@ class SettingCell: UITableViewCell {
     @objc func handSwitchAction(sender: UISwitch){
         if sender.isOn {
             print("ON")
+            window?.overrideUserInterfaceStyle = .dark
+            
+            
         }
         else{
             print("OFF")
+            window?.overrideUserInterfaceStyle = .light
         }
     }
 }

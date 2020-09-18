@@ -65,6 +65,14 @@ final class ChatViewController: MessagesViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if self.isMovingFromParent {
+            _ = ChatViewController(with: "", id: nil)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

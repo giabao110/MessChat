@@ -128,6 +128,7 @@ extension NewContactViewController: UITableViewDelegate, UITableViewDataSource {
        }
     
     func createFriendRequest(_ model: SearchResult) {
+        print("\(model.email)")
         guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String else {
             return
         }

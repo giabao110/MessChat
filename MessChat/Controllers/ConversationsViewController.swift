@@ -34,6 +34,8 @@ final class ConversationsViewController: UIViewController {
     
     private var conversations = [Conversation]()
     
+    private var contacts = [Contacts]()
+    
     private let noConversationsLabel: UILabel = {
         let label = UILabel()
         label.text = "No Conversations"
@@ -65,12 +67,14 @@ final class ConversationsViewController: UIViewController {
         
         setupTableView()
         startListeningForConversation()
+        startListeningForContacts()
         
         loginObserver = NotificationCenter.default.addObserver(forName: .didLogInNotification, object: nil, queue: .main, using: { [weak self] _ in
             guard let strongSelf = self else {
                 return
             }
             strongSelf.startListeningForConversation()
+            strongSelf.startListeningForContacts()
         })
     }
     
@@ -106,6 +110,35 @@ final class ConversationsViewController: UIViewController {
         })
     }
     
+    private func startListeningForContacts() {
+        guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
+            return
+        }
+        
+        if let observer = loginObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        
+        let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
+        
+        DatabaseManager.share.getAllContacts(for: safeEmail, completion: { [weak self] result in
+            switch result {
+            case .success(let contacts):
+                
+                guard !contacts.isEmpty else {
+                    return
+                }
+                self?.contacts = contacts
+                
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+            case .failure(let error):
+                print("Failed to get convos Contacts: \(error)")
+            }
+        })
+    }
+    
     @objc func didTapComposeButton(){
         let vc = NewConversationViewController()
         vc.completion = { [weak self] result in
@@ -113,7 +146,7 @@ final class ConversationsViewController: UIViewController {
                 return
             }
             
-            let currentConversation = strongSelf.conversations
+            let currentConversation = strongSelf.contacts
             
             if let targetConversation = currentConversation.first(where: {
                 $0.otherUserEmail == DatabaseManager.safeEmail(emailAddress: result.email)
@@ -138,7 +171,7 @@ final class ConversationsViewController: UIViewController {
         // Check in database if conversation with these two user exists
         // If it does, reuse conversation id
         // Otherwise use existing code
-        DatabaseManager.share.conversationExists(with: email, completion: { [weak self] result in
+        DatabaseManager.share.contactsExists(with: email, completion: { [weak self] result in
             guard let strongSelf = self else {
                 return
             }
@@ -180,11 +213,11 @@ extension ConversationsViewController: UISearchBarDelegate {
 extension ConversationsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let tabItems = tabBarController?.tabBar.items {
-            // In this case we want to modify the badge number of the third tab:
-            let tabItem = tabItems[0]
-            tabItem.badgeValue = "\(conversations.count)"
-        }
+//        if let tabItems = tabBarController?.tabBar.items {
+//            // In this case we want to modify the badge number of the third tab:
+//            let tabItem = tabItems[0]
+//            tabItem.badgeValue = "\(conversations.count)"
+//        }
         return conversations.count
     }
     
@@ -209,7 +242,6 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
         tableView.reloadData()
-        print("reload")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -30,7 +30,9 @@ class ContactTableViewCell: UITableViewCell {
     
     public let addFriendButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Add friend +", for: .normal)
+        button.setTitle("Add friend", for: .normal)
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.tintColor = .white
         button.backgroundColor = .systemBlue
         button.setTitleColor(.white, for: .normal)
         button.imageEdgeInsets = UIEdgeInsets(top: 0,left: 0,bottom: 0,right: 10)
@@ -86,10 +88,10 @@ class ContactTableViewCell: UITableViewCell {
         userNameLabel.width(50%)
         emailLabel.width(50%)
 
-        userNameLabel.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor, constant: -10).isActive = true
+        userNameLabel.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor, constant: -12).isActive = true
         userNameLabel.leftAnchor.constraint(equalTo: userImageView.rightAnchor,constant: 16).isActive  = true
         
-        emailLabel.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor, constant: 10).isActive = true
+        emailLabel.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor, constant: 12).isActive = true
         emailLabel.leftAnchor.constraint(equalTo: userImageView.rightAnchor,constant: 16).isActive  = true
         
         addFriendButton.centerVertically()

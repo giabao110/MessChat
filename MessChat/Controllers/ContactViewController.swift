@@ -29,6 +29,8 @@ final class ContactViewController: UIViewController {
         
     }
     
+    private var hasClick = false
+    
     private var friends = [FriendRequest]()
     
     private var conversations = [Conversation]()
@@ -42,6 +44,7 @@ final class ContactViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setStatusBar()
+
     }
     
     private let noContactsLabel: UILabel = {
@@ -77,8 +80,8 @@ final class ContactViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.register(ShowContactsTableViewCell.self,
-                           forCellReuseIdentifier: ShowContactsTableViewCell.identifier )
+        tableView.register(ContactVTableViewCell.self,
+                           forCellReuseIdentifier: ContactVTableViewCell.identifier )
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -192,9 +195,9 @@ final class ContactViewController: UIViewController {
             guard let strongSelf = self else {
                 return
             }
-
+            
             let currentConversation = strongSelf.conversations
-
+            
             if let targetConversation = currentConversation.first(where: {
                 $0.otherUserEmail == DatabaseManager.safeEmail(emailAddress: result.email)
             }){
@@ -205,20 +208,16 @@ final class ContactViewController: UIViewController {
                 strongSelf.navigationController?.pushViewController(vc, animated: true)
             }
             else {
-                strongSelf.createNewConversation(results: result)
+                strongSelf.createNewContacts(results: result)
             }
         }
-
         let naVC = UINavigationController(rootViewController: vc)
         present(naVC, animated: true)
     }
 
-    private func createNewConversation(results: SearchResult){
+    private func createNewContacts(results: SearchResult){
         let name = results.name
         let email = DatabaseManager.safeEmail(emailAddress: results.email)
-        // Check in database if conversation with these two user exists
-        // If it does, reuse conversation id
-        // Otherwise use existing code
         DatabaseManager.share.conversationExists(with: email, completion: { [weak self] result in
             guard let strongSelf = self else {
                 return
@@ -249,18 +248,72 @@ extension ContactViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let model = contacts[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: ShowContactsTableViewCell.identifier,
-                                                 for: indexPath) as! ShowContactsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ContactVTableViewCell.identifier,
+                                                 for: indexPath) as! ContactVTableViewCell
+        cell.addNewConversation.tag = indexPath.row
+        cell.addNewConversation.addTarget(self, action: #selector(newConversation(_:)), for: .touchUpInside)
+        
+        cell.callButton.tag = indexPath.row
+        cell.callButton.addTarget(self, action: #selector(newCall(_:)), for: .touchUpInside)
         
         cell.configureContact(with: model)
+        
+        if hasClick == true {
+            createFriendRequest(model)
+            print("createFriendRequest")
+            hasClick = false
+        }
         return cell
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let model = contacts[indexPath.row]
+        createFriendRequest(model)
+    }
     
-    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        return false
+    @objc func newConversation(_ sender: UITableView){
+        hasClick = true
+        print(hasClick)
+        tableView.reloadData()
+    }
+    
+    @objc func newCall(_ sender: UITableView){
+        ProgressHUD.showFailed()
+        tableView.reloadData()
+    }
+    
+    func createFriendRequest(_ model: Contacts) {
+        print("\(model.name),\(model.otherUserEmail)")
+        let name = model.name
+        let email = DatabaseManager.safeEmail(emailAddress: model.otherUserEmail)
+        DatabaseManager.share.conversationExists(with: email, completion: { [weak self] result in
+            guard let strongSelf = self else {
+                print("ABC")
+                return
+            }
+            switch result {
+            case .success(let conversationId):
+                let vc = ChatViewController(with: email, id: conversationId)
+                vc.isNewConversation = false
+                vc.title = name
+                vc.navigationItem.largeTitleDisplayMode = .never
+                strongSelf.navigationController?.pushViewController(vc, animated: true)
+                print("Success")
+                
+            case .failure(_):
+                let vc = ChatViewController(with: email, id: nil)
+                vc.isNewConversation = true
+                vc.title = name
+                vc.navigationItem.largeTitleDisplayMode = .never
+                strongSelf.navigationController?.pushViewController(vc, animated: true)
+                print("Failed")
+            }
+        })
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
     }
 }
+

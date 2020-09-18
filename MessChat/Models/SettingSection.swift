@@ -22,9 +22,9 @@ enum SettingSection: Int, CaseIterable, CustomStringConvertible {
     var description: String {
         switch self {
         case .Social:
-            return "Social"
+            return ""
         case .Communications:
-            return "Communications"
+            return ""
         }
     }
 }
@@ -57,7 +57,7 @@ enum CommunicationsOptions: Int, CaseIterable, SectionType {
         case .notifications:
             return true
         case .email:
-            return true
+            return false
         case .reportCrashes:
             return false
         }
