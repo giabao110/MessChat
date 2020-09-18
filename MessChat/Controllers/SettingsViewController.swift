@@ -163,6 +163,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             
             UserDefaults.standard.setValue(nil, forKey: "email")
             UserDefaults.standard.setValue(nil, forKey: "name")
+            UserDefaults.standard.setValue(nil, forKey: "phone")
             
             // LOG OUT FACEBOOK
             FBSDKLoginKit.LoginManager().logOut()
@@ -175,6 +176,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let loginNavController = storyboard.instantiateViewController(identifier: "LoginNavigationController")
                 (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(loginNavController)
+                self.tableView.reloadData()
                 print("LOG OUT")
             }
             catch  {

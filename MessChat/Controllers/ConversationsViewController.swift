@@ -82,16 +82,10 @@ final class ConversationsViewController: UIViewController {
         if let observer = loginObserver {
             NotificationCenter.default.removeObserver(observer)
         }
-        
-        print("starting conversation fetch...")
-        
         let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
-        print("\(safeEmail)")
-        
         DatabaseManager.share.getAllConversations(for: safeEmail, completion: { [weak self] result in
             switch result {
             case .success(let conversations):
-                print("Successfully got conversation models")
                 guard !conversations.isEmpty else {
                     self?.tableView.isHidden = true
                     self?.noConversationsLabel.isHidden = false
@@ -171,14 +165,6 @@ final class ConversationsViewController: UIViewController {
         tableView.frame = view.bounds
         noConversationsLabel.centerHorizontally().centerVertically()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-        print("reload")
-    }
 
     private func setupTableView() {
         tableView.delegate = self
@@ -222,6 +208,8 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
         vc.title = model.name
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
+        tableView.reloadData()
+        print("reload")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -244,7 +232,7 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
                 tableView.deleteRows(at: [indexPath], with: .left)
                 DatabaseManager.share.deleteConversation(conversationId: conversationId!, completion: { success in
                     if !success {
-                        // Add model and row back and show error alert
+                    // Add model and row back and show error alert
                     }
                 })
                 tableView.endUpdates()

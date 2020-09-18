@@ -32,3 +32,10 @@ struct LatestMessage {
     let text: String
     let isRead: Bool
 }
+
+struct Contacts {
+    let id: String
+    let name: String
+    let phoneNumber: String
+    let otherUserEmail: String
+}

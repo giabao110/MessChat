@@ -12,13 +12,11 @@
 
 
 import UIKit
-import JGProgressHUD
+import ProgressHUD
 
 final class NewConversationViewController: UIViewController {
     
     public var completion: ((SearchResult) -> (Void))?
-    
-    private let spinner = JGProgressHUD(style: .dark)
     
     private var users = [[String: String]] ()
     
@@ -118,7 +116,7 @@ extension NewConversationViewController: UISearchBarDelegate {
         }
         searchBar.resignFirstResponder()
         results.removeAll()
-        spinner.show(in: view)
+        ProgressHUD.animationType = .circleSpinFade
         searchUser(query: text)
     }
     
@@ -151,7 +149,7 @@ extension NewConversationViewController: UISearchBarDelegate {
         
         let safeEmail = DatabaseManager.safeEmail(emailAddress: currentUserEmail)
         
-        spinner.dismiss()
+        ProgressHUD.dismiss()
         
         let results: [SearchResult] = users.filter({
             guard let email = $0["email"], email != safeEmail else {

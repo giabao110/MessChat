@@ -254,7 +254,7 @@ final class RegisterViewController: UIViewController {
 //        passwordField.resignFirstResponder()
         passwordReField.resignFirstResponder()
         
-        guard  let email = emailField.text,
+        guard let email = emailField.text,
             !email.isEmpty,
             validEmail == true else {
                 alertEmailError()
@@ -319,9 +319,10 @@ final class RegisterViewController: UIViewController {
                     print("Error cureating user")
                     return
                 }
-                
+    
                 UserDefaults.standard.setValue(email, forKey: "email")
                 UserDefaults.standard.setValue("\(firstname) \(lastname)", forKey: "name")
+                UserDefaults.standard.setValue(phone, forKey: "phone")
                 
                 let chatUser = ChatAppUser(firstName: firstname,
                                            lastName: lastname,

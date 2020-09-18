@@ -204,6 +204,7 @@
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="buttonFriendRequest" destination="0Nt-f8-QSc" id="oYE-RT-DX1"/>
                         <outlet property="tableView" destination="QRY-HO-DsX" id="Cie-7i-dTy"/>
                     </connections>
                 </viewController>

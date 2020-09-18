@@ -1,8 +1,8 @@
 //
-// ContactTableViewCell.swift
+// ShowContactsTableViewCell.swift
 // MessChat
 //
-// Created by GIABAO Photography on 9/14/20.
+// Created by GIABAO Photography on 9/18/20.
 // Copyright © 2020 GIABAO Photography. All rights reserved.
 // VAN HIEN University 
 //
@@ -14,11 +14,12 @@
 import UIKit
 import SDWebImage
 import Stevia
+import FirebaseAuth
 import Foundation
 
-class ContactTableViewCell: UITableViewCell {
+class ShowContactsTableViewCell: UITableViewCell {
     
-    static let identifier = "ContactTableViewCell"
+    static let identifier = "ShowContactsTableViewCell"
     
     private let userImageView: UIImageView = {
         let imageView = UIImageView()
@@ -85,7 +86,7 @@ class ContactTableViewCell: UITableViewCell {
         userImageView.left(16).size(profileImageDimension)
         userNameLabel.width(50%)
         emailLabel.width(50%)
-
+        
         userNameLabel.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor, constant: -10).isActive = true
         userNameLabel.leftAnchor.constraint(equalTo: userImageView.rightAnchor,constant: 16).isActive  = true
         
@@ -96,13 +97,20 @@ class ContactTableViewCell: UITableViewCell {
         addFriendButton.right(10).width(100).height(40)
     }
     
-    public func configureFriends(with model: FriendRequest) {
+    public func configureContact(with model: Contacts) {
         userNameLabel.text = model.name
-        
         emailLabel.font = .systemFont(ofSize: 16, weight: .regular)
         emailLabel.textColor = .lightGray
-        emailLabel.text = "Send you a friend invitation"
-
+        
+        if model.phoneNumber == " " {
+            let safeEmail = model.otherUserEmail.replacingOccurrences(of: "-gmail", with: "@gmail")
+            let Email = safeEmail.replacingOccurrences(of: "-com", with: ".com")
+            emailLabel.text = Email
+        }
+        else {
+            emailLabel.text = model.phoneNumber
+        }
+        
         let path = "images/\(model.otherUserEmail)_profile_picture.png"
         StorageManager.share.downloadURL(for: path, completion: { [weak self] result in
             switch result {

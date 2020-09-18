@@ -128,9 +128,6 @@ extension NewContactViewController: UITableViewDelegate, UITableViewDataSource {
        }
     
     func createFriendRequest(_ model: SearchResult) {
-        ProgressHUD.showSucceed("Sending Friend Request", interaction: false)
-        ProgressHUD.colorAnimation = .systemGreen
-        
         guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String else {
             return
         }
@@ -145,18 +142,19 @@ extension NewContactViewController: UITableViewDelegate, UITableViewDataSource {
             
             switch result {
             case .success(let conversationId):
-                
-                ProgressHUD.showSucceed("\(conversationId)", interaction: false)
+                ProgressHUD.showError("You have send friend request", interaction: false)
                 ProgressHUD.colorAnimation = .systemGreen
+                print("\(conversationId)")
                 
             case .failure(_):
-                
+                ProgressHUD.showSucceed("Sending Friend Request", interaction: false)
+                ProgressHUD.colorAnimation = .systemGreen
                 DatabaseManager.share.createNewFiendRequest(with: model.email, name: model.name, phone: model.phone,id: newIdentifier, completion: { success in
                     if success {
-                        print("Messege sent...")
+                       
                     }
                     else {
-                        print("Failed to sent")
+                       
                     }
                 })
             }
@@ -167,10 +165,6 @@ extension NewContactViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-//    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-//        return false
-//    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
