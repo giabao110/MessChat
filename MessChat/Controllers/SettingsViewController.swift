@@ -14,6 +14,7 @@ import UIKit
 import FirebaseAuth
 import FBSDKLoginKit
 import GoogleSignIn
+import ProgressHUD
 
 private let reuseIdentifier = "SettingCell"
 
@@ -74,13 +75,13 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         switch section {
         case .Social: return SocialOptions.allCases.count
         case .Communications: return CommunicationsOptions.allCases.count
+        case .Logout: return LogOutOptions.allCases.count
         }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
         view.backgroundColor = .systemGray5
-        
         let title = UILabel()
         title.font = .systemFont(ofSize: 18, weight: .bold)
         title.textColor = .systemBackground
@@ -93,11 +94,11 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
+        return 20
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 45
+        return 50
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -109,19 +110,62 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         switch section {
         case .Social:
             let social = SocialOptions(rawValue: indexPath.row)
-            //  cell.textLabel?.text = social?.description
             cell.sectionType = social
-            cell.imageView?.image = UIImage(named: "google")
             cell.imageView?.contentMode = .scaleAspectFit
-            cell.imageView?.frame = CGRect(x: 0,
-                                           y: 0,
-                                           width: 20,
-                                           height: 20)
+            let name = cell.sectionType?.description
+            
+            switch name! {
+            case "Edit Profile":
+                cell.imageView?.image = UIImage(systemName: "pencil.circle.fill")
+                cell.imageView?.tintColor = .systemYellow
+            case "Saved Messages":
+                cell.imageView?.image = UIImage(systemName: "message.circle.fill")
+                cell.imageView?.tintColor = .systemOrange
+            case "Devices":
+                cell.imageView?.image = UIImage(systemName: "tv.circle.fill")
+                cell.imageView?.tintColor = .systemBlue
+            case "Chat Folder":
+                cell.imageView?.image = UIImage(systemName: "folder.circle.fill")
+                cell.imageView?.tintColor = .systemRed
+            default:
+                break
+            }
             
         case .Communications:
             let communications = CommunicationsOptions(rawValue: indexPath.row)
             cell.sectionType = communications
+            cell.imageView?.contentMode = .scaleAspectFit
+            let name = cell.sectionType?.description
+            
+            switch name! {
+            case "Dark Mode":
+                cell.imageView?.image = UIImage(systemName: "moon.circle.fill")
+                cell.imageView?.tintColor = .systemBlue
+            case "Notifications and Sounds":
+                cell.imageView?.image = UIImage(systemName: "envelope.circle.fill")
+                cell.imageView?.tintColor = .systemGreen
+            case "Privacy and Security":
+                cell.imageView?.image = UIImage(systemName: "lock.circle.fill")
+                cell.imageView?.tintColor = .systemOrange
+            case "Data and Storage":
+                cell.imageView?.image = UIImage(systemName: "icloud.circle.fill")
+                cell.imageView?.tintColor = .systemYellow
+            case "Report Crashes":
+                cell.imageView?.image = UIImage(systemName: "ant.circle.fill")
+                cell.imageView?.tintColor = .systemRed
+            default:
+               break
+            }
+            
+        case .Logout:
+            let logout = LogOutOptions(rawValue: indexPath.row)
+            cell.sectionType = logout
+            cell.imageView?.contentMode = .scaleAspectFit
+            cell.textLabel?.textAlignment = .center
+            cell.textLabel?.textColor = .systemRed
+            cell.textLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
         }
+        
         return cell
     }
     
@@ -131,27 +175,33 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         }
         switch section {
         case .Social:
-            guard let nameDes = SocialOptions(rawValue: indexPath.row)?.description else {
+            guard let name = SocialOptions(rawValue: indexPath.row)?.description else {
                 return
             }
-            if nameDes == "Edit Profile" {
-                openConversation()
+            switch name {
+            default:
+                ProgressHUD.showError("Error", image: nil, interaction: false)
             }
-            else if nameDes == "Log Out" {
+            
+        case .Communications:
+            guard let name = CommunicationsOptions(rawValue: indexPath.row)?.description else {
+               return
+           }
+           switch name {
+           default:
+               ProgressHUD.showError("Error", image: nil, interaction: false)
+            }
+            
+        case .Logout:
+            guard let name = LogOutOptions(rawValue: indexPath.row)?.description else {
+                return
+            }
+            if name == "Log Out" {
                 logOut()
             }
-         
-        case .Communications:
-            print(CommunicationsOptions(rawValue: indexPath.row)?.description)
         }
     }
-    
-    func openConversation() {
-        let vc = WelcomeViewController()
-        let nav = UINavigationController(rootViewController: vc)
-        nav.modalPresentationStyle = .fullScreen
-        present(nav, animated: false)
-    }
+
     
     func logOut() {
         let actionSheet = UIAlertController(title: "Sign Out?",

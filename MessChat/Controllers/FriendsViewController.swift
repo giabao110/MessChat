@@ -41,6 +41,12 @@ final class FriendsViewController: UIViewController, UITableViewDelegate, UITabl
         tableView.reloadData()
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let model = friends[indexPath.row]
+        createFriendRequest(model)
+    }
+    
     func createFriendRequest(_ model: FriendRequest) {
         ProgressHUD.showSucceed("Added 1 new contact", interaction: false)
         ProgressHUD.colorAnimation = .systemGreen
@@ -73,10 +79,6 @@ final class FriendsViewController: UIViewController, UITableViewDelegate, UITabl
                 })
             }
         })
-    }
-    
-    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        return false
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

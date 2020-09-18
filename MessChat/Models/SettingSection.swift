@@ -18,6 +18,7 @@ protocol SectionType: CustomStringConvertible {
 enum SettingSection: Int, CaseIterable, CustomStringConvertible {
     case Social
     case Communications
+    case Logout
     
     var description: String {
         switch self {
@@ -25,13 +26,17 @@ enum SettingSection: Int, CaseIterable, CustomStringConvertible {
             return ""
         case .Communications:
             return ""
+        case .Logout:
+            return ""
         }
     }
 }
 
 enum SocialOptions: Int, CaseIterable, SectionType {
     case editProfile
-    case logout
+    case savedMessages
+    case devices
+    case chatFolder
     
     var containsSwitch: Bool {
         return false
@@ -41,36 +46,68 @@ enum SocialOptions: Int, CaseIterable, SectionType {
         switch self {
         case .editProfile:
             return "Edit Profile"
-        case .logout:
-            return "Log Out"
+        case .savedMessages:
+            return "Saved Messages"
+        case .devices:
+            return "Devices"
+        case .chatFolder:
+            return "Chat Folder"
         }
     }
 }
 
 enum CommunicationsOptions: Int, CaseIterable, SectionType {
+    case darkMode
     case notifications
-    case email
+    case privacy
+    case data
     case reportCrashes
     
     var containsSwitch: Bool {
         switch self {
-        case .notifications:
+        case .darkMode:
             return true
-        case .email:
+        case .notifications:
+            return false
+        case .privacy:
+            return false
+        case .data:
             return false
         case .reportCrashes:
             return false
         }
     }
-
+    
     var description: String {
         switch self {
+        case .darkMode:
+            return "Dark Mode"
         case .notifications:
-            return "Notifications"
-        case .email:
-            return "Email"
+            return "Notifications and Sounds"
+        case .privacy:
+            return "Privacy and Security"
+        case .data:
+            return "Data and Storage"
         case .reportCrashes:
-            return "ReportCrashes"
+            return "Report Crashes"
+        }
+    }
+}
+
+enum LogOutOptions: Int, CaseIterable, SectionType {
+    case logout
+    
+    var containsSwitch: Bool {
+        switch self {
+        case .logout:
+            return false
+        }
+    }
+    
+    var description: String {
+        switch self {
+        case .logout:
+            return "Log Out"
         }
     }
 }

@@ -51,7 +51,6 @@ class SettingCell: UITableViewCell {
             print("ON")
             window?.overrideUserInterfaceStyle = .dark
             
-            
         }
         else{
             print("OFF")

@@ -86,11 +86,11 @@
             </objects>
             <point key="canvasLocation" x="1530" y="-1709"/>
         </scene>
-        <!--Chats-->
+        <!--Messages-->
         <scene sceneID="emI-CZ-Lnp">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" interfaceStyle="light" id="KkZ-02-T7E" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Chats" id="zjO-rg-WnF"/>
+                    <tabBarItem key="tabBarItem" title="Messages" id="zjO-rg-WnF"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="rNX-F9-gnD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>

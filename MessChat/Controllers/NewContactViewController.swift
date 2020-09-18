@@ -116,16 +116,21 @@ extension NewContactViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configuree(with: model)
         if hasClick == true {
             createFriendRequest(model)
-//            cell.addFriendButton.backgroundColor = .red
             hasClick = false
         }
         return cell
     }
     
     @objc func addFriendTapped(_ sender: UITableView){
-          hasClick = true
-          tableView.reloadData()
-       }
+        hasClick = true
+        tableView.reloadData()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let model = results[indexPath.row]
+        createFriendRequest(model)
+    }
     
     func createFriendRequest(_ model: SearchResult) {
         print("\(model.email)")
@@ -160,11 +165,6 @@ extension NewContactViewController: UITableViewDelegate, UITableViewDataSource {
                 })
             }
         })
-    }
-    
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
