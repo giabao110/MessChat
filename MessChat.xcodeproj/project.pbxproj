@@ -45,7 +45,6 @@
 		C5E8DB6F24FE3A27006CFBFB /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E8DB6E24FE3A27006CFBFB /* StartViewController.swift */; };
 		C5EE437524FA4837002F80D0 /* LocationPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EE437424FA4837002F80D0 /* LocationPickerViewController.swift */; };
 		C5F10CC624EA590E0031219A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F10CC524EA590E0031219A /* Extensions.swift */; };
-		C5F10CCB24EA6A5A0031219A /* Alata-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5F10CCA24EA6A5A0031219A /* Alata-Regular.ttf */; };
 		C5FF5B1824F5155B00E7A908 /* NewConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FF5B1724F5155B00E7A908 /* NewConversationCell.swift */; };
 		CE03E42088413E62084EA5F2 /* Pods_MessChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 893DA01D8A53A5B78BC7918A /* Pods_MessChat.framework */; };
 /* End PBXBuildFile section */
@@ -89,22 +88,11 @@
 		C59E9361251492B100B0CA70 /* ContactVTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactVTableViewCell.swift; sourceTree = "<group>"; };
 		C5B46CEB2501FB740026B55D /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		C5B46CED250260A40026B55D /* Function.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Function.swift; sourceTree = "<group>"; };
-		C5C5C18124EF79240073E9A4 /* slideInstructions.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = slideInstructions.json; sourceTree = "<group>"; };
-		C5C5C18224EF79250073E9A4 /* settingUpAnimation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = settingUpAnimation.json; sourceTree = "<group>"; };
-		C5C5C18324EF79260073E9A4 /* blankLoadingAnim.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = blankLoadingAnim.json; sourceTree = "<group>"; };
-		C5C5C18424EF79270073E9A4 /* chatTyping.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chatTyping.json; sourceTree = "<group>"; };
-		C5C5C18524EF79280073E9A4 /* changeInfo_anim.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = changeInfo_anim.json; sourceTree = "<group>"; };
-		C5C5C18624EF79290073E9A4 /* audioWave.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = audioWave.json; sourceTree = "<group>"; };
-		C5C5C18724EF792A0073E9A4 /* chatLoadingAnim.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chatLoadingAnim.json; sourceTree = "<group>"; };
-		C5C5C18824EF792B0073E9A4 /* test.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
-		C5C5C18924EF792B0073E9A4 /* loadingAnimation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = loadingAnimation.json; sourceTree = "<group>"; };
-		C5C5C18A24EF792C0073E9A4 /* recentTyping.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = recentTyping.json; sourceTree = "<group>"; };
 		C5C8A16824EF9678004A45AF /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		C5C8A16A24EFCB9D004A45AF /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		C5E8DB6E24FE3A27006CFBFB /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		C5EE437424FA4837002F80D0 /* LocationPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerViewController.swift; sourceTree = "<group>"; };
 		C5F10CC524EA590E0031219A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		C5F10CCA24EA6A5A0031219A /* Alata-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Alata-Regular.ttf"; sourceTree = "<group>"; };
 		C5FF5B1724F5155B00E7A908 /* NewConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -213,23 +201,6 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
-		C51D0A6924ED8ABF0015B06B /* Animation */ = {
-			isa = PBXGroup;
-			children = (
-				C5C5C18624EF79290073E9A4 /* audioWave.json */,
-				C5C5C18324EF79260073E9A4 /* blankLoadingAnim.json */,
-				C5C5C18524EF79280073E9A4 /* changeInfo_anim.json */,
-				C5C5C18724EF792A0073E9A4 /* chatLoadingAnim.json */,
-				C5C5C18424EF79270073E9A4 /* chatTyping.json */,
-				C5C5C18924EF792B0073E9A4 /* loadingAnimation.json */,
-				C5C5C18A24EF792C0073E9A4 /* recentTyping.json */,
-				C5C5C18224EF79250073E9A4 /* settingUpAnimation.json */,
-				C5C5C18124EF79240073E9A4 /* slideInstructions.json */,
-				C5C5C18824EF792B0073E9A4 /* test.json */,
-			);
-			path = Animation;
-			sourceTree = "<group>";
-		};
 		C54F579F250F4A2100532098 /* Media  */ = {
 			isa = PBXGroup;
 			children = (
@@ -310,20 +281,9 @@
 		C5F10CC824EA6A450031219A /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				C51D0A6924ED8ABF0015B06B /* Animation */,
 				C56298DB24EE7C0000A9FC92 /* Assets.xcassets */,
-				C5F10CC924EA6A5A0031219A /* Fonts */,
 			);
 			path = Assets;
-			sourceTree = "<group>";
-		};
-		C5F10CC924EA6A5A0031219A /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				C5F10CCA24EA6A5A0031219A /* Alata-Regular.ttf */,
-			);
-			name = Fonts;
-			path = "../../../../../Messenger-master/Messenger/mChat/Assets/Fonts";
 			sourceTree = "<group>";
 		};
 		C7294E9613D95885304C8171 /* Frameworks */ = {
@@ -400,7 +360,6 @@
 				C56298DC24EE7C0000A9FC92 /* Assets.xcassets in Resources */,
 				C58677C724EB909E00A11E5C /* GoogleService-Info.plist in Resources */,
 				C55F865224EBDB6000F3815B /* Main.storyboard in Resources */,
-				C5F10CCB24EA6A5A0031219A /* Alata-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

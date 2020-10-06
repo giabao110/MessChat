@@ -128,7 +128,7 @@ class StartViewController: UIViewController {
                                    height: 60)
         
         loginButton.frame = CGRect(x: 30,
-                                   y: imageView.bottom+400,
+                                   y: imageView.bottom+((view.height/2)-40),
                                    width: scrollView.width-60,
                                    height: 50)
         

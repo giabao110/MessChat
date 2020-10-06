@@ -183,6 +183,11 @@ final class RegisterViewController: UIViewController {
         presentPhotoActionSheet()
     }
     
+    override func viewWillLayoutSubviews(){
+    super.viewWillLayoutSubviews()
+    scrollView.contentSize = CGSize(width: 375, height: 800)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollView.frame = view.bounds

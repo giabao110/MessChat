@@ -31,7 +31,7 @@ import ProgressHUD
         GIDSignIn.sharedInstance()?.delegate = self
         
         // Override point for customization LaunchScreen Time Delay
-        Thread.sleep(forTimeInterval: 0.0)
+        Thread.sleep(forTimeInterval: 2.0)
         return true
     }
     

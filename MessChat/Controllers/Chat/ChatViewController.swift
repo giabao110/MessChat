@@ -65,14 +65,6 @@ final class ChatViewController: MessagesViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        if self.isMovingFromParent {
-            _ = ChatViewController(with: "", id: nil)
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -234,7 +226,7 @@ final class ChatViewController: MessagesViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super .viewDidAppear(animated)
+        super.viewDidAppear(animated)
         messageInputBar.inputTextView.becomeFirstResponder()
         if let conversationId = conversationId {
             listenForMessage(id: conversationId, shouldScrollToBottom: true)
@@ -296,8 +288,8 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
                 }
             })
         }
-        else if let videoUrl = info[.mediaURL] as? URL {
-            let fileName = "photo_message_" + messageId.replacingOccurrences(of: " ", with: "-") + ".mov"
+         else if let videoUrl = info[.mediaURL] as? URL {
+                   let fileName = "photo_message_" + messageId.replacingOccurrences(of: " ", with: "-") + ".mov"
             
             // Upload video
             StorageManager.share.uploadMessageVideo(with: videoUrl, fileName: fileName, completion: { [weak self] result in
@@ -511,7 +503,7 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
     func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         let date = messages[indexPath.section].sentDate
         let df = DateFormatter()
-        df.setLocalizedDateFormatFromTemplate("MMMd") // Set template after setting locale
+        df.setLocalizedDateFormatFromTemplate("EEE MMMd") // Set template after setting locale
         let now = df.string(from: date)
         return NSAttributedString(
             string: now,
@@ -530,9 +522,17 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
     }
     
     func messageTopLabelAttributedText( for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        return NSAttributedString(
-            string: message.sender.displayName,
-            attributes: [.font: UIFont.systemFont(ofSize: 13)])
+        let sender = message.sender
+               if sender.senderId == selfSender?.senderId {
+                  return NSAttributedString(
+                  string: (UserDefaults.standard.value(forKey: "name") as? String)!,
+                  attributes: [.font: UIFont.systemFont(ofSize: 13)])
+               }
+               else {
+                return NSAttributedString(
+                    string: title!,
+                attributes: [.font: UIFont.systemFont(ofSize: 13)])
+        }
     }
     
     func messageBottomLabelHeight(
@@ -624,3 +624,4 @@ extension UIViewController {
         
     }
 }
+

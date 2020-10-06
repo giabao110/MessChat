@@ -54,7 +54,7 @@ extension UINavigationController {
         navigationBar.isTranslucent = true
         view.backgroundColor = UIColor.clear
         navigationController?.navigationBar.barStyle = .black
-        navigationBar.tintColor = .white
+        navigationBar.tintColor = .black
         /// Title
         navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         

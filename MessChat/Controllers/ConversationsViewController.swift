@@ -124,7 +124,6 @@ final class ConversationsViewController: UIViewController {
         DatabaseManager.share.getAllContacts(for: safeEmail, completion: { [weak self] result in
             switch result {
             case .success(let contacts):
-                
                 guard !contacts.isEmpty else {
                     return
                 }
@@ -171,7 +170,7 @@ final class ConversationsViewController: UIViewController {
         // Check in database if conversation with these two user exists
         // If it does, reuse conversation id
         // Otherwise use existing code
-        DatabaseManager.share.contactsExists(with: email, completion: { [weak self] result in
+        DatabaseManager.share.conversationExists(with: email, completion: { [weak self] result in
             guard let strongSelf = self else {
                 return
             }
@@ -213,11 +212,6 @@ extension ConversationsViewController: UISearchBarDelegate {
 extension ConversationsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        if let tabItems = tabBarController?.tabBar.items {
-//            // In this case we want to modify the badge number of the third tab:
-//            let tabItem = tabItems[0]
-//            tabItem.badgeValue = "\(conversations.count)"
-//        }
         return conversations.count
     }
     
@@ -232,15 +226,17 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let model = conversations[indexPath.row]
+//        let modelContacts = contacts[indexPath.row]
         openConversation(model)
     }
     
     func openConversation(_ model: Conversation) {
         DatabaseManager.share.isRead(conversationId: model.id)
         let vc = ChatViewController(with: model.otherUserEmail, id: model.id)
+        print("Conversations\(model.otherUserEmail), \(model.id)")
         vc.title = model.name
         vc.navigationItem.largeTitleDisplayMode = .never
-        navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
         tableView.reloadData()
     }
     

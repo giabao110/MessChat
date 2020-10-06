@@ -18,6 +18,7 @@ import FBSDKCoreKit
 import GoogleSignIn
 import RAGTextField
 import ProgressHUD
+import Stevia
 
 
 final class WelcomeViewController: UIViewController {
@@ -162,7 +163,7 @@ final class WelcomeViewController: UIViewController {
                                    height: 50)
         
         loginButton.frame = CGRect(x: 30,
-                                   y: textViewDess.bottom+400,
+                                   y: textViewDess.bottom+((scrollView.height/2)-40),
                                    width: scrollView.width-60,
                                    height: 50)
         

@@ -91,8 +91,7 @@ class ContactVTableViewCell: UITableViewCell {
             userImageView,
             userNameLabel,
             addNewConversation,
-            emailLabel,
-            callButton
+            emailLabel
         )
     }
     
@@ -122,11 +121,7 @@ class ContactVTableViewCell: UITableViewCell {
         emailLabel.leftAnchor.constraint(equalTo: userImageView.rightAnchor,constant: 16).isActive  = true
         
         addNewConversation.centerVertically()
-        addNewConversation.rightAnchor.constraint(equalTo: callButton.leftAnchor,constant: -5).isActive  = true
-        addNewConversation.width(75).height(40)
-        
-        callButton.centerVertically()
-        callButton.right(10).width(75).height(40)
+        addNewConversation.right(10).width(75).height(40)
     }
     
     public func configureContact(with model: Contacts) {

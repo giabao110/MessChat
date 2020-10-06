@@ -119,7 +119,6 @@ extension NewConversationViewController: UISearchBarDelegate {
         ProgressHUD.animationType = .circleSpinFade
         searchUser(query: text)
     }
-    
     func searchUser(query: String) {
         // Check if array has firebase result
         if hasFetched {
@@ -146,20 +145,15 @@ extension NewConversationViewController: UISearchBarDelegate {
         guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String, hasFetched else {
                 return
         }
-        
         let safeEmail = DatabaseManager.safeEmail(emailAddress: currentUserEmail)
-        
         ProgressHUD.dismiss()
-        
         let results: [SearchResult] = users.filter({
             guard let email = $0["email"], email != safeEmail else {
                 return false
             }
-            
             guard let name = $0["name"]?.lowercased() else {
                 return false
             }
-            
             return name.hasPrefix(term.lowercased())
         }).compactMap({
             guard let email = $0["email"],

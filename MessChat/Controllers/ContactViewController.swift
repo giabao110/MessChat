@@ -138,16 +138,21 @@ final class ContactViewController: UIViewController {
                 self?.badgetLabel.text = "\(friends.count)"
                 self?.badgetLabel.isHidden = false
                 
-//                DispatchQueue.main.async {
-//                    self?.tableView.reloadData()
-                //                }
+//                if let tabItems = self?.tabBarController?.tabBar.items {
+//                    // In this case we want to modify the badge number of the third tab:
+//                    guard !friends.isEmpty else {
+//                        return
+//                    }
+//                    let tabItem = tabItems[1]
+//                    tabItem.badgeValue = "\(friends.count)"
+//                }
             case .failure(let error):
                 self?.badgetLabel.isHidden = true
                 print("Failed to get convos Friends: \(error)")
             }
         })
     }
-    
+        
     private func startListeningForContacts() {
         guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
             return
@@ -284,17 +289,17 @@ extension ContactViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func createConversation(_ model: Contacts) {
-        print("\(model.name),\(model.otherUserEmail)")
         let name = model.name
+        print("Contact:\(model.id)")
         let email = DatabaseManager.safeEmail(emailAddress: model.otherUserEmail)
         DatabaseManager.share.conversationExists(with: email, completion: { [weak self] result in
             guard let strongSelf = self else {
-                print("ABC")
                 return
             }
             switch result {
             case .success(let conversationId):
                 let vc = ChatViewController(with: email, id: conversationId)
+                print("Contacts\(email), \(conversationId)")
                 vc.isNewConversation = false
                 vc.title = name
                 vc.navigationItem.largeTitleDisplayMode = .never
@@ -310,7 +315,6 @@ extension ContactViewController: UITableViewDelegate, UITableViewDataSource {
                 print("Failed")
             }
         })
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -322,17 +326,17 @@ extension ContactViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        let model = friends[indexPath.row]
+        let model = contacts[indexPath.row]
         if editingStyle == .delete {
-            let alert = UIAlertController(title: "", message: "Are you sure you want to permanently delete this friend invitation?", preferredStyle: .actionSheet)
+            let alert = UIAlertController(title: "", message: "Are you sure you want to permanently delete this contact?", preferredStyle: .actionSheet)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
                 // Begin delete conversation
                 let friendsId = model.id
                 tableView.beginUpdates()
-                self?.friends.remove(at: indexPath.row)
+                self?.contacts.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .left)
-                DatabaseManager.share.deleteFriendsRequest(conversationId: friendsId, completion: { success in
+                DatabaseManager.share.deleteContact(conversationId: friendsId, completion: { success in
                     if !success {
                         // Add model and row back and show error alert
                     }

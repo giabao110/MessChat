@@ -218,11 +218,9 @@ extension NewContactViewController: UISearchBarDelegate {
             guard let email = $0["email"], email != safeEmail else {
                 return false
             }
-            
             guard let name = $0["name"]?.lowercased() else {
                 return false
             }
-            
             return name.hasPrefix(term.lowercased())
         }).compactMap({
             guard let email = $0["email"],
